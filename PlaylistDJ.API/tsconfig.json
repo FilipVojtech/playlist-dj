@@ -2,8 +2,13 @@
   "compilerOptions": {
     "target": "ES6",
     "module": "CommonJS",
+    "strict": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "esModuleInterop": true,
-    "strict": true
+    "resolveJsonModule": true,
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
   "exclude": [
     "node_modules/*"
