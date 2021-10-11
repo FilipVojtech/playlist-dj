@@ -2,8 +2,9 @@ import { Request, Response } from 'express'
 
 const router = require('express').Router()
 
-router.get('/', (req: Request, res: Response) => {
-    res.json({ message: 'Hullo' })
-})
+/**
+ * Return API status
+ */
+router.get('/', async (req: Request, res: Response) => res.status(200).json({ status: 'running' }))
 
-export default router
+export const apiController = router
