@@ -12,6 +12,7 @@
     ]
   },
   "scripts": {
+    "build": "tsc",
     "start": "node dist/bin/www.js",
     "dev": "concurrently \"tsc -w\" \"nodemon dist/bin/www.js\""
   },
