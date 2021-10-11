@@ -1,27 +1,36 @@
 # Technologies
 
-- Refer to root README.md
+- Express.js
+- [MikroORM](https://mikro-orm.io/)
+- \+ Refer to root README.md
 
 # Running frontend
 
 Run these commands to start the backend service.
 
-_Install dependencies_
+Install dependencies
 
 ```bash
 yarn install
 ```
 
+Start MongoDB
+
+```bash
+sudo mongod
+```
+
 ## Development
 
 ```bash
-yarn start
+yarn dev
 ```
 
-App is hot reloaded using [nodemon](https://nodemon.io/)
+App is hot reloaded
 
 ## Production
 
 ```bash
-yarn dev
+yarn build
+yarn start
 ```

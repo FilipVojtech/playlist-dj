@@ -49,7 +49,7 @@ Branches should respect the following naming convention
 
 **Action** specifies a purpose for a branch
 
-1. `bugfix` no new code unrelated to fixing a bug
+1. `bugfix` code related to fixing a bug
 2. `feature` adding code for the purpose of creating a feature
 3. `cleanup` code removal, refactor, etc...
 
