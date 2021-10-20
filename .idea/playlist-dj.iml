@@ -10,5 +10,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="ionicons" level="project" />
+    <orderEntry type="library" name="efj4skl" level="application" />
   </component>
 </module>

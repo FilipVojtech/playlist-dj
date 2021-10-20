@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="ionicons" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_unpkg.com_ionicons@5.5.2_dist_ionicons_ionicons.esm.js" />
+        <item url="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_unpkg.com_ionicons@5.5.2_dist_ionicons_ionicons.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_unpkg.com_ionicons@5.5.2_dist_ionicons_ionicons.esm.js" />
+      <root url="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_unpkg.com_ionicons@5.5.2_dist_ionicons_ionicons.js" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
