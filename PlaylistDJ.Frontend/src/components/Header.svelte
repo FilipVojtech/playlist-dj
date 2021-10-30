@@ -1,5 +1,5 @@
-<script>
-    import { SpotifyButton } from './'
+<script lang='ts'>
+    import LoginButton from './LoginButton.svelte'
 </script>
 
 <header>
@@ -7,7 +7,7 @@
         <img alt='Playlist DJ icon' src='/images/logo.png' />
         <h1 class='logo__text'>Playlist DJ</h1>
     </div>
-    <SpotifyButton href='/login' text='Log in' />
+    <LoginButton href='/login' text='Log in' />
 </header>
 
 <style>
