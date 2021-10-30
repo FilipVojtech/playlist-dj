@@ -2,16 +2,16 @@
     import { SpotifyButton } from './'
 </script>
 
-<header>
-    <div class='flex-row'>
-        <img alt='Playlist DJ icon' src='/images/logo.png' />
+<header class='header'>
+    <div class='header__row'>
+        <img alt='Playlist DJ icon' class='logo__img' src='/images/logo.png' />
         <h1 class='logo__text'>Playlist DJ</h1>
     </div>
     <SpotifyButton href='/login' text='Log in' />
 </header>
 
 <style>
-    header {
+    .header {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -21,18 +21,18 @@
         max-width: 100vw;
     }
 
-    .logo__text {
-        font-family: "saffran", sans-serif;
-    }
-
-    .flex-row {
+    .header__row {
         display: flex;
         flex-flow: row nowrap;
         justify-content: space-between;
     }
 
-    img {
+    .logo__img {
         margin-right: 10px;
         height: 40px;
+    }
+
+    .logo__text {
+        font-family: "saffran", sans-serif;
     }
 </style>

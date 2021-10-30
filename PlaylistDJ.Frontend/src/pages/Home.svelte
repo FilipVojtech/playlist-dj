@@ -4,14 +4,14 @@
 </script>
 
 <main>
-    <section>
+    <section class='section'>
         <h1>Welcome to Playlist DJ</h1>
         <p>Manage your Spotify playlists with ease</p>
     </section>
-    <section>
+    <section class='section'>
         <LoginWidget />
     </section>
-    <section>
+    <section class='section'>
         <div>
             <a href='/playlists' use:link>Playlists</a>
         </div>
@@ -22,15 +22,15 @@
 </main>
 
 <style>
-    section {
+    .section {
         margin: 25px 0;
     }
 
-    section:first-child {
+    .section:first-child {
         margin-top: 10px;
     }
 
-    section:last-child {
+    .section:last-child {
         margin-bottom: 10px;
     }
 </style>

@@ -2,13 +2,13 @@
     import SpotifyButton from '../SpotifyButton.svelte'
 </script>
 
-<main>
-    <p>Join the experience!</p>
+<main class='btn'>
+    <p class='btn__text'>Join the experience!</p>
     <SpotifyButton href='/login' text='Log in with Spotify' />
 </main>
 
 <style>
-    main {
+    .btn {
         display: flex;
         align-items: center;
         justify-items: center;
@@ -20,7 +20,7 @@
         border-radius: 25px;
     }
 
-    p {
+    .btn__text {
         font-weight: bold;
         margin-bottom: 15px;
     }

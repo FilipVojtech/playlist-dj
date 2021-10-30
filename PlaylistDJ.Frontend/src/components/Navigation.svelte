@@ -18,9 +18,9 @@
     ] as RouterLink[]
 </script>
 
-<nav class='flexColumn'>
+<nav>
     {#each routes as { icon, href, title }}
-        <div class='flex-row'>
+        <div>
             <a
                 {href}
                 on:click={() => dispatch('closeNav')}
