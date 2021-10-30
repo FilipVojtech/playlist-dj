@@ -8,7 +8,7 @@
 </main>
 
 <style>
-    main {
+    .btn {
         display: flex;
         align-items: center;
         justify-items: center;
@@ -20,7 +20,7 @@
         border-radius: 25px;
     }
 
-    p {
+    .btn__text {
         font-weight: bold;
         margin-bottom: 15px;
     }

@@ -3,6 +3,10 @@
 - Svelte
 - \+ Refer to root README.md
 
+## Naming conventions
+
+CSS – Use the [BEM](http://getbem.com/) naming convention
+
 # Running frontend in dev mode
 
 Run these commands to start frontend.

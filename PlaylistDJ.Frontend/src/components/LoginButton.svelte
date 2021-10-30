@@ -5,13 +5,13 @@
     export let href: string
 </script>
 
-<a {href} use:link>
-    <img alt='Spotify logo' src='images/Spotify_Icon.png' />
+<a class='login-button' {href} use:link>
+    <img alt='Spotify logo' class='login-button__logo' src='images/Spotify_Icon.png' />
     {text}
 </a>
 
 <style>
-    a {
+    .login-button {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -22,7 +22,7 @@
         padding: 7px 10px;
     }
 
-    img {
+    .login-button__logo {
         height: 25px;
         margin-right: 10px;
     }
