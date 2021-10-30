@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  backend:
+    build: .
+    ports:
+      - '3000:3000'
+#      Volumes aren't needed since docker isn't used for development
+#      I don't know how to set it up ¯\_(ツ)_/¯
+
+#    volumes:
+#      This volume does not work because it throws an error
+#      (error Couldn't find a package.json file in "/backend")
+#      - ./PlaylistDJ.API/src:/backend
+#      - ./PlaylistDJ.Frontend/src:/backend/dist/public
+    environment:
+      - PRODUCTION=1
+  database:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - /data/db:/data/db
