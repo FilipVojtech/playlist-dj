@@ -1,6 +1,6 @@
 # Technologies
 
-Project uses various technologies defiend in subdirectories of this repo.
+Project uses various technologies defined in subdirectories of this repo.
 
 Technologies defined here, are present in frontend as well as backend, they include:
 
@@ -9,8 +9,27 @@ Technologies defined here, are present in frontend as well as backend, they incl
 - Node
 - Yarn package manager
 - Prettier
+- Docker
 
 You should have at least basic knowledge about these technologies before committing. :)
+
+# Running app in production
+
+For production use, run the docker compose file You have to have Docker installed.
+
+**1. Install Docker**
+
+- macOS and Windows
+    - install Docker Desktop
+- Linux
+    - install docker and docker-compose packages
+    - docker-machine package isn't necessary
+
+**2. Run docker-compose**
+
+```shell
+docker-compose -f docker-compose.prod.yml up -d
+```
 
 # Folder structure
 

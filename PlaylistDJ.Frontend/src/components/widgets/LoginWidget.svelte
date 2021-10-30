@@ -1,10 +1,10 @@
 <script lang='ts'>
-    import SpotifyButton from '../SpotifyButton.svelte'
+    import LoginButton from '../LoginButton.svelte'
 </script>
 
-<main class='btn'>
-    <p class='btn__text'>Join the experience!</p>
-    <SpotifyButton href='/login' text='Log in with Spotify' />
+<main>
+    <p>Join the experience!</p>
+    <LoginButton href='/login' text='Log in with Spotify' />
 </main>
 
 <style>

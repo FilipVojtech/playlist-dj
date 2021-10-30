@@ -4,33 +4,26 @@
 - [MikroORM](https://mikro-orm.io/)
 - \+ Refer to root README.md
 
-# Running frontend
+# Running backend in dev mode
 
 Run these commands to start the backend service.
 
-Install dependencies
+1. **Install dependencies**
 
 ```bash
 yarn install
 ```
 
-Start MongoDB
+2. **Start MongoDB**
 
 ```bash
 sudo mongod
 ```
 
-## Development
+3. **Run backend**
 
 ```bash
 yarn dev
 ```
 
 App is hot reloaded
-
-## Production
-
-```bash
-yarn build
-yarn start
-```
