@@ -5,12 +5,16 @@ import { BaseEntity, Filter } from './'
 export class Playlist extends BaseEntity {
     @Property()
     schemaVersion = '1'
+
     @Property()
     name: string
+
     @Property()
     description: string
+
     @Property()
     notes: string
+
     @ManyToOne(() => Filter)
     filters = []
 

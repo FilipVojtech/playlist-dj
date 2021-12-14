@@ -9,7 +9,7 @@ FROM node
 WORKDIR /backend
 # Install dependecies
 COPY PlaylistDJ.API/package.json .
-RUN yarn install --production
+RUN yarn install
 # Copy other files
 COPY PlaylistDJ.API/ .
 RUN yarn build

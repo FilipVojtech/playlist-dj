@@ -5,6 +5,7 @@ import { BaseEntity } from './'
 export class Filter extends BaseEntity {
     @Property()
     schemaVersion = '1'
+
     @Property()
     name: string
 

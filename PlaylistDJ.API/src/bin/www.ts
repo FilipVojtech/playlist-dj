@@ -3,11 +3,11 @@
 /**
  * Module dependencies.
  */
+import app from '../app'
+import debug from 'debug'
+import http from 'http'
 
-const app = require('../app')
-const debug = require('debug')('Playman.API:server')
-const http = require('http')
-
+const logDebug = debug('Playman.API:server')
 /**
  * Get port from environment and store in Express.
  */
@@ -79,6 +79,6 @@ function onError(error: { syscall: string; code: any }) {
 
 function onListening() {
     const addr = server.address()
-    const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port
-    debug('Listening on ' + bind)
+    const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr!.port
+    logDebug('Listening on ' + bind)
 }
