@@ -1,6 +1,6 @@
-import { Request, Response } from 'express'
+import express, { Request, Response } from 'express'
 
-const router = require('express').Router()
+const router = express.Router()
 
 /**
  * Return API status
@@ -11,5 +11,12 @@ router.get('/', async (req: Request, res: Response) => {
         database: { status: 'running' },
     })
 })
+
+if (!process.env.PRODUCTION) {
+    /**
+     * Debug route
+     */
+    router.get('/debug', async (req: Request, res: Response) => {})
+}
 
 export const apiController = router
