@@ -2,13 +2,14 @@
     import LoginButton from '../LoginButton.svelte'
 </script>
 
-<main>
-    <p>Join the experience!</p>
+
+<main class='widget'>
+    <p class='widget__text'>Join the experience!</p>
     <LoginButton text='Log in with Spotify' />
 </main>
 
 <style>
-    .btn {
+    .widget {
         display: flex;
         align-items: center;
         justify-items: center;
@@ -20,7 +21,7 @@
         border-radius: 25px;
     }
 
-    .btn__text {
+    .widget__text {
         font-weight: bold;
         margin-bottom: 15px;
     }
