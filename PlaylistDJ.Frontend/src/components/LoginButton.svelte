@@ -1,11 +1,8 @@
 <script lang='ts'>
-    import { link } from 'svelte-spa-router'
-
-    export let text: string
-    export let href: string
+    export let text: string = 'Login with Spotify'
 </script>
 
-<a class='login-button' {href} use:link>
+<a class='login-button' href='/login'>
     <img alt='Spotify logo' class='login-button__logo' src='images/Spotify_Icon.png' />
     {text}
 </a>

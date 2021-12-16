@@ -7,7 +7,7 @@
         <img alt='Playlist DJ icon' class='logo__img' src='/images/logo.png' />
         <h1 class='logo__text'>Playlist DJ</h1>
     </div>
-    <LoginButton href='/login' text='Log in' />
+    <LoginButton text='Log in' />
 </header>
 
 <style>
