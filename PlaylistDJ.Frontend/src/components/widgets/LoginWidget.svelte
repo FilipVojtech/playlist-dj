@@ -2,6 +2,7 @@
     import LoginButton from '../LoginButton.svelte'
 </script>
 
+
 <main class='widget'>
     <p class='widget__text'>Join the experience!</p>
     <LoginButton text='Log in with Spotify' />
