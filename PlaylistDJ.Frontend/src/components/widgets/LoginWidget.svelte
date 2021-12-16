@@ -4,7 +4,7 @@
 
 <main>
     <p>Join the experience!</p>
-    <LoginButton href='/login' text='Log in with Spotify' />
+    <LoginButton text='Log in with Spotify' />
 </main>
 
 <style>
