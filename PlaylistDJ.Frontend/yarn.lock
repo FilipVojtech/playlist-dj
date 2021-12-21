@@ -841,6 +841,13 @@ svelte-check@^2.0.0:
     svelte-preprocess "^4.0.0"
     typescript "*"
 
+svelte-feather-icons@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/svelte-feather-icons/-/svelte-feather-icons-3.5.0.tgz#4da21698feb9ed776f5dd5f8558985be9b5288ac"
+  integrity sha512-AO6vwbI+WH8xouZRIxyenUV2olSAjp0QFgBa4esyS9ZxvBmKkRu9VTfgbMW0F1N7QTOWbMpgaForsnOcFGfXeg==
+  dependencies:
+    svelte "^3.38.2"
+
 svelte-preprocess@^4.0.0:
   version "4.9.5"
   resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-4.9.5.tgz#e11bdf3fcdacbd90188cdf29a7371030991f9eba"
@@ -864,6 +871,11 @@ svelte@^3.0.0:
   version "3.43.0"
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.43.0.tgz#d28d06ec523bf0cea3de15558a3241c339a85762"
   integrity sha512-T2pMPHrxXp+SM8pLLUXLQgkdo+JhTls7aqj9cD7z8wT2ccP+OrCAmtQS7h6pvMjitaZhXFNnCK582NxDpy8HSw==
+
+svelte@^3.38.2:
+  version "3.44.3"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.44.3.tgz#795b1ced6ed3da44969099e5061b850c93c95e9a"
+  integrity sha512-aGgrNCip5PQFNfq9e9tmm7EYxWLVHoFsEsmKrtOeRD8dmoGDdyTQ+21xd7qgFd8MNdKGSYvg7F9dr+Tc0yDymg==
 
 terser@^5.0.0:
   version "5.9.0"
