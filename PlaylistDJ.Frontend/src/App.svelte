@@ -5,6 +5,7 @@
     import Navigation from './components/Navigation.svelte'
 
     const isLoggedIn = true //getCookies().user
+    console.error("DEV mode enabled change isLoggedIn property")
     const generalRoutes = {
         '/playlist/:id': Playlist,
     }
