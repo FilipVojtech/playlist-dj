@@ -1,1 +1,5 @@
-<h1>Social</h1>
+<script>
+    import Title from '../components/Title.svelte'
+</script>
+
+<Title text='Social' />

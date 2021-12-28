@@ -1,1 +1,5 @@
-<h1>Playlist List</h1>
+<script>
+    import Title from '../components/Title.svelte'
+</script>
+
+<Title text='Playlist List'/>
