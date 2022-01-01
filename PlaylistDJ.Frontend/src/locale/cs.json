@@ -1,0 +1,35 @@
+{
+  "app": {
+    "name": "Playlist DJ",
+    "welcome": "Playlist DJ vás vítá",
+    "description": "Spravujte Spotify playlisty s lehkostí",
+    "login": {
+      "short": "Přihlásit se",
+      "long": "Přihlásit se se Spotify"
+    }
+  },
+  "page": {
+    "home": {
+      "title": "Domů",
+      "greeting": "Vítej {user}!"
+    },
+    "social": {
+      "title": "Síť"
+    },
+    "playlistList": {
+      "title": "Playlisty"
+    },
+    "playlist": {
+      "title": "Playlist"
+    },
+    "settings": {
+      "title": "Nastavení"
+    }
+  },
+  "component": {},
+  "widget": {
+    "login": {
+      "message": "Přidejte se taky!"
+    }
+  }
+}

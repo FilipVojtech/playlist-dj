@@ -1,13 +1,14 @@
 <script lang='ts'>
     import LoginButton from './LoginButton.svelte'
+    import { _ } from 'svelte-i18n'
 </script>
 
 <header class='header'>
     <div class='header__row'>
         <img alt='Playlist DJ icon' class='logo__img' src='/images/logo.png' />
-        <h1 class='logo__text'>Playlist DJ</h1>
+        <h1 class='logo__text'>{$_('app.name')}</h1>
     </div>
-    <LoginButton text='Log in' />
+    <LoginButton text={$_('app.login.short')} />
 </header>
 
 <style>

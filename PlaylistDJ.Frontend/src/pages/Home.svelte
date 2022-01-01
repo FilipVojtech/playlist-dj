@@ -1,12 +1,16 @@
 <script>
     import { LoginWidget } from '../components/widgets'
     import { link } from 'svelte-spa-router'
+    import { _ } from 'svelte-i18n'
 </script>
 
+<svelte:head>
+    <title>{$_('page.home.title')}</title>
+</svelte:head>
 <main>
     <section class='section'>
-        <h1>Welcome to Playlist DJ</h1>
-        <p>Manage your Spotify playlists with ease</p>
+        <h1>{$_('app.welcome')}</h1>
+        <p>{$_('app.description')}</p>
     </section>
     <section class='section'>
         <LoginWidget />

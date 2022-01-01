@@ -1,0 +1,35 @@
+{
+  "app": {
+    "name": "Playlist DJ",
+    "welcome": "Welcome to Playlist DJ",
+    "description": "Manage your Spotify playlists with ease",
+    "login": {
+      "short": "Log in",
+      "long": "Log in with Spotify"
+    }
+  },
+  "page": {
+    "home": {
+      "title": "Home",
+      "greeting": "Welcome {user}!"
+    },
+    "social": {
+      "title": "Social"
+    },
+    "playlistList": {
+      "title": "Playlists"
+    },
+    "playlist": {
+      "title": "Playlist"
+    },
+    "settings": {
+      "title": "Settings"
+    }
+  },
+  "component": {},
+  "widget": {
+    "login": {
+      "message": "Join the experience!"
+    }
+  }
+}

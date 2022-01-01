@@ -1,5 +1,9 @@
 <script>
     import Title from '../components/Title.svelte'
+    import { _ } from 'svelte-i18n'
 </script>
 
-<Title text='Playlist List'/>
+<svelte:head>
+    <title>{$_('page.playlistList.title')}</title>
+</svelte:head>
+<Title text={$_('page.playlistList.title')} />
