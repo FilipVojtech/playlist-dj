@@ -31,5 +31,9 @@
     "login": {
       "message": "Join the experience!"
     }
+  },
+  "locales": {
+    "cs": "Čeština",
+    "en": "English"
   }
 }

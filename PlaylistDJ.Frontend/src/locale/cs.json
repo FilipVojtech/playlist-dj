@@ -31,5 +31,9 @@
     "login": {
       "message": "Přidejte se taky!"
     }
+  },
+  "locales": {
+    "cs": "Čeština",
+    "en": "English"
   }
 }
