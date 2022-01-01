@@ -1,6 +1,8 @@
 import Footer from './Footer.svelte'
 import Header from './Header.svelte'
-import Navigation from './Navigation.svelte'
+import LanguagePicker from './LanguagePicker.svelte'
 import LoginButton from './LoginButton.svelte'
+import Navigation from './Navigation.svelte'
+import Title from './Title.svelte'
 
-export { Footer, Header, Navigation, LoginButton }
+export { Footer, Header, Navigation, LoginButton, LanguagePicker, Title }

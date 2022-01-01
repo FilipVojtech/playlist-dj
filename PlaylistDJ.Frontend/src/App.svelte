@@ -4,9 +4,12 @@
     import Router from 'svelte-spa-router'
     import Navigation from './components/Navigation.svelte'
     import { showNav } from './Utility/stores'
+    import './Utility/i18n'
+    import { isLoading } from 'svelte-i18n'
+    import { getCookies } from './Utility'
 
-    const isLoggedIn = true //getCookies().user
-    console.error('DEV mode enabled change isLoggedIn property')
+    const isLoggedIn = getCookies().user
+    // console.error('DEV mode enabled change isLoggedIn property')
     const generalRoutes = {
         '/playlist/:id': Playlist,
     }
@@ -28,17 +31,21 @@
 </script>
 
 <main>
-    {#if !isLoggedIn}
-        <Header />
-    {/if}
-    <div class='main-content'>
-        <Router {routes} />
-    </div>
-    {#if !isLoggedIn}
-        <Footer />
-    {/if}
-    {#if $showNav}
-        <Navigation />
+    {#if !$isLoading}
+        {#if !isLoggedIn}
+            <Header />
+        {/if}
+        <div class='main-content'>
+            <Router {routes} />
+        </div>
+        {#if !isLoggedIn}
+            <Footer />
+        {/if}
+        {#if $showNav && isLoggedIn}
+            <Navigation />
+        {/if}
+    {:else }
+        <p>Loading...</p>
     {/if}
 </main>
 
