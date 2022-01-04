@@ -26,7 +26,12 @@
       "title": "Nastavení"
     }
   },
-  "component": {},
+  "component": {
+    "navigation": {
+      "pinnedPlaylists": "Připnuté playlisty",
+      "createPlaylist": "Vytvořit nový playlist"
+    }
+  },
   "widget": {
     "login": {
       "message": "Přidejte se taky!"
