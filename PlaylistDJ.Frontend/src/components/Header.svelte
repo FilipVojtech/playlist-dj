@@ -2,6 +2,7 @@
     import type { SvelteComponentTyped } from 'svelte'
     import { ChevronLeftIcon } from 'svelte-feather-icons'
     import { pop } from 'svelte-spa-router'
+    import { _ } from 'svelte-i18n'
 
     export let iconBefore: SvelteComponentTyped | null = null
     export let onClickBefore: Function = null
@@ -15,7 +16,7 @@
     {#if !iconBefore && text === ''}
         <div class='head__before head--clickable' on:click={pop}>
             <ChevronLeftIcon size='35' />
-            <h1>Back</h1>
+            <h1>{$_('app.back')}</h1>
         </div>
     {:else}
         <div class='head__before' class:head--clickable={onClickBefore} on:click={onClickBefore ? onClickBefore : null}>
