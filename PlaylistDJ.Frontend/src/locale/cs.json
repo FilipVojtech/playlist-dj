@@ -6,7 +6,8 @@
     "login": {
       "short": "Přihlásit se",
       "long": "Přihlásit se se Spotify"
-    }
+    },
+    "back": "Zpět"
   },
   "page": {
     "home": {

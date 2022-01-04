@@ -1,8 +1,7 @@
 <script lang='ts'>
-    import { Footer, Header } from './components'
-    import { Home, HomeLoggedIn, NotFound, Playlist, PlaylistList, Settings, Social } from './pages'
+    import { Footer, Navigation } from './components'
+    import { About, Home, NotFound, Playlist, PlaylistList, Settings, Social } from './pages'
     import Router from 'svelte-spa-router'
-    import Navigation from './components/Navigation.svelte'
     import { showNav } from './Utility/stores'
     import './Utility/i18n'
     import { isLoading } from 'svelte-i18n'
@@ -14,10 +13,10 @@
         '/playlist/:id': Playlist,
     }
     const loggedOutRoutes = {
-        '/': Home,
+        '/': About,
     }
     const loggedInRoutes = {
-        '/': HomeLoggedIn,
+        '/': Home,
         '/playlists': PlaylistList,
         '/social': Social,
         '/settings': Settings,
@@ -32,9 +31,6 @@
 
 <main>
     {#if !$isLoading}
-        {#if !isLoggedIn}
-            <Header />
-        {/if}
         <div class='main-content'>
             <Router {routes} />
         </div>

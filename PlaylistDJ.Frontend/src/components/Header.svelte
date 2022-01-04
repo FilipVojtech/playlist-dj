@@ -1,39 +1,49 @@
 <script lang='ts'>
-    import LoginButton from './LoginButton.svelte'
+    import type { SvelteComponentTyped } from 'svelte'
+    import { ChevronLeftIcon } from 'svelte-feather-icons'
+    import { pop } from 'svelte-spa-router'
     import { _ } from 'svelte-i18n'
+
+    export let iconBefore: SvelteComponentTyped | null = null
+    export let onClickBefore: Function = null
+    export let iconAfter: SvelteComponentTyped | null = null
+    export let onClickAfter: Function = null
+    export let text: string = ''
 </script>
 
-<header class='header'>
-    <div class='header__row'>
-        <img alt='Playlist DJ icon' class='logo__img' src='/images/logo.png' />
-        <h1 class='logo__text'>{$_('app.name')}</h1>
-    </div>
-    <LoginButton text={$_('app.login.short')} />
-</header>
+
+<div class='head'>
+    {#if !iconBefore && text === ''}
+        <div class='head__before head--clickable' on:click={pop}>
+            <ChevronLeftIcon size='35' />
+            <h1>{$_('app.back')}</h1>
+        </div>
+    {:else}
+        <div class='head__before' class:head--clickable={onClickBefore} on:click={onClickBefore ? onClickBefore : null}>
+            <svelte:component size='35' this={iconBefore} />
+            <h1>{text}</h1>
+        </div>
+        {#if iconAfter}
+            <span class='icon head--clickable' on:click={onClickAfter}>
+                <svelte:component size='35' this={iconAfter} />
+            </span>
+        {/if}
+    {/if}
+</div>
 
 <style>
-    .header {
+    .head {
+        padding-top: 5px;
         display: flex;
         justify-content: space-between;
+    }
+
+    .head__before {
+        display: flex;
         align-items: center;
-
-        font-size: 14px;
-        padding: 10px;
-        max-width: 100vw;
     }
 
-    .header__row {
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-between;
-    }
-
-    .logo__img {
-        margin-right: 10px;
-        height: 40px;
-    }
-
-    .logo__text {
-        font-family: "saffran", sans-serif;
+    .head--clickable:hover {
+        cursor: pointer;
     }
 </style>

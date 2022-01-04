@@ -6,7 +6,8 @@
     "login": {
       "short": "Log in",
       "long": "Log in with Spotify"
-    }
+    },
+    "back": "Back"
   },
   "page": {
     "home": {
