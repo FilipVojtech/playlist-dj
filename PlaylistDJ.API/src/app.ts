@@ -8,7 +8,9 @@ import { EntityManager, EntityRepository, MikroORM } from '@mikro-orm/core'
 import { apiController, loginController } from './controllers'
 import { Filter, Playlist, User } from './entities'
 import config from './mikro-orm.config'
+import dotenv from 'dotenv'
 
+dotenv.config()
 const app = express()
 
 export const DI = {} as {
