@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/bin/www.js",
-    "dev": "concurrently \"sudo mongod\" \"tsc -w\" \"nodemon dist/bin/www.js\""
+    "dev": "concurrently \"doas mongod\" \"tsc -w\" \"nodemon dist/bin/www.js\""
   },
   "author": {
     "name": "Filip Vojtěch",
@@ -31,7 +31,6 @@
     "express-session": "^1.17.2",
     "got": "^11.8.3",
     "http-errors": "~1.6.3",
-    "jsonwebtoken": "^8.5.1",
     "morgan": "~1.9.1"
   },
   "devDependencies": {
