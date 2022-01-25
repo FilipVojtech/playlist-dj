@@ -43,10 +43,17 @@ router.get('/callback', async (req: Request, res: Response) => {
             const user = new User(code)
 
             user.token = await requestToken(code)
-            await DI.userRepository.persistAndFlush(user)
 
             user.profile = await endpoint.me(user)
-            await DI.userRepository.flush()
+
+            // @ts-ignore
+            let userFromDb = await DI.userRepository.findOne({ 'profile.id': user.profile.id })
+
+            if (!userFromDb) await DI.userRepository.persistAndFlush(user)
+            else {
+                DI.userRepository.assign(userFromDb, user)
+                await DI.userRepository.flush()
+            }
 
             req.session.user = user
             res.cookie('user', JSON.stringify(user.profile)).redirect(`${url}/#`)
