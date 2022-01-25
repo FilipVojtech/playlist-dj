@@ -28,7 +28,17 @@ export const DI = {} as {
     app.use(express.urlencoded({ extended: false }))
     app.use(cookieParser())
     app.use(bodyParser.json())
-    app.use(session({ secret: process.env.PDJ_SESSION_SECRET as string }))
+    app.use(
+        session({
+            saveUninitialized: false,
+            secret: process.env.PDJ_SESSION_SECRET as string,
+            rolling: true,
+            cookie: {
+                secure: process.env.PRODUCITON === '1',
+                maxAge: 1000 * 60 * 60 * 24,
+            },
+        })
+    )
 
     DI.orm = await MikroORM.init(config)
     DI.em = DI.orm.em

@@ -45,8 +45,9 @@ export async function requestToken(code: string): Promise<Token> {
 /**
  * Request refreshed token
  */
-export async function renewToken(id: string) {
-    const user = await DI.userRepository.findOne({ id: id })
+async function renewToken(user: User) {
+    if (user.token.expiration.valueOf() > new Date().valueOf()) return
+    user = (await DI.userRepository.findOne({ id: user.id })) as User
 
     await got(`${accUrl}/api/token`, {
         method: 'post',
@@ -57,15 +58,15 @@ export async function renewToken(id: string) {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
         form: {
-            refresh_token: user!.token.refreshToken,
+            refresh_token: user.token.refreshToken,
             grant_type: 'refresh_token',
         },
     })
         .then(res => JSON.parse(res.body))
         .then(({ access_token, expires_in }) => {
             const now = new Date()
-            user!.token.value = access_token
-            user!.token.expiration = new Date(now.setMilliseconds(now.getMilliseconds() + expires_in))
+            user.token.value = access_token
+            user.token.expiration = new Date(now.setMilliseconds(now.getMilliseconds() + expires_in))
         })
         .catch(e => console.error(e))
     await DI.userRepository.flush()
@@ -80,7 +81,7 @@ export const endpoint = {
      */
     async me(user: User): Promise<Profile> {
         let returnValue = new Profile()
-        await ensureTokenValidity(user.id)
+        await renewToken(user)
         await got(`${apiUrl}/me`, {
             method: 'GET',
             headers: {
@@ -128,18 +129,6 @@ function profileFromBody(body: {
         body.product,
         body.uri
     )
-}
-
-/**
- * Renew user token if it's expired
- * @param id User ID for whom to check token validity
- */
-async function ensureTokenValidity(id: string) {
-    const user = await DI.userRepository.findOne({ id: id })
-
-    if (user!.token.expiration.valueOf() <= new Date().valueOf()) {
-        await renewToken(id)
-    }
 }
 
 export class Profile {
