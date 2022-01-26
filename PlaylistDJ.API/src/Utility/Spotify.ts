@@ -97,6 +97,19 @@ export const endpoint = {
 
         return returnValue
     },
+
+    async getOwnedPlaylists(user: User) {
+        await renewToken(user)
+        return await got(`${apiUrl}/me/playlists`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${user.token.value}`,
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(data => JSON.parse(data.body))
+            .catch(e => console.error(e))
+    },
 }
 
 function profileFromBody(body: {
