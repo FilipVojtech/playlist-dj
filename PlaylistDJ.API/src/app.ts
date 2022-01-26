@@ -53,9 +53,7 @@ export const DI = {} as {
     app.use('/logout', (req, res) =>
         res.clearCookie(CookieTypes.User).clearCookie(CookieTypes.Session).redirect(`http://localhost:3000/`)
     )
-    app.get('*', (req: Request, res: Response) => {
-        res.sendFile(path.resolve(__dirname, 'public', 'index.html'))
-    })
+    app.get('*', (req: Request, res: Response) => res.sendFile(path.resolve(__dirname, 'public', 'index.html')))
 })()
 
 export default app
