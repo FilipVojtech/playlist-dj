@@ -5,10 +5,11 @@ import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import session from 'express-session'
 import { EntityManager, EntityRepository, MikroORM } from '@mikro-orm/core'
-import { apiController, CookieTypes, loginController } from './controllers'
+import dotenv from 'dotenv'
+import { apiController, loginController } from './controllers'
 import { Filter, Playlist, User } from './entities'
 import config from './mikro-orm.config'
-import dotenv from 'dotenv'
+import { CookieTypes } from './Utility'
 
 dotenv.config()
 const app = express()
