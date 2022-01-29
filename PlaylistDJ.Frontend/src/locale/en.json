@@ -7,6 +7,7 @@
       "short": "Log in",
       "long": "Log in with Spotify"
     },
+    "logout": "Log out",
     "back": "Back"
   },
   "page": {
