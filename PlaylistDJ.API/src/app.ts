@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express'
+import express, { Response } from 'express'
 import path from 'path'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
@@ -10,6 +10,7 @@ import { apiController, loginController } from './controllers'
 import { Filter, Playlist, User } from './entities'
 import config from './mikro-orm.config'
 import { CookieTypes } from './Utility'
+import { Request } from './global'
 
 dotenv.config()
 const app = express()
@@ -51,8 +52,8 @@ export const DI = {} as {
 
     app.use('/api', apiController)
     app.use('/login', loginController)
-    app.use('/logout', (req, res) =>
-        res.clearCookie(CookieTypes.User).clearCookie(CookieTypes.Session).redirect(`http://localhost:3000/`)
+    app.use('/logout', (req: Request, res: Response) =>
+        req.session.destroy(() => res.clearCookie(CookieTypes.Session).clearCookie(CookieTypes.User).redirect(`/`))
     )
     app.get('*', (req: Request, res: Response) => res.sendFile(path.resolve(__dirname, 'public', 'index.html')))
 })()
