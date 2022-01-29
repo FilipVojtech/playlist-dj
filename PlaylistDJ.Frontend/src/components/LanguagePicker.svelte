@@ -6,9 +6,9 @@
     $locale = $locale?.indexOf('-') === -1 ? $locale : $locale?.substring(0, $locale?.indexOf('-'))
 </script>
 
-<main class='option'>
-    <span class='option__icon'>
-        <GlobeIcon size='30' />
+<main class='item'>
+    <span class='item__icon'>
+        <GlobeIcon size='25' />
     </span>
     <select bind:value={$locale} class='select' id='language-select' name='language'>
         {#each $locales as loc}
@@ -18,20 +18,6 @@
 </main>
 
 <style>
-    .option {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 15px 10px;
-
-        background-color: var(--lighter-bg);
-        border-radius: 20px;
-    }
-
-    .option__icon {
-        margin-right: 10px;
-    }
-
     .select {
         background-color: var(--darker-bg);
         border: 1px solid var(--darker-bg);

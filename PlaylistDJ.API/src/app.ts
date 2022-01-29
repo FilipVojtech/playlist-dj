@@ -1,14 +1,16 @@
-import express, { Request, Response } from 'express'
+import express, { Response } from 'express'
 import path from 'path'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import session from 'express-session'
 import { EntityManager, EntityRepository, MikroORM } from '@mikro-orm/core'
+import dotenv from 'dotenv'
 import { apiController, loginController } from './controllers'
 import { Filter, Playlist, User } from './entities'
 import config from './mikro-orm.config'
-import dotenv from 'dotenv'
+import { CookieTypes } from './Utility'
+import { Request } from './global'
 
 dotenv.config()
 const app = express()
@@ -50,9 +52,10 @@ export const DI = {} as {
 
     app.use('/api', apiController)
     app.use('/login', loginController)
-    app.get('*', (req: Request, res: Response) => {
-        res.sendFile(path.resolve(__dirname, 'public', 'index.html'))
-    })
+    app.use('/logout', (req: Request, res: Response) =>
+        req.session.destroy(() => res.clearCookie(CookieTypes.Session).clearCookie(CookieTypes.User).redirect(`/`))
+    )
+    app.get('*', (req: Request, res: Response) => res.sendFile(path.resolve(__dirname, 'public', 'index.html')))
 })()
 
 export default app

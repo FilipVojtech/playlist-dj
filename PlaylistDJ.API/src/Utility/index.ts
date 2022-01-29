@@ -8,4 +8,9 @@ export function generateRandomString(length: number) {
     return string
 }
 
+export enum CookieTypes {
+    User = 'user',
+    Session = 'connect.sid',
+}
+
 export * from './Spotify'
