@@ -1,5 +1,5 @@
 <script lang='ts'>
-    import { Footer, Navigation } from './components'
+    import { Navigation } from './components'
     import { About, Home, NotFound, Playlist, PlaylistList, Settings, Social } from './pages'
     import Router from 'svelte-spa-router'
     import { showNav } from './Utility/stores'
@@ -34,9 +34,9 @@
         <div class='main-content'>
             <Router {routes} />
         </div>
-        {#if !isLoggedIn}
-            <Footer />
-        {/if}
+        <!--{#if !isLoggedIn}-->
+        <!--todo: Footer-->
+        <!--{/if}-->
         {#if $showNav && isLoggedIn}
             <Navigation />
         {/if}
