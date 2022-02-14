@@ -5,5 +5,5 @@ export default {
     entitiesTs: ['./src/entities'],
     dbName: 'playlist-dj',
     type: 'mongo',
-    clientUrl: process.env.PRODUCTION ? 'mongodb://database:27017/' : 'mongodb://127.0.0.1:27017/',
+    clientUrl: 'mongodb://127.0.0.1:27017/',
 } as Options

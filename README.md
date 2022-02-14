@@ -15,20 +15,46 @@ You should have at least basic knowledge about these technologies before committ
 
 # Running app in production
 
-For production use, run the docker compose file You have to have Docker installed.
-
-**1. Install Docker**
-
-- macOS and Windows
-    - install Docker Desktop
-- Linux
-    - install docker and docker-compose packages
-    - docker-machine package isn't necessary
-
-**2. Run docker-compose**
+**1. Install dependencies**
 
 ```shell
-docker-compose -f docker-compose.prod.yml up -d
+yarn install
+```
+
+**2. Build frontend**
+
+```shell
+cd PlaylistDJ.Frontend && yarn run build
+```
+
+**3. Build backend**
+
+```shell
+cd PlaylistDJ.API && yarn run build
+```
+
+**4. Start database**
+
+_MongoDB was used in development. The usage if an ORM makes it possible to connect different databases. Although not
+tested._
+
+```shell
+mongod
+```
+
+Alternatively you can provide a [connection string](https://docs.mongodb.com/manual/reference/connection-string/)
+in `PlaylistDJ.API/mikro-orm.config.ts`
+
+OR
+
+Modify said file to connect do a different [supported database](https://mikro-orm.io/docs/installation)
+
+Either way if the ORM cannot connect to the DB, the backend will crash
+
+**5. Start backend**
+
+```shell
+cd PlaylistDJ.API && yarn run start
 ```
 
 # Folder structure
@@ -36,13 +62,12 @@ docker-compose -f docker-compose.prod.yml up -d
 Root directory contains the two parts of the service
 
 - `PlaylistDJ.API` is a backend code
-- `PlaylistDJ.Frontend` as name suggests contains the frontend code
+- `PlaylistDJ.Frontend` contains the frontend code
 
 # Creating pull requests
 
 Please read through the guidelines for committing code.
 
-- **DO NOT COMMIT DIRECTLY TO DEVELOP**
 - Create a branch with the correct name *(details below)*
 - Use Prettier
 - Commit often with less code
@@ -71,9 +96,6 @@ Branches should respect the following naming convention
 1. `bugfix` code related to fixing a bug
 2. `feature` adding code for the purpose of creating a feature
 3. `cleanup` code removal, refactor, etc...
-
-If your branch could be assigned multiple actions then you 👏 need 👏 to 👏 split 👏 your 👏 code. Although I'm not keen
-on enforcing this rule.
 
 **Branch name** summarises what kind of task was made.
 

@@ -25,7 +25,28 @@
       "title": "Playlist"
     },
     "settings": {
-      "title": "Nastavení"
+      "title": "Nastavení",
+      "account": {
+        "title": "Účet"
+      },
+      "profile": {
+        "title": "Profil"
+      },
+      "communication": {
+        "title": "Oznámení",
+        "updateFrequency": {
+          "disabled": "Neposílat",
+          "daily": "Denně",
+          "weekly": "Týdne",
+          "biWeekly": "Obtýden",
+          "monthly": "Měsíčně",
+          "custom": "Vlastní"
+        },
+        "subscribeTo": {
+          "important": "Důležitá oznámení",
+          "product": "Aktualizace a novinky"
+        }
+      }
     }
   },
   "component": {

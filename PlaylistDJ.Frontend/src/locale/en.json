@@ -25,7 +25,28 @@
       "title": "Playlist"
     },
     "settings": {
-      "title": "Settings"
+      "title": "Settings",
+      "account": {
+        "title": "Account"
+      },
+      "profile": {
+        "title": "Profile"
+      },
+      "communication": {
+        "title": "Notifications",
+        "updateFrequency": {
+          "disabled": "Disabled",
+          "daily": "Daily",
+          "weekly": "Weekly",
+          "biWeekly": "Biweekly",
+          "monthly": "Monthly",
+          "custom": "Custom"
+        },
+        "subscribeTo": {
+          "important": "Important emails",
+          "product": "Product updates"
+        }
+      }
     }
   },
   "component": {
