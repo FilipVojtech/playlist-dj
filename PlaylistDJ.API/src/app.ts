@@ -2,7 +2,6 @@ import express, { Response } from 'express'
 import path from 'path'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
-import bodyParser from 'body-parser'
 import session from 'express-session'
 import { EntityManager, EntityRepository, MikroORM } from '@mikro-orm/core'
 import dotenv from 'dotenv'
@@ -11,10 +10,23 @@ import { Filter, Playlist, User } from './entities'
 import config from './mikro-orm.config'
 import { CookieTypes } from './Utility'
 import { Request } from './global'
+import connect_mongodb_session from 'connect-mongodb-session'
 
+// Set up .env
 dotenv.config()
+
+// Set up MongoDB session store
+const MongoDBStore = connect_mongodb_session(session)
+const store = new MongoDBStore({
+    uri: 'mongodb://127.0.0.1:27017/',
+    databaseName: 'playlist-dj',
+    collection: 'session',
+})
+
+// Initialize Express
 const app = express()
 
+// Define MikroORM types
 export const DI = {} as {
     orm: MikroORM
     em: EntityManager
@@ -27,14 +39,15 @@ export const DI = {} as {
 ;(async () => {
     app.use(morgan('dev'))
     app.use(express.json())
-    app.use(express.urlencoded({ extended: false }))
+    app.use(express.urlencoded({ extended: true }))
     app.use(cookieParser())
-    app.use(bodyParser.json())
     app.use(
         session({
-            saveUninitialized: false,
-            secret: process.env.PDJ_SESSION_SECRET as string,
+            store,
+            saveUninitialized: true,
             rolling: true,
+            resave: true,
+            secret: process.env.PDJ_SESSION_SECRET as string,
             cookie: {
                 secure: process.env.PRODUCITON === '1',
                 maxAge: 1000 * 60 * 60 * 24,
@@ -48,14 +61,15 @@ export const DI = {} as {
     DI.playlistRepository = await DI.orm.em.getRepository(Playlist)
     DI.userRepository = await DI.orm.em.getRepository(User)
 
-    app.use(express.static(`${__dirname}/public`))
-
     app.use('/api', apiController)
     app.use('/login', loginController)
     app.use('/logout', (req: Request, res: Response) =>
         req.session.destroy(() => res.clearCookie(CookieTypes.Session).clearCookie(CookieTypes.User).redirect(`/`))
     )
-    app.get('*', (req: Request, res: Response) => res.sendFile(path.resolve(__dirname, 'public', 'index.html')))
+    app.use(express.static(`${__dirname}/../../PlaylistDJ.Frontend/public`))
+    app.get('*', (req: Request, res: Response) =>
+        res.sendFile(path.resolve(__dirname, '..', '..', 'PlaylistDJ.Frontend', 'public', 'index.html'))
+    )
 })()
 
 export default app
