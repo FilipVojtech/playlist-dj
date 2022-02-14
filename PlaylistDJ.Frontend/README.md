@@ -16,4 +16,11 @@ yarn install
 yarn dev
 ```
 
-App is hot-reloaded thanks to [Rollup](https://rollupjs.org) when editing scripts in the `src` directory.
+App is hot-reloaded using [Rollup](https://rollupjs.org) when editing scripts in the `src` directory.
+
+# Building frontend
+
+```shell
+yarn install
+yarn build
+```
