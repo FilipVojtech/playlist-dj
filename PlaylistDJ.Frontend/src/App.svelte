@@ -1,12 +1,12 @@
 <script lang='ts'>
     import { Navigation } from './components'
-    import { About, Home, NotFound, Playlist, PlaylistList, Settings, Social } from './pages'
+    import { About, Home, NotFound, Playlist, PlaylistList, Social } from './pages'
+    import Settings, { Account, Communication, Profile } from './pages/Settings'
     import Router from 'svelte-spa-router'
     import { showNav, user } from './Utility/stores'
     import './Utility/i18n'
     import { isLoading } from 'svelte-i18n'
 
-    // console.error('DEV mode enabled change isLoggedIn property')
     const generalRoutes = {
         '/playlist/:id': Playlist,
     }
@@ -18,6 +18,9 @@
         '/playlists': PlaylistList,
         '/social': Social,
         '/settings': Settings,
+        '/settings/account': Account,
+        '/settings/notifications': Communication,
+        '/settings/profile': Profile,
     }
     const generalRoutesAfter = {
         '*': NotFound,
