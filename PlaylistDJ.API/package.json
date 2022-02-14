@@ -1,5 +1,5 @@
 {
-  "name": "playlist-dj.api",
+  "name": "@playlist-dj/api",
   "version": "0.0.1",
   "private": true,
   "description": "Backend for the Playlist DJ service",
