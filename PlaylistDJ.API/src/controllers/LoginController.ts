@@ -6,7 +6,6 @@ import { DI } from '../app'
 import { Request } from '../global'
 
 const router = express.Router()
-const url = 'http://localhost:3000'
 const spotifyAuthUrl = 'http://accounts.spotify.com/authorize'
 
 /**
@@ -21,7 +20,7 @@ router.get('/', (req: Request, res: Response) => {
         client_id: process.env.PDJ_CLIENT_ID,
         scope: 'user-follow-modify ugc-image-upload user-library-modify playlist-modify-private playlist-modify-public user-read-email user-read-private',
         state: req.session.spotifyState,
-        redirect_uri: `${url}/login/callback`,
+        redirect_uri: 'http://localhost:3000/login/callback',
     })
 
     res.redirect(`${spotifyAuthUrl}?${query}`)
@@ -43,7 +42,6 @@ router.get('/callback', async (req: Request, res: Response) => {
             const user = new User(code)
 
             user.token = await requestToken(code)
-
             user.profile = await endpoint.me(user)
 
             // @ts-ignore
@@ -55,11 +53,12 @@ router.get('/callback', async (req: Request, res: Response) => {
                 await DI.userRepository.flush()
             }
 
-            req.session.user = user
-            res.cookie('user', JSON.stringify(user.profile)).redirect(`${url}/#`)
+            // @ts-ignore
+            req.session.user = userFromDb
+            res.cookie('user', JSON.stringify(user.profile)).redirect('/#')
         } else {
             console.error(`State string (${req.query.state}) differs from the expected (${req.session.spotifyState})`)
-            res.status(401).send("State string doesn't match")
+            res.status(401).send('State strings do not match')
         }
     } else {
         console.error(req.query.error)

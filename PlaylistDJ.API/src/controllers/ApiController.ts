@@ -1,22 +1,31 @@
-import express, { Request, Response } from 'express'
+import express, { Response } from 'express'
+import { userController } from './Endpoints'
+import { Request } from '../global'
 
 const router = express.Router()
 
 /**
  * Return API status
  */
-router.get('/', async (req: Request, res: Response) => {
+router.get('/', (req: Request, res: Response) => {
     res.status(200).json({
-        api: { status: 'running' },
-        database: { status: 'running' },
+        status: {
+            api: 'running',
+            database: 'running',
+        },
     })
 })
 
+/**
+ * User paths
+ */
+router.use('/user', userController)
+
+/**
+ * Debug route
+ */
 if (!process.env.PRODUCTION) {
-    /**
-     * Debug route
-     */
-    router.get('/debug', async (req: Request, res: Response) => {})
+    router.get('/debug', (req: Request, res: Response) => {})
 }
 
 export const apiController = router
