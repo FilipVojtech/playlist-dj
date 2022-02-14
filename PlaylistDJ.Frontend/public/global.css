@@ -48,3 +48,19 @@ a {
 .item__icon {
     margin-right: 10px;
 }
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form__input {
+    background-color: var(--darker-bg);
+    border: none;
+    border-radius: 15px;
+    color: white;
+    padding: 5px;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-size: 20px;
+}
