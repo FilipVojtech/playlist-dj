@@ -10,6 +10,7 @@ import { Filter, Playlist, User } from './entities'
 import config from './mikro-orm.config'
 import { CookieTypes } from './Utility'
 import { Request } from './global'
+// @ts-ignore
 import connect_mongodb_session from 'connect-mongodb-session'
 
 // Set up .env
