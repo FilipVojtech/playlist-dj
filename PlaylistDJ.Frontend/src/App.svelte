@@ -6,6 +6,7 @@
     import { showNav, user } from './Utility/stores'
     import './Utility/i18n'
     import { isLoading } from 'svelte-i18n'
+    import { LoaderIcon } from 'svelte-feather-icons'
 
     const generalRoutes = {
         '/playlist/:id': Playlist,
@@ -42,7 +43,9 @@
             <Navigation />
         {/if}
     {:else }
-        <p>Loading...</p>
+        <div class='loader'>
+            <LoaderIcon size='100' />
+        </div>
     {/if}
 </main>
 
@@ -52,6 +55,20 @@
         min-height: calc(100vh - 62px);
         max-width: 100vw;
         padding: 0 10px;
+    }
+
+    .loader {
+        animation: rotate 3s linear infinite;
+    }
+
+    @keyframes rotate {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
     }
 
     @media (min-width: 640px) {
