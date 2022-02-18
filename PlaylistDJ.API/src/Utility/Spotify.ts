@@ -1,6 +1,6 @@
 import got from 'got'
 import { DI } from '../app'
-import { Token, User } from '../entities'
+import { Profile, Token, User } from '../entities'
 
 const apiUrl = 'https://api.spotify.com/v1'
 const accUrl = 'https://accounts.spotify.com'
@@ -77,25 +77,21 @@ async function renewToken(user: User) {
  */
 export const endpoint = {
     /**
-     * Get detailed profile information about the current user (including the current user's username).
+     * Get detailed profile information about the current user (including the current user username).
      */
-    async me(user: User): Promise<Profile> {
-        let returnValue = new Profile()
+    async me(user: User): Promise<Profile | null> {
         await renewToken(user)
-        await got(`${apiUrl}/me`, {
-            method: 'GET',
-            headers: {
-                Authorization: `Bearer ${user.token.value}`,
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(value => JSON.parse(value.body))
-            .then(body => {
-                returnValue = profileFromBody(body)
+        return await got(`${apiUrl}/me`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${user.token.value}`,
+                    'Content-Type': 'application/json',
+                },
             })
-            .catch(e => console.error(e))
-
-        return returnValue
+                .then(value => JSON.parse(value.body))
+                .then(body => Profile.fromBody(body))
+                .catch(e => console.error(e))
+            ?? null
     },
 
     async getOwnedPlaylists(user: User) {
@@ -110,73 +106,4 @@ export const endpoint = {
             .then(data => JSON.parse(data.body))
             .catch(e => console.error(e))
     },
-}
-
-function profileFromBody(body: {
-    uri: string
-    product: 'free' | 'premium'
-    images: [{ height: string; url: string; width: string }]
-    id: string
-    href: string
-    externalUrls: {}
-    explicit_content: {
-        filter_enabled: boolean
-        filter_locked: boolean
-    }
-    email: string
-    display_name: string
-    country: string
-}): Profile {
-    return new Profile(
-        body.country,
-        body.display_name,
-        body.email,
-        {
-            enabled: body.explicit_content.filter_enabled,
-            locked: body.explicit_content.filter_locked,
-        },
-        body.externalUrls,
-        body.href,
-        body.id,
-        body.images,
-        body.product,
-        body.uri
-    )
-}
-
-export class Profile {
-    constructor(
-        country: string = '',
-        displayName: string = '',
-        email: string = '',
-        explicitContent: { enabled: boolean; locked: boolean } = { enabled: true, locked: true },
-        externalUrls: {} = {},
-        href: string = '',
-        id: string = '',
-        images: [{ height: string; url: string; width: string }] = [{ height: '', url: '', width: '' }],
-        product: 'premium' | 'free' = 'free',
-        uri: string = ''
-    ) {
-        this.country = country
-        this.displayName = displayName
-        this.email = email
-        this.explicitContent = explicitContent
-        this.externalUrls = externalUrls
-        this.href = href
-        this.id = id
-        this.images = images
-        this.product = product
-        this.uri = uri
-    }
-
-    country: string
-    displayName!: string
-    email!: string
-    explicitContent: { enabled: boolean; locked: boolean }
-    externalUrls: {}
-    href: string
-    id: string
-    images: [{ height: string; url: string; width: string }]
-    product: 'premium' | 'free'
-    uri: string
 }

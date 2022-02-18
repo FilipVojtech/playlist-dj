@@ -1,6 +1,5 @@
-import { BaseEntity } from './'
-import { Entity, Property } from '@mikro-orm/core'
-import { Profile } from '../Utility'
+import { BaseEntity, Profile } from './'
+import { Embedded, Entity, Property } from '@mikro-orm/core'
 
 @Entity()
 export class User extends BaseEntity {
@@ -17,8 +16,8 @@ export class User extends BaseEntity {
         refreshToken: '',
     }
 
-    @Property()
-    profile: Profile = new Profile()
+    @Embedded(() => Profile)
+    profile!: Profile
 
     @Property()
     communication: {

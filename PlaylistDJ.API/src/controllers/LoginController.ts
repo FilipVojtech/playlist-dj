@@ -1,6 +1,6 @@
 import express, { Response } from 'express'
 import { stringify } from 'querystring'
-import { User } from '../entities'
+import { Profile, User } from '../entities'
 import { endpoint, generateRandomString, requestToken } from '../Utility'
 import { DI } from '../app'
 import { Request } from '../global'
@@ -28,12 +28,6 @@ router.get('/', (req: Request, res: Response) => {
 
 /**
  * User is redirected here if they grant permission to use their data
- *
- * Save the code from query
- * Request token
- * Request their user profile data from Spotify
- * Save token and data to DB
- * Redirect them back to the home page
  */
 router.get('/callback', async (req: Request, res: Response) => {
     if (!req.query.error) {
@@ -42,19 +36,19 @@ router.get('/callback', async (req: Request, res: Response) => {
             const user = new User(code)
 
             user.token = await requestToken(code)
-            user.profile = await endpoint.me(user)
+            user.profile = await endpoint.me(user) as Profile
 
-            // @ts-ignore
-            let userFromDb = await DI.userRepository.findOne({ 'profile.id': user.profile.id })
+            let userFromDb = await DI.userRepository.findOne({ profile: { spotifyId: user.profile.spotifyId } })
 
-            if (!userFromDb) await DI.userRepository.persistAndFlush(user)
-            else {
+            if (!userFromDb) {
+                await DI.userRepository.persistAndFlush(user)
+                req.session.user = user
+            } else {
                 DI.userRepository.assign(userFromDb, user)
                 await DI.userRepository.flush()
+                req.session.user = userFromDb
             }
 
-            // @ts-ignore
-            req.session.user = userFromDb
             res.cookie('user', JSON.stringify(user.profile)).redirect('/#')
         } else {
             console.error(`State string (${req.query.state}) differs from the expected (${req.session.spotifyState})`)
