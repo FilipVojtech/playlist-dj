@@ -44,7 +44,7 @@ router.route('/communication')
     .post(async (req: Request, res: Response) => {
         req.session.user!.communication = req.body
         const user = await DI.userRepository.findOne({ _id: req.session.user!._id })
-        wrap(user).assign(req.session.user)
+        wrap(user).assign(req.session.user!)
         await DI.userRepository.flush()
         res.json(req.session.user!.communication)
     })
