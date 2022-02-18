@@ -64,3 +64,57 @@ a {
     margin-bottom: 5px;
     font-size: 20px;
 }
+
+.modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.modal__contents {
+    width: 85vw;
+    border-radius: 20px;
+    padding: 10px;
+    background: var(--main-bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: auto;
+}
+
+.modal__title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.modal__message {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.modal__actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+.actions__button {
+    background-color: var(--darker-bg);
+    border-radius: 10px;
+    padding: 5px 10px;
+    width: 100%;
+    min-height: 6vh;
+    margin-top: 5px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}

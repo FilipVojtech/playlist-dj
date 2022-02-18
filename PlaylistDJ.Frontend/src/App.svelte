@@ -6,7 +6,8 @@
     import { showNav, user } from './Utility/stores'
     import './Utility/i18n'
     import { isLoading } from 'svelte-i18n'
-    import { LoaderIcon } from 'svelte-feather-icons'
+    import { closeAllModals, Modals } from 'svelte-modals'
+    import { fade } from 'svelte/transition'
 
     const generalRoutes = {
         '/playlist/:id': Playlist,
@@ -36,12 +37,16 @@
         <div class='main-content'>
             <Router {routes} />
         </div>
-        <!--{#if !$user}-->
-        <!--todo: Footer-->
-        <!--{/if}-->
         {#if $showNav && $user}
             <Navigation />
         {/if}
+        <Modals>
+            <div
+                class='backdrop'
+                on:click={closeAllModals}
+                slot='backdrop'
+                transition:fade></div>
+        </Modals>
     {:else }
         <div class='loader'>
             <LoaderIcon size='100' />
@@ -56,19 +61,13 @@
         max-width: 100vw;
         padding: 0 10px;
     }
-
-    .loader {
-        animation: rotate 3s linear infinite;
-    }
-
-    @keyframes rotate {
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
-        }
+    .backdrop {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.50)
     }
 
     @media (min-width: 640px) {
