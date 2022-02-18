@@ -9,6 +9,7 @@
     "resolveJsonModule": true,
     "noImplicitAny": true,
     "noImplicitOverride": true,
+    "inlineSourceMap": true,
     "outDir": "./dist",
     "rootDir": "./src"
   },
