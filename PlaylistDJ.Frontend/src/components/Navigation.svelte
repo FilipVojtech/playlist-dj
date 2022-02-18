@@ -1,6 +1,6 @@
 <script lang='ts' xmlns='http://www.w3.org/1999/html'>
     import { ChevronDownIcon, HexagonIcon, HomeIcon, ListIcon, PlusCircleIcon } from 'svelte-feather-icons'
-    import { PinIcon } from './'
+    import PinIcon from './PinIcon.svelte'
     import { link } from 'svelte-spa-router'
     import { _ } from 'svelte-i18n'
     import { fly } from 'svelte/transition'
@@ -93,7 +93,7 @@
                 <div class='secondary__item secondary__pinned'>
                     {#each playlists as { src, name, id }}
                         <a href='/playlist/{id}' use:link class='playlist'>
-                            <img {src} class='playlist__image' />
+                            <img {src} class='playlist__image' alt='{name} playlist icon'/>
                             <p class='playlist__name'>{name}</p>
                         </a>
                     {/each}
@@ -104,12 +104,12 @@
 </main>
 
 <style>
-    .handle {
-        border: 2px solid gray;
-        width: 30px;
-        margin: 0 auto 3px;
-        border-radius: 25px;
-    }
+    /*.handle {*/
+    /*    border: 2px solid gray;*/
+    /*    width: 30px;*/
+    /*    margin: 0 auto 3px;*/
+    /*    border-radius: 25px;*/
+    /*}*/
 
     .nav__wrapper {
         position: absolute;

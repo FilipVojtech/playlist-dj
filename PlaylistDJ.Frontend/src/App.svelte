@@ -48,7 +48,9 @@
                 transition:fade></div>
         </Modals>
     {:else }
-        <p>Loading...</p>
+        <div class='loader'>
+            <LoaderIcon size='100' />
+        </div>
     {/if}
 </main>
 
@@ -59,7 +61,6 @@
         max-width: 100vw;
         padding: 0 10px;
     }
-
     .backdrop {
         position: fixed;
         top: 0;
