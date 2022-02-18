@@ -8,6 +8,7 @@
     import { isLoading } from 'svelte-i18n'
     import { closeAllModals, Modals } from 'svelte-modals'
     import { fade } from 'svelte/transition'
+    import { LoaderIcon } from 'svelte-feather-icons'
 
     const generalRoutes = {
         '/playlist/:id': Playlist,
@@ -61,6 +62,21 @@
         max-width: 100vw;
         padding: 0 10px;
     }
+
+    .loader {
+        animation: rotate 3s linear infinite;
+    }
+
+    @keyframes rotate {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
     .backdrop {
         position: fixed;
         top: 0;
