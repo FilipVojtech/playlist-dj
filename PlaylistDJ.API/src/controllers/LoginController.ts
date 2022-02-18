@@ -28,12 +28,6 @@ router.get('/', (req: Request, res: Response) => {
 
 /**
  * User is redirected here if they grant permission to use their data
- *
- * Save the code from query
- * Request token
- * Request their user profile data from Spotify
- * Save token and data to DB
- * Redirect them back to the home page
  */
 router.get('/callback', async (req: Request, res: Response) => {
     if (!req.query.error) {
