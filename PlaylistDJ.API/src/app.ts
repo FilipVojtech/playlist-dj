@@ -9,7 +9,7 @@ import dotenv from 'dotenv'
 import { apiController, loginController } from './controllers'
 import { Profile, User } from './entities'
 import config from './mikro-orm.config'
-import { CookieTypes } from './Utility'
+import { CookieTypes } from './Classes'
 import { Request } from './global'
 // @ts-ignore
 import connect_mongodb_session from 'connect-mongodb-session'
