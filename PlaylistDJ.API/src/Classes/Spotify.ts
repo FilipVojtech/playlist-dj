@@ -45,9 +45,9 @@ export async function requestToken(code: string): Promise<Token> {
 /**
  * Request refreshed token
  */
-async function renewToken(user: User) {
-    if (user.token.expiration.valueOf() > new Date().valueOf()) return
-    user = (await DI.userRepository.findOne({ id: user.id })) as User
+export async function renewToken(user: User): Promise<Token> {
+    if (user.token.expiration.valueOf() > new Date().valueOf()) return user.token
+    user = (await DI.userRepository.findOne({ profile: { spotifyId: user.profile.spotifyId } })) as User
 
     await got(`${accUrl}/api/token`, {
         method: 'post',
@@ -70,17 +70,19 @@ async function renewToken(user: User) {
         })
         .catch(e => console.error(e))
     await DI.userRepository.flush()
+    return user.token
 }
 
 /**
  * Spotify API endpoints
  */
-export const endpoint = {
-    /**
-     * Get detailed profile information about the current user (including the current user username).
-     */
-    async me(user: User): Promise<Profile | null> {
-        await renewToken(user)
+export function endpoint(user: User) {
+    return {
+         /**
+         * @returns Detailed profile information about the current user (including the current user username).
+         */
+        async me(): Promise<Profile | null> {
+            await renewToken(user)
         return await got(`${apiUrl}/me`, {
                 method: 'GET',
                 headers: {
@@ -94,7 +96,7 @@ export const endpoint = {
             ?? null
     },
 
-    async getOwnedPlaylists(user: User) {
+        async getOwnedPlaylists() {
         await renewToken(user)
         return await got(`${apiUrl}/me/playlists`, {
             method: 'GET',
@@ -106,4 +108,5 @@ export const endpoint = {
             .then(data => JSON.parse(data.body))
             .catch(e => console.error(e))
     },
+    }
 }

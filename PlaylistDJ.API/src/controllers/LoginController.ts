@@ -1,7 +1,7 @@
 import express, { Response } from 'express'
 import { stringify } from 'querystring'
 import { Profile, User } from '../entities'
-import { endpoint, generateRandomString, requestToken } from '../Utility'
+import { endpoint, generateRandomString, requestToken } from '../Classes'
 import { DI } from '../app'
 import { Request } from '../global'
 
@@ -36,7 +36,7 @@ router.get('/callback', async (req: Request, res: Response) => {
             const user = new User(code)
 
             user.token = await requestToken(code)
-            user.profile = await endpoint.me(user) as Profile
+            user.profile = await endpoint(user).me() as Profile
 
             let userFromDb = await DI.userRepository.findOne({ profile: { spotifyId: user.profile.spotifyId } })
 

@@ -1,8 +1,14 @@
 import express, { Response } from 'express'
 import { userController } from './Endpoints'
 import { Request } from '../global'
+import { renewToken } from '../Classes'
 
 const router = express.Router()
+
+router.all('*', async (req: Request, res: Response, next) => {
+    req.session.user!.token = await renewToken(req.session.user as User)
+    next()
+})
 
 /**
  * Return API status
