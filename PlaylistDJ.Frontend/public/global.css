@@ -81,14 +81,14 @@ a {
 
 .modal {
     position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
+    top: 50vh;
+    right: 50vw;
+    transform: translate(50%, -50%);
     display: flex;
     justify-content: center;
     align-items: center;
     pointer-events: none;
+    max-width: 100vw;
 }
 
 .modal__contents {
@@ -98,7 +98,6 @@ a {
     background: var(--main-bg);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     pointer-events: auto;
 }
 
