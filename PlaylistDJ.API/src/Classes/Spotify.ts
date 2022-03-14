@@ -77,36 +77,27 @@ export async function renewToken(user: User): Promise<Token> {
  * Spotify API endpoints
  */
 export function endpoint(user: User) {
+    const headers = {
+        Authorization: `Bearer ${user.token.value}`,
+        'Content-Type': 'application/json',
+    }
+
     return {
          /**
          * @returns Detailed profile information about the current user (including the current user username).
          */
         async me(): Promise<Profile | null> {
-            await renewToken(user)
-        return await got(`${apiUrl}/me`, {
-                method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${user.token.value}`,
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(value => JSON.parse(value.body))
-                .then(body => Profile.fromBody(body))
+            return await got(`${apiUrl}/me`, { headers })
+                    .then(value => JSON.parse(value.body))
+                    .then(body => Profile.fromBody(body))
                 .catch(e => console.error(e))
             ?? null
     },
 
         async getOwnedPlaylists() {
-        await renewToken(user)
-        return await got(`${apiUrl}/me/playlists`, {
-            method: 'GET',
-            headers: {
-                Authorization: `Bearer ${user.token.value}`,
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(data => JSON.parse(data.body))
-            .catch(e => console.error(e))
+            return await got(`${apiUrl}/me/playlists`, { headers })
+                .then(data => JSON.parse(data.body))
+                .catch(e => console.error(e))
     },
     }
 }
