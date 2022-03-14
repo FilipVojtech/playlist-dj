@@ -70,7 +70,15 @@
         bottom: 0;
         right: 0;
         left: 0;
-        background: rgba(0, 0, 0, 0.50)
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+        .backdrop {
+            background-color: rgba(0, 0, 0, .8);
+        }
     }
 
     @media (min-width: 640px) {
