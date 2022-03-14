@@ -59,10 +59,11 @@ cd PlaylistDJ.API && yarn run start
 
 # Folder structure
 
-Root directory contains the two parts of the service
+Root directory contains various parts of the service
 
 - `PlaylistDJ.API` is a backend code
 - `PlaylistDJ.Frontend` contains the frontend code
+- `PlaylistDJ.Types` for type definitions used in multiple places
 
 # Creating pull requests
 
