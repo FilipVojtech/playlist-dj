@@ -1,4 +1,4 @@
-<script>
+<script lang='ts'>
     import { push } from 'svelte-spa-router'
     import { SettingsIcon } from 'svelte-feather-icons'
     import { getCookies } from '../Utility'
