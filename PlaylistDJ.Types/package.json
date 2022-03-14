@@ -2,7 +2,7 @@
   "name": "@playlist-dj/types",
   "version": "0.0.1",
   "private": true,
-  "main": "dist/index.js",
+  "main": "index.js",
   "author": {
     "name": "Filip Vojtěch",
     "email": "filip@aprex.cz"
