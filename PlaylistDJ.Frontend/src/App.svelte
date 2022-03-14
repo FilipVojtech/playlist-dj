@@ -64,20 +64,6 @@
         padding: 0 10px;
     }
 
-    .loader {
-        animation: rotate 3s linear infinite;
-    }
-
-    @keyframes rotate {
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
-        }
-    }
-
     .backdrop {
         position: fixed;
         top: 0;
