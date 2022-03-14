@@ -2,6 +2,8 @@ import express, { Response } from 'express'
 import { userController } from './Endpoints'
 import { Request } from '../global'
 import { Spotify } from '@playlist-dj/types'
+import { DI } from '../app'
+import { User } from '../entities'
 import { endpoint, renewToken } from '../Classes'
 
 const router = express.Router()
@@ -58,7 +60,9 @@ router.get('/search', async (req: Request, res: Response) => {
  * Debug route
  */
 if (!process.env.PRODUCTION) {
-    router.get('/debug', (req: Request, res: Response) => {
+    router.get('/debug', async (req: Request, res: Response) => {
+        req.session.user = await DI.userRepository.findOne({ profile: { email: 'YOU MAIL HERE' } }) as User
+        res.sendStatus(200)
     })
 }
 
