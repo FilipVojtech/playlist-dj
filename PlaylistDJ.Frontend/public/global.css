@@ -21,7 +21,7 @@ body {
 }
 
 h1 {
-    font-size: 28px;
+    font-size: 26px;
 }
 
 a {
@@ -71,6 +71,25 @@ a {
 
 .item__icon {
     margin-right: 10px;
+}
+
+.filter {
+    display: flex;
+    margin: 5px 0;
+    user-select: none;
+    cursor: pointer;
+}
+
+.filter__img {
+    border-radius: 20px;
+    margin-right: 10px;
+    width: 56px;
+    height: 56px;
+}
+
+.filter__info {
+    display: flex;
+    flex-direction: column;
 }
 
 .form {
