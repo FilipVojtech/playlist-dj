@@ -5,31 +5,24 @@
     import { Header } from '../../components'
     import { ChevronLeftIcon } from 'svelte-feather-icons'
     import { push } from 'svelte-spa-router'
+    import aport from '../../Utility/Aport'
 
     let communicationSettings
 
     onMount(async () => {
         $showNav = false
-        communicationSettings = await fetch('/api/user/communication')
-            .then(value => {
-                if (value.status === 403) window.location.replace('/logout')
-                return value
-            })
+        communicationSettings = await aport('/api/user/communication')
             .then(value => value.json())
     })
     onDestroy(() => $showNav = true)
 
     const onSubmit = e =>
-        fetch('/api/user/communication', {
+        aport('/api/user/communication', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(communicationSettings),
         })
-            .then(value => {
-                if (value.status === 403)
-                    window.location.replace('/logout')
-                return value.json()
-            })
+            .then(value => value.json())
             .catch(reason => console.error(reason))
 </script>
 

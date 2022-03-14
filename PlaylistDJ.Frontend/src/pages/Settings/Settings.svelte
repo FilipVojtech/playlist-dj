@@ -1,6 +1,6 @@
 <script lang='ts'>
     import { Header, LanguagePicker, ListItem } from '../../components'
-    import { BellIcon, ChevronLeftIcon, LogOutIcon } from 'svelte-feather-icons'
+    import { BellIcon, ChevronLeftIcon, LogOutIcon, UserIcon } from 'svelte-feather-icons'
     import { push } from 'svelte-spa-router'
     import { onDestroy, onMount } from 'svelte'
     import { showNav } from '../../Utility/stores'
@@ -16,8 +16,10 @@
 <main class='options'>
     <Header iconBefore={ChevronLeftIcon} onClickBefore={() => push('/')} text={$_('page.settings.title')} />
     <div class='options__list'>
-        <!--        <ListItem href='/settings/account' icon={LockIcon} text={$_('page.settings.account.title')} />-->
-        <!--        <ListItem href='/settings/profile' icon={UserIcon} text={$_('page.settings.profile.title')} />-->
+        <!--App - Start app on screen-->
+        <!--Display name, show account info, delete account:-->
+        <ListItem href='/settings/account' icon={UserIcon} text={$_('page.settings.account.title')} />
+        <!--Legal - Legal documents and other stuff-->
         <ListItem href='/settings/notifications' icon={BellIcon} text={$_('page.settings.communication.title')} />
         <LanguagePicker />
     </div>
