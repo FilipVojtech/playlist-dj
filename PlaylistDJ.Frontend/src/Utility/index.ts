@@ -1,3 +1,5 @@
+import type { Spotify } from '@playlist-dj/types'
+
 /**
  * Get cookies stored on the page
  * @returns
@@ -17,6 +19,13 @@ export function getCookies() {
         cookies[cookieKey] = cookieValue
     }
     return cookies
+}
+
+export function artistListFromArray(artists: Spotify.Artist[]): string {
+    let list = ''
+    for (const { name } of artists)
+        list += `${name}, `
+    return list.substring(0, list.length - 2)
 }
 
 interface Cookies {
