@@ -8,6 +8,26 @@ export function generateRandomString(length: number) {
     return string
 }
 
+function toCamel(s: string) {
+    return s.replace(/(_[a-z])/ig,
+        char => char
+            .toUpperCase()
+            .replace('_', ''))
+}
+
+export function snakeToCamelCase(object: { [key: string]: any } | string | []): object | string | [] | null {
+
+    if (object === null) return null
+    if (Array.isArray(object)) return object.map(i => snakeToCamelCase(i))
+    else if (typeof object === 'object') {
+        let n: { [key: string]: any } = {}
+        Object.keys(object).forEach(key => {
+            n[toCamel(key)] = snakeToCamelCase(object[key])
+        })
+        return n
+    } else return object
+}
+
 export enum CookieTypes {
     User = 'user',
     Session = 'connect.sid',
