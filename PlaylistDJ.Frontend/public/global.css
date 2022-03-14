@@ -46,13 +46,23 @@ a {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 15px 10px;
+    padding: 10px;
     margin: 10px 0;
-    line-height: 0;
     font-size: 18px;
+    width: -moz-available;
+    width: -webkit-fill-available;
 
     background-color: var(--lighter-bg);
     border-radius: 20px;
+}
+
+.item--interactive {
+    transition: 50ms;
+}
+
+.item--interactive:hover {
+    transition: 150ms;
+    background-color: var(--main-bg);
 }
 
 .item--warning {

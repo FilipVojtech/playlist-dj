@@ -23,7 +23,7 @@
     </div>
     <footer>
         <!--Log out button-->
-        <a class='item item--warning' href='/logout' style='padding: 10px 10px'>
+        <a class='item item--interactive item--warning' href='/logout' style='padding: 10px 10px'>
             <span class='item__icon'><svelte:component size='25' this='{LogOutIcon}' /></span>
             {$_('app.logout')}
         </a>
