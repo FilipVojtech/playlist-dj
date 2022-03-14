@@ -1,8 +1,8 @@
 import express, { Response } from 'express'
 import { userController } from './Endpoints'
 import { Request } from '../global'
-import { endpoint, renewToken } from '../Classes'
 import { Spotify } from '@playlist-dj/types'
+import { endpoint, renewToken } from '../Classes'
 
 const router = express.Router()
 
@@ -58,7 +58,8 @@ router.get('/search', async (req: Request, res: Response) => {
  * Debug route
  */
 if (!process.env.PRODUCTION) {
-    router.get('/debug', (req: Request, res: Response) => {})
+    router.get('/debug', (req: Request, res: Response) => {
+    })
 }
 
 export const apiController = router
