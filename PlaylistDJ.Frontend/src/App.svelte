@@ -19,6 +19,7 @@
     const loggedInRoutes = {
         '/': Home,
         '/playlists': PlaylistList,
+        '/playlist/:id/edit': Playlist,
         '/social': Social,
         '/settings': Settings,
         '/settings/account': Account,
