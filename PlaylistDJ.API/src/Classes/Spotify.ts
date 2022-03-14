@@ -1,6 +1,8 @@
 import got from 'got'
 import { DI } from '../app'
 import { Profile, Token, User } from '../entities'
+import { Spotify } from '@playlist-dj/types'
+import { snakeToCamelCase } from './index'
 
 const apiUrl = 'https://api.spotify.com/v1'
 const accUrl = 'https://accounts.spotify.com'
@@ -83,21 +85,52 @@ export function endpoint(user: User) {
     }
 
     return {
-         /**
+        /**
+         * Send request when already having an url
+         * @param url
+         */
+        async url(url: string) {
+            return await got(url, { headers })
+                .then(value => JSON.parse(value.body))
+                .catch(e => console.error(e))
+        },
+
+        /**
          * @returns Detailed profile information about the current user (including the current user username).
          */
         async me(): Promise<Profile | null> {
             return await got(`${apiUrl}/me`, { headers })
                     .then(value => JSON.parse(value.body))
                     .then(body => Profile.fromBody(body))
+                    .catch(e => console.error(e))
+                ?? null
+        },
+
+        /**
+         * Search on Spotify
+         * @param type Which categories to search in
+         * @param query Search phrase
+         * @param limit Limit results count
+         * @returns Search results
+         */
+        async search(type: 'artist' | 'album' | 'track' | string, query: string, limit = '10'): Promise<Spotify.SearchResults> {
+            const queryParams = new URLSearchParams({
+                q: query,
+                type,
+                limit,
+                market: user.profile.country,
+            })
+
+            return await got(`${apiUrl}/search?${queryParams.toString()}`, { headers })
+                .then(value => JSON.parse(value.body) as Spotify.SearchResults)
+                .then(value => snakeToCamelCase(value) as any)
                 .catch(e => console.error(e))
-            ?? null
-    },
+        },
 
         async getOwnedPlaylists() {
             return await got(`${apiUrl}/me/playlists`, { headers })
                 .then(data => JSON.parse(data.body))
                 .catch(e => console.error(e))
-    },
+        },
     }
 }
