@@ -1,7 +1,6 @@
 import express, { Response } from 'express'
-import { stringify } from 'querystring'
 import { Profile, User } from '../entities'
-import { endpoint, generateRandomString, requestToken } from '../Utility'
+import { endpoint, generateRandomString, requestToken } from '../Classes'
 import { DI } from '../app'
 import { Request } from '../global'
 
@@ -15,9 +14,9 @@ const spotifyAuthUrl = 'http://accounts.spotify.com/authorize'
 router.get('/', (req: Request, res: Response) => {
     req.session.spotifyState = generateRandomString(16)
 
-    const query = stringify({
+    const query = new URLSearchParams({
         response_type: 'code',
-        client_id: process.env.PDJ_CLIENT_ID,
+        client_id: process.env.PDJ_CLIENT_ID as string,
         scope: 'user-follow-modify ugc-image-upload user-library-modify playlist-modify-private playlist-modify-public user-read-email user-read-private',
         state: req.session.spotifyState,
         redirect_uri: 'http://localhost:3000/login/callback',
@@ -36,7 +35,7 @@ router.get('/callback', async (req: Request, res: Response) => {
             const user = new User(code)
 
             user.token = await requestToken(code)
-            user.profile = await endpoint.me(user) as Profile
+            user.profile = await endpoint(user).me() as Profile
 
             let userFromDb = await DI.userRepository.findOne({ profile: { spotifyId: user.profile.spotifyId } })
 

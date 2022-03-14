@@ -19,6 +19,7 @@
     const loggedInRoutes = {
         '/': Home,
         '/playlists': PlaylistList,
+        '/playlist/:id/edit': Playlist,
         '/social': Social,
         '/settings': Settings,
         '/settings/account': Account,
@@ -63,27 +64,21 @@
         padding: 0 10px;
     }
 
-    .loader {
-        animation: rotate 3s linear infinite;
-    }
-
-    @keyframes rotate {
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
-        }
-    }
-
     .backdrop {
         position: fixed;
         top: 0;
         bottom: 0;
         right: 0;
         left: 0;
-        background: rgba(0, 0, 0, 0.50)
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+        .backdrop {
+            background-color: rgba(0, 0, 0, .8);
+        }
     }
 
     @media (min-width: 640px) {

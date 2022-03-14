@@ -7,7 +7,7 @@
     export let icon: SvelteComponent
 </script>
 
-<a class='item' {href} use:link>
+<a class='item item--interactive' {href} use:link>
     <span class='item__icon'><svelte:component size='25' this='{icon}' /></span>
     {text}
 </a>
