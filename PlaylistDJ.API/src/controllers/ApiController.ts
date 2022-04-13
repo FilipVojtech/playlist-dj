@@ -21,6 +21,11 @@ router.get('/', (req: Request, res: Response) => {
 })
 
 /**
+ * Playlist paths
+ */
+router.use('/playlist', playlistController)
+
+/**
  * User paths
  */
 router.use('/user', userController)
