@@ -7,7 +7,7 @@ import { MikroORM, RequestContext } from '@mikro-orm/core'
 import { EntityManager, EntityRepository } from '@mikro-orm/mongodb'
 import dotenv from 'dotenv'
 import { apiController, loginController } from './controllers'
-import { Profile, User } from './entities'
+import { Playlist, Profile, User } from './entities'
 import config from './mikro-orm.config'
 import { CookieTypes } from './Classes'
 import { Request } from './global'
@@ -34,6 +34,7 @@ export const DI = {} as {
         em: EntityManager
         userRepository: EntityRepository<User>
         profileRepository: EntityRepository<Profile>
+        playlistRepository: EntityRepository<Playlist>
     }
 
 // Bootstrap the app
@@ -61,6 +62,7 @@ export const DI = {} as {
     DI.em = DI.orm.em as EntityManager
     DI.userRepository = DI.orm.em.getRepository(User) as EntityRepository<User>
     DI.profileRepository = DI.orm.em.getRepository(Profile) as EntityRepository<Profile>
+    DI.playlistRepository = DI.orm.em.getRepository(Playlist) as EntityRepository<Playlist>
 
     app.use('/api', apiController)
     app.use('/login', loginController)
