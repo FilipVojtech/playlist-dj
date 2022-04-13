@@ -1,18 +1,9 @@
-import express, { NextFunction, Response } from 'express'
+import express, { Response } from 'express'
 import { Request } from '../../global'
 import { wrap } from '@mikro-orm/core'
 import { DI } from '../../app'
 
 const router = express.Router()
-
-router.all('*', (req: Request, res: Response, next: NextFunction) => {
-    if (!req.session.user) res.sendStatus(403)
-    else next()
-})
-
-router.get('/', (req: Request, res: Response) => {
-    res.sendStatus(200)
-})
 
 router.route('/account')
     .get((req: Request, res: Response) => {
