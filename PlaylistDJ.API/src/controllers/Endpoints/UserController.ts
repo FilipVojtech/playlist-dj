@@ -1,18 +1,9 @@
-import express, { NextFunction, Response } from 'express'
+import express, { Response } from 'express'
 import { Request } from '../../global'
 import { wrap } from '@mikro-orm/core'
 import { DI } from '../../app'
 
 const router = express.Router()
-
-router.all('*', (req: Request, res: Response, next: NextFunction) => {
-    if (!req.session.user) res.sendStatus(403)
-    else next()
-})
-
-router.get('/', (req: Request, res: Response) => {
-    res.sendStatus(200)
-})
 
 router.route('/account')
     .get((req: Request, res: Response) => {
@@ -23,9 +14,14 @@ router.route('/account')
         //todo: Post account
         res.sendStatus(501)
     })
-    .delete((req: Request, res: Response) => {
-        // todo: Delete account
-        res.sendStatus(501)
+    .delete(async (req: Request, res: Response) => {
+        res.sendStatus(200)
+        // Remove user content
+        for (let playlist of await DI.playlistRepository.find({ owner: req.session.user!._id.toString() }))
+            await DI.playlistRepository.removeAndFlush(playlist)
+        //Lastly, remove user
+        await DI.userRepository.nativeDelete({ _id: req.session.user!._id })
+        await DI.userRepository.flush()
     })
 
 router.route('/profile')

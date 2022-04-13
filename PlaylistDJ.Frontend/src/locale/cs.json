@@ -36,7 +36,18 @@
     "settings": {
       "title": "Nastavení",
       "account": {
-        "title": "Účet"
+        "title": "Účet",
+        "deleteAccount": {
+          "delete": "Odstranit účet",
+          "modal": {
+            "title2": "Jste si jistí?",
+            "title3": "Odstranění účtu",
+            "message1": "Chcete odstranit svůj účet?",
+            "message2": "Tuto akci nelze vzít zpět",
+            "message3": "Váš účet a všechna data s ním spojená byla odstraněna. Za okamžik budete přesměrováni.",
+            "action": "Smazat můj účet"
+          }
+        }
       },
       "profile": {
         "title": "Profil"

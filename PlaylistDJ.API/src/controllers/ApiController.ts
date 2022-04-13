@@ -1,5 +1,5 @@
 import express, { Response } from 'express'
-import { userController } from './Endpoints'
+import { playlistController, userController } from './Endpoints'
 import { Request } from '../global'
 import { Spotify } from '@playlist-dj/types'
 import { DI } from '../app'
@@ -7,6 +7,21 @@ import { User } from '../entities'
 import { endpoint, renewToken } from '../Classes'
 
 const router = express.Router()
+
+/**
+ * Debug route
+ */
+if (!process.env.PRODUCTION) {
+    router.get('/debug', async (req: Request, res: Response) => {
+        req.session.user = await DI.userRepository.findOne({ profile: { email: 'filip@aprex.cz' } }) as User
+        res.sendStatus(200)
+    })
+
+    router.get('/pl', async (req: Request, res: Response) => {
+        req.session.user!.token = await renewToken(req.session.user!)
+        res.json(await endpoint(req.session.user!).playlistTracks('7I4ZS5hvy6yyS9FqVa2Kyq'))
+    })
+}
 
 /**
  * Return API status
@@ -37,14 +52,11 @@ router.use('/user', userController)
  * @returns {Spotify.SearchResults} Search results from Spotify
  */
 router.get('/search', async (req: Request, res: Response) => {
-    if (!req.session.user) {
-        res.sendStatus(403)
-        return
-    } else req.session.user.token = await renewToken(req.session.user)
+    req.session.user!.token = await renewToken(req.session.user!)
 
     // Search through param is present
     if (req.query.url) {
-        res.json(await endpoint(req.session.user).url(req.query.url as string))
+        res.json(await endpoint(req.session.user!).url(req.query.url as string))
         return
     }
 
@@ -58,17 +70,7 @@ router.get('/search', async (req: Request, res: Response) => {
     if (typeof req.query.type !== 'string' && !(req.query.type === 'artist' || req.query.type === 'album' || req.query.type === 'track')) res.sendStatus(400)
     else if (!req.query.q || typeof req.query.q !== 'string') res.sendStatus(400)
     else if (typeof req.query.limit !== 'string') req.query.limit.toString()
-    else res.json(await endpoint(req.session.user).search(req.query.type, req.query.q, req.query.limit))
+    else res.json(await endpoint(req.session.user!).search(req.query.type, req.query.q, req.query.limit))
 })
-
-/**
- * Debug route
- */
-if (!process.env.PRODUCTION) {
-    router.get('/debug', async (req: Request, res: Response) => {
-        req.session.user = await DI.userRepository.findOne({ profile: { email: 'YOU MAIL HERE' } }) as User
-        res.sendStatus(200)
-    })
-}
 
 export const apiController = router
