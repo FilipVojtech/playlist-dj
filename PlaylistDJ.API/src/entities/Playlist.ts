@@ -24,7 +24,7 @@ export class Playlist extends BaseEntity {
     @Property()
     isPublic: boolean = true
 
-    @ManyToOne()
+    @ManyToOne(() => User)
     owner!: User
 
     @Property()
