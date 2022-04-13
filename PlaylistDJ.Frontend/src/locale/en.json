@@ -36,7 +36,18 @@
     "settings": {
       "title": "Settings",
       "account": {
-        "title": "Account"
+        "title": "Account",
+        "deleteAccount": {
+          "delete": "Delete account",
+          "modal": {
+            "title2": "Are you sure?",
+            "title3": "Account deletion",
+            "message1": "Do you want to delete your account?",
+            "message2": "This action cannot be undone",
+            "message3": "Your account and all data associated with it has been deleted. You will be redirected in a moment.",
+            "action": "Delete my account"
+          }
+        }
       },
       "profile": {
         "title": "Profile"
