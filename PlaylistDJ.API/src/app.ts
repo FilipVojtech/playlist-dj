@@ -20,8 +20,8 @@ dotenv.config()
 // Set up MongoDB session store
 const MongoDBStore = connect_mongodb_session(session)
 const store = new MongoDBStore({
-    uri: 'mongodb://127.0.0.1:27017/',
-    databaseName: 'playlist-dj',
+    uri: process.env.DB_STRING,
+    databaseName: 'playlistdj',
     collection: 'session',
 })
 

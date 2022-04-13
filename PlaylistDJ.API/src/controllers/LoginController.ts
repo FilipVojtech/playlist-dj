@@ -17,9 +17,9 @@ router.get('/', (req: Request, res: Response) => {
     const query = new URLSearchParams({
         response_type: 'code',
         client_id: process.env.PDJ_CLIENT_ID as string,
-        scope: 'user-follow-modify ugc-image-upload user-library-modify playlist-modify-private playlist-modify-public user-read-email user-read-private',
+        scope: 'user-follow-modify ugc-image-upload user-library-modify playlist-read-private playlist-modify-private playlist-modify-public user-read-email user-read-private',
         state: req.session.spotifyState,
-        redirect_uri: 'http://localhost:3000/login/callback',
+        redirect_uri: `${process.env.REDIRECT_URI}/login/callback`,
     })
 
     res.redirect(`${spotifyAuthUrl}?${query}`)
