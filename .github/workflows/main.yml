@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     name: Build website
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -23,26 +23,14 @@ jobs:
           cd ..
       - name: Build API
         run: |
-          cd PlaylistDJ.Frontend.API
+          cd PlaylistDJ.API
           yarn build
           cd ..
-      - name: Upload artifact
-        uses: actions/save-artifact@v3
-        with:
-          name: main-website-build
-
-  deploy:
-    name: Deploy website
-    needs:
-      - build
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: main-website-artifact
+          ls -a
       - name: Upload files
-        uses: sebastianpopp/ftp-action@v2
+        uses: sebastianpopp/ftp-action@releases/v2
         with:
-          host: 'playlistdj.creativniprojekty.cz'
-          user: ${{ secrets.ftp_user }}
-          password: ${{ secrets.ftp_password }}
+          host: ${{ secrets.FTP_HOST }}
+          user: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          options: '--verbose -P'
