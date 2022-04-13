@@ -5,4 +5,4 @@ export const showNav = writable(true)
 
 export const user = readable(getCookies().user)
 
-export const searchResult = writable('')
+export const searchResult = writable({} as { id: string, type: '' | 'artist' | 'album' | 'track' })
