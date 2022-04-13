@@ -127,8 +127,64 @@ export function endpoint(user: User) {
                 .catch(e => console.error(e))
         },
 
-        async getOwnedPlaylists() {
-            return await got(`${apiUrl}/me/playlists`, { headers })
+        /**
+         * Get current users owned playlists
+         */
+        async ownedPlaylists(): Promise<[{}]> {
+            const query = new URLSearchParams({ limit: '50' }).toString()
+            return await got(`${apiUrl}/me/playlists?${query}`, { headers })
+                .then(data => JSON.parse(data.body))
+                .then(data => data.items.filter((value: any) => value.owner.id === user.profile.spotifyId))
+                .catch(e => console.error(e))
+        },
+
+        /**
+         * Get info about playlist
+         * @param playlistId
+         */
+        async playlistInfo(playlistId: string): Promise<[{}]> {
+            return await got(`${apiUrl}/playlists/${playlistId}`, { headers })
+                .then(res => JSON.parse(res.body))
+                .catch(e => console.error(e))
+
+        },
+
+        /**
+         * Get playlists' tracks
+         * @param playlistId
+         */
+        async playlistTracks(playlistId: string): Promise<[{}]> {
+            return await got(`${apiUrl}/playlists/${playlistId}/tracks`, { headers })
+                .then(res => JSON.parse(res.body))
+                .catch(e => console.error(e))
+        },
+
+        /**
+         * Information about an album
+         * @param id - Album ID
+         */
+        async album(id: string) {
+            return await got(`${apiUrl}/albums/${id}`, { headers })
+                .then(data => JSON.parse(data.body))
+                .catch(e => console.error(e))
+        },
+
+        /**
+         * Information about an artist
+         * @param id - Artist ID
+         */
+        async artistInfo(id: string) {
+            return await got(`${apiUrl}/artists/${id}`, { headers })
+                .then(data => JSON.parse(data.body))
+                .catch(e => console.error(e))
+        },
+
+        /**
+         * Artists albums
+         * @param id - Artist ID
+         */
+        async artistAlbums(id: string) {
+            return await got(`${apiUrl}/artists/${id}/albums`, { headers })
                 .then(data => JSON.parse(data.body))
                 .catch(e => console.error(e))
         },
