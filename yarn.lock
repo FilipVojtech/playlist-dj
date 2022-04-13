@@ -74,19 +74,19 @@
   dependencies:
     tslib "^2.1.0"
 
-"@mikro-orm/cli@5.0.5":
-  version "5.0.5"
-  resolved "https://registry.yarnpkg.com/@mikro-orm/cli/-/cli-5.0.5.tgz#016b3f589b2794e17df0f35193c4bf1da0f3dc38"
-  integrity sha512-Y/UyUKxoX6K/pChWLMAS9X4RIf647ycWuydJd8zhSoXIfkV/5Ut25Tx9yBIywamzCwFmbpTslVxzQmz9YZmItQ==
+"@mikro-orm/cli@^5.0.5":
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@mikro-orm/cli/-/cli-5.1.2.tgz#7afd81abf74902e98e68018e40bf8d42f2981bd8"
+  integrity sha512-mXl8n0BHZZu4iw3sFSjp7vvL8CyoATQBXFQCxwcsoyKhVSeOYm+RJd4acUIkBuJx94LQp97A4xtD5xsacMEuZg==
   dependencies:
-    "@mikro-orm/core" "^5.0.5"
-    "@mikro-orm/knex" "^5.0.5"
+    "@mikro-orm/core" "^5.1.2"
+    "@mikro-orm/knex" "^5.1.2"
     fs-extra "10.0.1"
-    tsconfig-paths "3.12.0"
+    tsconfig-paths "3.14.1"
     yargonaut "1.1.4"
     yargs "15.4.1"
 
-"@mikro-orm/core@^5.0.5":
+"@mikro-orm/core@^5.0.5", "@mikro-orm/core@^5.1.2":
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/@mikro-orm/core/-/core-5.1.2.tgz#61da73d820cf087aea8ed6466e8279ad0c02512e"
   integrity sha512-RGIB4sKkJp9xoqUZTBAttDb6BZ+iidY3zX/N6dowUkYXbCnr/vd4pvDrfzef1ysZooI4kOhZ2wUl5yyy9/GDqQ==
@@ -98,7 +98,7 @@
     mikro-orm "^5.1.2"
     reflect-metadata "0.1.13"
 
-"@mikro-orm/knex@^5.0.5":
+"@mikro-orm/knex@^5.1.2":
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/@mikro-orm/knex/-/knex-5.1.2.tgz#0fb88e3c187718022157e93edc32fd4e173c7666"
   integrity sha512-GHvl123Ykh/9QKwlBdgpqt2OIHPkGFyQOJiTyBdmFQMLBBUd3uMvTrTMFGd9LfhrLztTFDyzYkEcnvQbC34UBQ==
@@ -2876,14 +2876,14 @@ ts-node@^10.2.1:
     v8-compile-cache-lib "^3.0.0"
     yn "3.1.1"
 
-tsconfig-paths@3.12.0:
-  version "3.12.0"
-  resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-3.12.0.tgz#19769aca6ee8f6a1a341e38c8fa45dd9fb18899b"
-  integrity sha512-e5adrnOYT6zqVnWqZu7i/BQ3BnhzvGbjEjejFXO20lKIKpwTaupkCPgEfv4GZK1IBciJUEhYs3J3p75FdaTFVg==
+tsconfig-paths@3.14.1:
+  version "3.14.1"
+  resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-3.14.1.tgz#ba0734599e8ea36c862798e920bcf163277b137a"
+  integrity sha512-fxDhWnFSLt3VuTwtvJt5fpwxBHg5AdKWMsgcPOOIilyjymcYVZoCQF8fvFRezCNfblEXmi+PcM1eYHeOAgXCOQ==
   dependencies:
     "@types/json5" "^0.0.29"
     json5 "^1.0.1"
-    minimist "^1.2.0"
+    minimist "^1.2.6"
     strip-bom "^3.0.0"
 
 tslib@^1.9.0:

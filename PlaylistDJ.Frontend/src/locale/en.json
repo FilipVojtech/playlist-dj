@@ -21,7 +21,14 @@
       "greeting": "Welcome {user}!"
     },
     "social": {
-      "title": "Social"
+      "title": "Social",
+      "create": {
+        "title": "Create a post",
+        "post": "Post",
+        "nothingFound": "No playlists found",
+        "cantLoad": "Couldn't fetch playlists",
+        "whatsUp": "What's poppin'?"
+      }
     },
     "playlistList": {
       "title": "Playlists",

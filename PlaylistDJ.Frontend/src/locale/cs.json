@@ -21,7 +21,14 @@
       "greeting": "Vítej {user}!"
     },
     "social": {
-      "title": "Síť"
+      "title": "Síť",
+      "create": {
+        "title": "Vytvořit příspěvek",
+        "post": "Zveřejnit",
+        "nothingFound": "Nebyly nalezeny žádné playlisty",
+        "cantLoad": "Nelze načíst playlisty",
+        "whatsUp": "Jak to jde?"
+      }
     },
     "playlistList": {
       "title": "Playlisty",

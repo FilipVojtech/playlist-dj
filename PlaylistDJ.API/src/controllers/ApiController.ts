@@ -13,13 +13,8 @@ const router = express.Router()
  */
 if (!process.env.PRODUCTION) {
     router.get('/debug', async (req: Request, res: Response) => {
-        req.session.user = await DI.userRepository.findOne({ profile: { email: 'filip@aprex.cz' } }) as User
+        req.session.user = await DI.userRepository.findOne({ profile: { email: 'YOUR MAIL HERE' } }) as User
         res.sendStatus(200)
-    })
-
-    router.get('/pl', async (req: Request, res: Response) => {
-        req.session.user!.token = await renewToken(req.session.user!)
-        res.json(await endpoint(req.session.user!).playlistTracks('7I4ZS5hvy6yyS9FqVa2Kyq'))
     })
 }
 
@@ -33,6 +28,11 @@ router.get('/', (req: Request, res: Response) => {
             database: 'running',
         },
     })
+})
+
+router.all('*', (req: Request, res: Response, next) => {
+    if (!req.session.user) res.sendStatus(401)
+    else next()
 })
 
 /**
