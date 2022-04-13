@@ -4,6 +4,7 @@
     import { link } from 'svelte-spa-router'
     import { _ } from 'svelte-i18n'
     import { fly } from 'svelte/transition'
+    import aport from '../Utility/Aport'
 
     let active: string = window.location.hash
     let isOpen: boolean = false
@@ -80,10 +81,11 @@
             <!-- Visible if navigation open -->
             <div class='secondary' in:fly={{ y:200, duration: 300 }}>
                 <!-- Create playlist button -->
-                <a class='secondary__item secondary__add-playlist' href='/playlist/new' use:link>
+                <div class='secondary__item secondary__add-playlist'
+                     on:click={() => aport('/api/playlist', { method: 'POST' })}>
                     <span class='secondary__icon'><PlusCircleIcon size='30' /></span>
                     {$_('component.navigation.createPlaylist')}
-                </a>
+                </div>
                 <!-- Pinned playlist divider -->
                 <div class='secondary__item secondary__pin'>
                     <span class='secondary__icon pin-icon'><PinIcon /></span>
@@ -93,7 +95,7 @@
                 <div class='secondary__item secondary__pinned'>
                     {#each playlists as { src, name, id }}
                         <a href='/playlist/{id}' use:link class='playlist'>
-                            <img {src} class='playlist__image' alt='{name} playlist icon'/>
+                            <img {src} class='playlist__image' alt='{name} playlist icon' />
                             <p class='playlist__name'>{name}</p>
                         </a>
                     {/each}
@@ -180,6 +182,7 @@
 
     .secondary__add-playlist {
         text-transform: uppercase;
+        cursor: pointer;
     }
 
     .secondary__icon {

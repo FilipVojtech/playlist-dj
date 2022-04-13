@@ -92,6 +92,8 @@
     }
 
     .search-row {
+        position: sticky;
+        top: 0;
         display: flex;
         flex-direction: row;
         flex-basis: fit-content;
@@ -121,10 +123,5 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-    }
-
-    .loader {
-        width: 30px;
-        height: 30px;
     }
 </style>

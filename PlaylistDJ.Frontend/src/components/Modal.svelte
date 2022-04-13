@@ -12,7 +12,9 @@
     <div role='dialog' class='modal' transition:fade>
         <div class='modal__contents'>
             <div class='modal__title'>{title}</div>
-            <div class='modal__message'>{message}</div>
+            {#if message}
+                <div class='modal__message'>{message}</div>
+            {/if}
             <div class='modal__actions'>
                 {#each actions as { onClick, title }}
                     <button class='actions__button' on:click={onClick}>{title}</button>

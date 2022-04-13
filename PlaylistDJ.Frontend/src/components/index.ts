@@ -11,6 +11,10 @@ import FilterList from './FilterList.svelte'
 import AlbumList from './AlbumList.svelte'
 import ArtistList from './ArtistList.svelte'
 import TrackList from './TrackList.svelte'
+import FilterPlaceholder from './FilterPlaceholder.svelte'
+import ImportPlaylistModal from './ImportPlaylistModal.svelte'
+import ImportM3UFileModal from './ImportM3UFileModal.svelte'
+import PlaylistList from './PlaylistList.svelte'
 
 export {
     Navigation,
@@ -26,4 +30,8 @@ export {
     AlbumList,
     ArtistList,
     TrackList,
+    FilterPlaceholder,
+    ImportPlaylistModal,
+    ImportM3UFileModal,
+    PlaylistList,
 }

@@ -30,6 +30,8 @@ a {
 
 .loader {
     animation: rotate 3s linear infinite;
+    width: 30px;
+    height: 30px;
 }
 
 @keyframes rotate {
@@ -57,6 +59,7 @@ a {
 }
 
 .item--interactive {
+    cursor: pointer;
     transition: 50ms;
 }
 
@@ -128,6 +131,9 @@ a {
     display: flex;
     flex-direction: column;
     pointer-events: auto;
+    max-height: 90vh;
+    overflow: auto;
+    overscroll-behavior: auto contain;
 }
 
 .modal__title {
@@ -159,4 +165,9 @@ a {
     border: none;
     font-size: 16px;
     cursor: pointer;
+}
+
+.actions__button--inactive {
+    background-color: unset;
+    color: grey;
 }
