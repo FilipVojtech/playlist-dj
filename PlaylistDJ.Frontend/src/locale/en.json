@@ -8,7 +8,12 @@
       "long": "Log in with Spotify"
     },
     "logout": "Log out",
-    "back": "Back"
+    "back": "Back",
+    "ok": "Ok",
+    "yes": "Yes",
+    "no": "No",
+    "cancel": "Cancel",
+    "upload": "Upload"
   },
   "page": {
     "home": {
@@ -19,7 +24,11 @@
       "title": "Social"
     },
     "playlistList": {
-      "title": "Playlists"
+      "title": "Playlists",
+      "more": {
+        "importPlaylist": "Import Spotify playlist",
+        "importM3U": "Import m3u file"
+      }
     },
     "playlist": {
       "title": "Playlist"
@@ -47,6 +56,11 @@
           "product": "Product updates"
         }
       }
+    }
+  },
+  "modal": {
+    "importPlaylist": {
+      "title": "Choose a playlist..."
     }
   },
   "component": {

@@ -8,7 +8,12 @@
       "long": "Přihlásit se se Spotify"
     },
     "logout": "Odhlásit se",
-    "back": "Zpět"
+    "back": "Zpět",
+    "ok": "Ok",
+    "yes": "Ano",
+    "no": "Ne",
+    "cancel": "Zrušit",
+    "upload": "Nahrát"
   },
   "page": {
     "home": {
@@ -19,7 +24,11 @@
       "title": "Síť"
     },
     "playlistList": {
-      "title": "Playlisty"
+      "title": "Playlisty",
+      "more": {
+        "importPlaylist": "Nahrát playlist ze Spotify",
+        "importM3U": "Nahrát playlist z m3u souboru"
+      }
     },
     "playlist": {
       "title": "Playlist"
@@ -47,6 +56,11 @@
           "product": "Aktualizace a novinky"
         }
       }
+    }
+  },
+  "modal": {
+    "importPlaylist": {
+      "title": "Vyberte playlist..."
     }
   },
   "component": {
