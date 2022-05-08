@@ -4,6 +4,7 @@ import { Spotify } from '@playlist-dj/types'
 import { DI } from '../app'
 import { User } from '../entities'
 import { endpoint, renewToken } from '../Classes'
+import socialController from './SocialController'
 import playlistController from './PlaylistController'
 import userController from './UserController'
 
@@ -14,7 +15,7 @@ const router = express.Router()
  */
 if (!process.env.PRODUCTION) {
     router.get('/debug', async (req: Request, res: Response) => {
-        req.session.user = await DI.userRepository.findOne({ profile: { email: 'YOUR MAIL HERE' } }) as User
+        req.session.user = await DI.userRepository.findOne({ profile: { email: 'filip@aprex.cz' } }) as User
         res.sendStatus(200)
     })
 }
@@ -47,6 +48,11 @@ router.use('/playlist', playlistController)
 router.use('/user', userController)
 
 /**
+ * Social paths
+ */
+router.use('/social', socialController)
+
+/**
  * Search endpoint
  * @query {string} q - search term
  * @query {('artist' | 'album' | 'track') | string} type - Which category user wants to search in
@@ -74,4 +80,4 @@ router.get('/search', async (req: Request, res: Response) => {
     else res.json(await endpoint(req.session.user!).search(req.query.type, req.query.q, req.query.limit))
 })
 
-export const apiController = router
+export default router
