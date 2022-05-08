@@ -14,7 +14,7 @@ import { Request } from './global'
 // @ts-ignore
 import connect_mongodb_session from 'connect-mongodb-session'
 
-// Set up .env
+// Import environment variables
 dotenv.config()
 
 // Set up MongoDB session store
@@ -30,12 +30,12 @@ const app = express()
 
 // Define MikroORM types
 export const DI = {} as {
-        orm: MikroORM
-        em: EntityManager
-        userRepository: EntityRepository<User>
-        profileRepository: EntityRepository<Profile>
-        playlistRepository: EntityRepository<Playlist>
-    }
+    orm: MikroORM
+    em: EntityManager
+    userRepository: EntityRepository<User>
+    profileRepository: EntityRepository<Profile>
+    playlistRepository: EntityRepository<Playlist>
+}
 
 // Bootstrap the app
 ;(async () => {

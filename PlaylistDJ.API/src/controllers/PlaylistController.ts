@@ -1,8 +1,8 @@
 import { NextFunction, Response, Router } from 'express'
-import { Request } from '../../global'
-import { DI } from '../../app'
-import { endpoint, renewToken } from '../../Classes'
-import { Playlist } from '../../entities'
+import { Request } from '../global'
+import { DI } from '../app'
+import { endpoint, renewToken } from '../Classes'
+import { Playlist } from '../entities'
 
 const router = Router()
 
@@ -57,4 +57,4 @@ router.route('/:id')
         res.sendStatus(501)
     })
 
-export const playlistController = router
+export default router

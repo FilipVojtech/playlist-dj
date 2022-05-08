@@ -1,10 +1,11 @@
 import express, { Response } from 'express'
-import { playlistController, userController } from './Endpoints'
 import { Request } from '../global'
 import { Spotify } from '@playlist-dj/types'
 import { DI } from '../app'
 import { User } from '../entities'
 import { endpoint, renewToken } from '../Classes'
+import playlistController from './PlaylistController'
+import userController from './UserController'
 
 const router = express.Router()
 

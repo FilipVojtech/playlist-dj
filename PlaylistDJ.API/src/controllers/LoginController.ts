@@ -59,4 +59,4 @@ router.get('/callback', async (req: Request, res: Response) => {
     }
 })
 
-export const loginController = router
+export default router

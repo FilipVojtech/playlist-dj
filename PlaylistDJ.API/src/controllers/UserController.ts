@@ -1,7 +1,7 @@
 import express, { Response } from 'express'
-import { Request } from '../../global'
+import { Request } from '../global'
 import { wrap } from '@mikro-orm/core'
-import { DI } from '../../app'
+import { DI } from '../app'
 
 const router = express.Router()
 
@@ -45,4 +45,4 @@ router.route('/communication')
         res.json(req.session.user!.communication)
     })
 
-export const userController = router
+export default router
