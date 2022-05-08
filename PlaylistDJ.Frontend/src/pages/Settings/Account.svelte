@@ -1,12 +1,12 @@
 <script lang='ts'>
     import { onDestroy, onMount } from 'svelte'
     import { _ } from 'svelte-i18n'
-    import { showNav } from '../../Utility/stores'
+    import { showNav } from '../../utility/stores'
     import { Header, Modal, OkModal } from '../../components'
     import { ChevronLeftIcon, TrashIcon } from 'svelte-feather-icons'
     import { push } from 'svelte-spa-router'
     import { closeModals, openModal } from 'svelte-modals'
-    import aport from '../../Utility/Aport'
+    import aport from '../../utility/Aport'
 
     onMount(() => $showNav = false)
     onDestroy(() => $showNav = true)

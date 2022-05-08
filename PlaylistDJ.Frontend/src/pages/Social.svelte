@@ -4,7 +4,7 @@
     import { PlusSquareIcon, LoaderIcon } from 'svelte-feather-icons'
     import { openModal } from 'svelte-modals'
     import { onMount } from 'svelte'
-    import aport from '../Utility/Aport'
+    import aport from '../utility/Aport'
 
     let data = []
 

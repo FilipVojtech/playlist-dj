@@ -1,11 +1,11 @@
 <script lang='ts'>
     import { Header, SpotifySearchModal } from '../components'
     import { onDestroy, onMount } from 'svelte'
-    import { searchResult, showNav } from '../Utility/stores'
+    import { searchResult, showNav } from '../utility/stores'
     import { _ } from 'svelte-i18n'
     import { PlusCircleIcon } from 'svelte-feather-icons'
-    import aport from '../Utility/Aport'
-    import { getCookies } from '../Utility'
+    import aport from '../utility/Aport'
+    import { getCookies } from '../utility'
     import LoginWidget from '../components/widgets/LoginWidget.svelte'
     import { openModal } from 'svelte-modals'
 

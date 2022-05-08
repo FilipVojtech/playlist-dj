@@ -1,6 +1,6 @@
 <script lang='ts'>
     import { StarIcon } from 'svelte-feather-icons'
-    import { PlaylistList } from '../components'
+    import  PlaylistList  from './PlaylistList.svelte'
 
     export let id = ''
     export let name = ''

@@ -4,7 +4,7 @@
     import { link } from 'svelte-spa-router'
     import { _ } from 'svelte-i18n'
     import { fly } from 'svelte/transition'
-    import aport from '../Utility/Aport'
+    import aport from '../utility/Aport'
 
     let active: string = window.location.hash
     let isOpen: boolean = false

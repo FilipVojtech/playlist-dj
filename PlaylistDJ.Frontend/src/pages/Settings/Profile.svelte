@@ -1,7 +1,7 @@
 <script lang='ts'>
     import { onDestroy, onMount } from 'svelte'
     import { _ } from 'svelte-i18n'
-    import { showNav } from '../../Utility/stores'
+    import { showNav } from '../../utility/stores'
     import { Header } from '../../components'
     import { ChevronLeftIcon } from 'svelte-feather-icons'
     import { push } from 'svelte-spa-router'

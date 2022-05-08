@@ -1,7 +1,7 @@
 <script lang='ts'>
     import { fade } from 'svelte/transition'
     import { closeModal } from 'svelte-modals'
-    import aport from '../Utility/Aport'
+    import aport from '../utility/Aport'
     import { ListIcon, LoaderIcon, XOctagonIcon } from 'svelte-feather-icons'
     import { onMount } from 'svelte'
     import { _ } from 'svelte-i18n'

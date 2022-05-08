@@ -3,7 +3,7 @@
     import { fade } from 'svelte/transition'
     import { closeModal } from 'svelte-modals'
     import { Spotify } from '@playlist-dj/types'
-    import aport from '../Utility/Aport'
+    import aport from '../utility/Aport'
     import FilterList from './FilterList.svelte'
 
     export let isOpen: boolean

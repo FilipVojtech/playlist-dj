@@ -1,7 +1,7 @@
 import { NextFunction, Response, Router } from 'express'
 import { Request } from '../global'
 import { DI } from '../app'
-import { endpoint, renewToken } from '../Classes'
+import { endpoint, renewToken } from '../utility'
 import { Playlist } from '../entities'
 
 const router = Router()

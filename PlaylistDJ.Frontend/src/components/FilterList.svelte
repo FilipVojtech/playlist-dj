@@ -1,7 +1,7 @@
 <script lang='ts'>
     import { Spotify } from '@playlist-dj/types'
     import AlbumList from './AlbumList.svelte'
-    import aport from '../Utility/Aport'
+    import aport from '../utility/Aport'
     import TrackList from './TrackList.svelte'
     import ArtistList from './ArtistList.svelte'
 

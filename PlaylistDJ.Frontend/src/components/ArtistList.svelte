@@ -1,7 +1,7 @@
 <script lang='ts'>
     import type { Spotify } from '@playlist-dj/types'
     import { UserIcon } from 'svelte-feather-icons'
-    import { searchResult } from '../Utility/stores'
+    import { searchResult } from '../utility/stores'
     import { closeModal } from 'svelte-modals'
     import FilterPlaceholder from './FilterPlaceholder.svelte'
 

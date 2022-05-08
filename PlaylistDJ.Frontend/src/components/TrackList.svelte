@@ -1,7 +1,7 @@
 <script lang='ts'>
     import type { Spotify } from '@playlist-dj/types'
-    import { artistListFromArray } from '../Utility'
-    import { searchResult } from '../Utility/stores'
+    import { artistListFromArray } from '../utility'
+    import { searchResult } from '../utility/stores'
     import { closeModal } from 'svelte-modals'
 
     export let tracks: Spotify.Track[] = []

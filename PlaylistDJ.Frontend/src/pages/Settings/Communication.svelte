@@ -1,11 +1,11 @@
 <script lang='ts'>
     import { onDestroy, onMount } from 'svelte'
     import { _ } from 'svelte-i18n'
-    import { showNav } from '../../Utility/stores'
+    import { showNav } from '../../utility/stores'
     import { Header } from '../../components'
     import { ChevronLeftIcon } from 'svelte-feather-icons'
     import { push } from 'svelte-spa-router'
-    import aport from '../../Utility/Aport'
+    import aport from '../../utility/Aport'
 
     let communicationSettings
 

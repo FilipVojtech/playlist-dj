@@ -1,6 +1,6 @@
 import express, { Response } from 'express'
 import { Profile, User } from '../entities'
-import { endpoint, generateRandomString, requestToken } from '../Classes'
+import { endpoint, generateRandomString, requestToken } from '../utility'
 import { DI } from '../app'
 import { Request } from '../global'
 

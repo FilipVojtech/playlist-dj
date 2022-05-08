@@ -3,7 +3,7 @@
     import { BellIcon, ChevronLeftIcon, LogOutIcon, UserIcon } from 'svelte-feather-icons'
     import { push } from 'svelte-spa-router'
     import { onDestroy, onMount } from 'svelte'
-    import { showNav } from '../../Utility/stores'
+    import { showNav } from '../../utility/stores'
     import { _ } from 'svelte-i18n'
 
     onMount(() => $showNav = false)

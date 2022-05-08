@@ -1,7 +1,7 @@
 <script lang='ts'>
     import { push } from 'svelte-spa-router'
     import { SettingsIcon } from 'svelte-feather-icons'
-    import { getCookies } from '../Utility'
+    import { getCookies } from '../utility'
     import { Header } from '../components'
     import { _ } from 'svelte-i18n'
 

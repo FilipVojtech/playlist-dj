@@ -1,7 +1,7 @@
 <script lang='ts'>
     import { Header, ImportM3UFileModal, ImportPlaylistModal, Modal, PlaylistList } from '../components'
     import { _ } from 'svelte-i18n'
-    import aport from '../Utility/Aport'
+    import aport from '../utility/Aport'
     import { onMount } from 'svelte'
     import { LoaderIcon, MoreHorizontalIcon } from 'svelte-feather-icons'
     import { closeModal, closeModals, openModal } from 'svelte-modals'
