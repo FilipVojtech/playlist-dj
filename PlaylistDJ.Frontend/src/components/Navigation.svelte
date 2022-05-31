@@ -61,12 +61,8 @@
         <!-- Always visible -->
         <div class='primary'>
             {#each routes as { href, icon, name }}
-                <div class='primary__item' class:primary__item--active='{active === `#/${name}`}'>
-                    <a
-                        {href}
-                        use:link
-                        on:click={() => active = `#/${name}`}
-                    >
+                <div class='primary__item' class:primary__item--active={href === $location}>
+                    <a {href} use:link>
                         <svelte:component this={icon} size='35' />
                     </a>
                 </div>
