@@ -3,12 +3,15 @@ import { Request } from '../global'
 import { Spotify } from '@playlist-dj/types'
 import { DI } from '../app'
 import { User } from '../entities'
-import { endpoint, renewToken } from '../utility'
+import { endpoint } from '../utility'
 import socialController from './SocialController'
 import playlistController from './PlaylistController'
 import userController from './UserController'
+import { authentication, log, renewToken } from '../utility/Middleware'
 
 const router = express.Router()
+
+router.use(log)
 
 /**
  * Debug route
@@ -32,24 +35,12 @@ router.get('/', (req: Request, res: Response) => {
     })
 })
 
-router.all('*', (req: Request, res: Response, next) => {
-    if (!req.session.user) res.sendStatus(401)
-    else next()
-})
-
-/**
- * Playlist paths
- */
 router.use('/playlist', playlistController)
 
-/**
- * User paths
- */
+router.use(authentication)
+
 router.use('/user', userController)
 
-/**
- * Social paths
- */
 router.use('/social', socialController)
 
 /**
@@ -58,15 +49,12 @@ router.use('/social', socialController)
  * @query {('artist' | 'album' | 'track') | string} type - Which category user wants to search in
  * @returns {Spotify.SearchResults} Search results from Spotify
  */
-router.get('/search', async (req: Request, res: Response) => {
-    req.session.user!.token = await renewToken(req.session.user!)
-
+router.get('/search', renewToken, async (req: Request, res: Response) => {
     // Search through param is present
     if (req.query.url) {
         res.json(await endpoint(req.session.user!).url(req.query.url as string))
         return
     }
-
     // Set type to any if not present
     if (!req.query.type) req.query.type = 'artist,album,track'
     // Set limit if not present
