@@ -55,7 +55,7 @@
     // }
 </script>
 
-<main class='nav__wrapper'> <!-- on:touchend={onTouchEnd} on:touchmove={onTouchMove} on:touchstart={onTouchStart}> -->
+<div class='nav__wrapper'> <!-- on:touchend={onTouchEnd} on:touchmove={onTouchMove} on:touchstart={onTouchStart}> -->
     <!-- <div class='handle'></div> -->
     <nav class='nav'>
         <!-- Always visible -->
@@ -98,7 +98,7 @@
             </div>
         {/if}
     </nav>
-</main>
+</div>
 
 <style>
     /*.handle {*/
