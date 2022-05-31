@@ -34,16 +34,37 @@ router.route('/')
             res.json(playlists)
         }
     })
+    //<editor-fold desc="Import playlist with analysis and Filters | On hold for now">
     /**
      * Create a new playlist
      */
+    // .post(renewToken, async (req: Request, res: Response) => {
+    // const playlist = DI.playlistRepository.create(new Playlist(req.session.user!, req.body.name ?? 'New playlist'))
+    // const spotifyPlaylist = await endpoint(req.session.user!).playlistInfo(req.body.id)
+    //
+    // if (req.body.id) {
+    //     playlist.spotifyID = req.body.id
+    //     playlist.fromPlaylistID = req.body.id
+    // }
+    // if (spotifyPlaylist) {
+    //     playlist.name = spotifyPlaylist.name
+    //     playlist.description = spotifyPlaylist.description
+    // }
+    //
+    // await DI.playlistRepository.persistAndFlush(playlist)
+    //
+    // const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit`, importing: '' }).toString()
+    // res.redirect(`/?${query}`)
+    //
+    // const filters = await filtersFromPlaylistTracks(req.session.user!, req.body.id)
+    // })
+    //</editor-fold>
     .post(async (req: Request, res: Response) => {
-        const playlist = DI.playlistRepository.create(new Playlist(req.session.user!, 'New playlist'))
+        const playlist = DI.playlistRepository.create(new Playlist(req.session.user!, req.body.name ?? 'New playlist'))
 
-        if (req.body.id) playlist.fromPlaylistID = req.body.id
         await DI.playlistRepository.persistAndFlush(playlist)
 
-        const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit` }).toString()
+        const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit`, importing: '' }).toString()
         res.redirect(`/?${query}`)
     })
 

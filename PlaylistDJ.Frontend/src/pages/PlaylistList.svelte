@@ -1,5 +1,5 @@
 <script lang='ts'>
-    import { Header, ImportM3UFileModal, ImportPlaylistModal, Modal, PlaylistList } from '../components'
+    import { Header, ImportM3UFileModal, Modal, PlaylistList } from '../components'
     import { _ } from 'svelte-i18n'
     import aport from '../utility/Aport'
     import { onMount } from 'svelte'
@@ -18,13 +18,13 @@
         openModal(Modal, {
             title: 'Actions',
             actions: [
-                {
-                    title: $_('page.playlistList.more.importPlaylist'),
-                    onClick: () => {
-                        closeModals()
-                        openModal(ImportPlaylistModal)
-                    },
-                },
+                // {
+                //     title: $_('page.playlistList.more.importPlaylist'),
+                //     onClick: () => {
+                //         closeModals()
+                //         openModal(ImportPlaylistModal)
+                //     },
+                // },
                 {
                     title: $_('page.playlistList.more.importM3U'),
                     onClick: () => {
