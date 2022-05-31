@@ -6,6 +6,7 @@
     import { LoaderIcon, MoreHorizontalIcon } from 'svelte-feather-icons'
     import { closeModal, closeModals, openModal } from 'svelte-modals'
     import { push } from 'svelte-spa-router'
+    import CreatePlaylist from '../components/widgets/CreatePlaylist.svelte'
 
     let data: Promise<[]> = new Promise<[]>(() => [])
 
@@ -47,6 +48,7 @@
 <Header iconAfter={MoreHorizontalIcon} onClickAfter={handleClick} text={$_('page.playlistList.title')} />
 
 <main>
+    <CreatePlaylist />
     {#await data }
         <div class='loader'>
             <LoaderIcon />

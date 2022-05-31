@@ -12,7 +12,9 @@
     --darker-bg: #161616;
     --lighter-bg: #393939;
     --spotify-green: #1db956;
-    --warning: #d34747
+    --warning: #d34747;
+    --text-accept: #baffc1;
+    --text-reject: #ffcaca;
 }
 
 body {
@@ -26,6 +28,14 @@ h1 {
 
 a {
     text-decoration: none;
+}
+
+.text--accept {
+    color: var(--text-accept);
+}
+
+.text--reject {
+    color: var(--text-reject);
 }
 
 .loader {
@@ -99,6 +109,7 @@ a {
 .form {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .form__input {
@@ -110,6 +121,13 @@ a {
     max-width: 100%;
     margin-bottom: 5px;
     font-size: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form__label {
+    user-select: none;
+    margin-bottom: 5px;
 }
 
 .modal {
@@ -183,6 +201,7 @@ a {
         width: 30vw;
     }
 }
+
 @media (min-width: 1920px) {
     .modal__contents {
         width: 20vw;
