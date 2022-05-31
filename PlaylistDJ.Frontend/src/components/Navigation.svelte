@@ -1,13 +1,16 @@
 <script lang='ts' xmlns='http://www.w3.org/1999/html'>
     import { ChevronDownIcon, HexagonIcon, HomeIcon, ListIcon } from 'svelte-feather-icons'
     import PinIcon from './PinIcon.svelte'
-    import { link } from 'svelte-spa-router'
+    import { link, push, location } from 'svelte-spa-router'
     import { _ } from 'svelte-i18n'
     import { fly } from 'svelte/transition'
     import CreatePlaylist from './widgets/CreatePlaylist.svelte'
+    import { onMount } from 'svelte'
+    import aport from '../utility/Aport'
+    import PlaylistList from '../components/PlaylistList.svelte'
 
-    let active: string = window.location.hash
     let isOpen: boolean = false
+    let pinnedPlaylists: [] = []
 
     const routes = [
         { href: '/social', name: 'social', icon: HexagonIcon },
@@ -15,27 +18,10 @@
         { href: '/playlists', name: 'playlists', icon: ListIcon },
     ]
 
-    /*
-     * Placeholder data
-     * todo: Implement pinned playlists
-     */
-    const playlists = [
-        {
-            src: 'https://i.scdn.co/image/ab67706f00000003d33da3d4e483709cb1b33c8b',
-            name: 'Floating Through Space',
-            id: '132abc321cba',
-        },
-        {
-            src: 'https://i.scdn.co/image/ab67616d00001e028ff9ce48387873c883afa037',
-            name: 'Arcane League of Legends (Soundtrack from the Animated Series)',
-            id: 'necojakoid',
-        },
-        {
-            src: 'https://i.scdn.co/image/ab67616d00001e02c5663e50de353981ed2b1a37',
-            name: 'Donda (Deluxe)',
-            id: 'UwUOwO',
-        },
-    ]
+    onMount(async () => {
+        pinnedPlaylists = await aport('/api/playlist?pinned=true')
+            .then(value => value.json())
+    })
 
     // This is for a future endeavour to implement swipe to open navigation
     // todo: Implement swipe to open navigation
