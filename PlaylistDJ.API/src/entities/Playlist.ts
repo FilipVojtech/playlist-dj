@@ -28,6 +28,9 @@ export class Playlist extends BaseEntity {
     owner!: User
 
     @Property()
+    isPinned: boolean = false
+
+    @Property()
     spotifyID: string = ''
 
     @Property()

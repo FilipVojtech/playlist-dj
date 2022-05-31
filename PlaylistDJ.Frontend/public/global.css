@@ -69,6 +69,11 @@ a {
     border-radius: 20px;
 }
 
+.item--slim {
+    padding: 5px;
+    margin: 0 0 5px;
+}
+
 .item--interactive {
     cursor: pointer;
     transition: 50ms;
