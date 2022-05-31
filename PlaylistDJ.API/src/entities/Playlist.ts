@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, OneToOne, Property } from '@mikro-orm/core'
+import { Entity, ManyToOne, Property } from '@mikro-orm/core'
 import { BaseEntity, Filter, User } from './'
 
 @Entity()
@@ -10,13 +10,13 @@ export class Playlist extends BaseEntity {
     name: string
 
     @Property()
-    description: string
+    description: string = ''
 
     @Property()
     images: { src: string, height: string }[] = []
 
     @Property()
-    notes: string
+    notes: string = ''
 
     @ManyToOne(() => Filter)
     filters = []
@@ -36,12 +36,10 @@ export class Playlist extends BaseEntity {
     @Property()
     hasViewAccess: User[]
 
-    constructor(owner: User, name: string = '', description: string = '', notes: string = '') {
+    constructor(owner: User, name: string) {
         super()
         this.owner = owner
         this.name = name
-        this.description = description
-        this.notes = notes
         this.hasViewAccess = []
     }
 }
