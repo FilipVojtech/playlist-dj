@@ -1,8 +1,9 @@
-import { NextFunction, Response, Router } from 'express'
+import { Response, Router } from 'express'
 import { Request } from '../global'
 import { DI } from '../app'
-import { endpoint, renewToken } from '../utility'
+import { endpoint } from '../utility'
 import { Playlist } from '../entities'
+import { authentication, renewToken } from '../utility/Middleware'
 
 const router = Router()
 
@@ -18,16 +19,11 @@ router.get('/:id', async (req: Request, res: Response) => {
     } else res.sendStatus(404)
 })
 
-router.all('*', async (req: Request, res: Response, next: NextFunction) => {
-    if (req.session.user) {
-        next()
-    } else res.sendStatus(401)
-})
+router.use(authentication)
 
 router.route('/')
-    .get(async (req: Request, res: Response) => {
+    .get(renewToken, async (req: Request, res: Response) => {
         if (req.query.src && req.query.src === 'spotify') {
-            req.session.user!.token = await renewToken(req.session.user!)
             res.json(await endpoint(req.session.user!).ownedPlaylists())
         } else {
             const playlists = await DI.playlistRepository.find({ owner: req.session.user!._id.toString() })
