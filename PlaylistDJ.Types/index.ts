@@ -1,4 +1,16 @@
+import { User } from '@playlist-dj/api/dist/entities'
+
 export namespace Spotify {
+    export interface UserMinimal {
+        'externalUrls': {
+            'spotify': string
+        }
+        'href': string
+        'id': string
+        'type': 'user'
+        'uri': string
+    }
+
     export interface Artist {
         externalUrls: { [key: string]: string }
         followers: { href: string | null, total: number }
@@ -47,6 +59,21 @@ export namespace Spotify {
         uri: string
     }
 
+    export interface TrackFromPlaylist {
+        addedAt: string
+        addedBy: UserMinimal
+        isLocal: boolean
+        primaryColor: null | string
+        track: Track
+        videoThumbnail: {
+            url: null | string
+        }
+    }
+
+    export interface Playlist {
+
+    }
+
     export interface SearchResults {
         albums?: {
             href: string
@@ -78,4 +105,29 @@ export namespace Spotify {
         }
     }
 
+    export interface PlaylistInfo {
+        collaborative: boolean
+        description: string
+        externalUrls: { [key: string]: string }
+        followers: { href: null, total: number }
+        href: string
+        id: string
+        images: [0] | { height: number, url: string, width: number }[]
+        name: string
+        owner: User
+        primaryColor: null | string
+        public: boolean
+        snapshotId: string
+        tracks: {
+            href: string,
+            items: [0],
+            limit: number,
+            next: null | string,
+            offset: number
+        }
+        type: 'playlist'
+        uri: string
+    }
 }
+
+export declare type FilterType = 'album' | 'author' | 'song'

@@ -1,3 +1,4 @@
+import { User } from '@playlist-dj/api/dist/entities';
 export declare namespace Spotify {
     interface Artist {
         externalUrls: {
@@ -63,6 +64,8 @@ export declare namespace Spotify {
         type: string;
         uri: string;
     }
+    interface Playlist {
+    }
     interface SearchResults {
         albums?: {
             href: string;
@@ -92,4 +95,37 @@ export declare namespace Spotify {
             total: number;
         };
     }
+    interface PlaylistInfo {
+        collaborative: boolean;
+        description: string;
+        externalUrls: {
+            [key: string]: string;
+        };
+        followers: {
+            href: null;
+            total: number;
+        };
+        href: string;
+        id: string;
+        images: [0] | {
+            height: number;
+            url: string;
+            width: number;
+        }[];
+        name: string;
+        owner: User;
+        primaryColor: null | string;
+        public: boolean;
+        snapshotId: string;
+        tracks: {
+            href: string;
+            items: [0];
+            limit: number;
+            next: null | string;
+            offset: number;
+        };
+        type: 'playlist';
+        uri: string;
+    }
 }
+export declare type FilterType = 'album' | 'author' | 'song';

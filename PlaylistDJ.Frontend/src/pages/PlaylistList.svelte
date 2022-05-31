@@ -1,11 +1,12 @@
 <script lang='ts'>
-    import { Header, ImportM3UFileModal, ImportPlaylistModal, Modal, PlaylistList } from '../components'
+    import { Header, ImportM3UFileModal, Modal, PlaylistList } from '../components'
     import { _ } from 'svelte-i18n'
     import aport from '../utility/Aport'
     import { onMount } from 'svelte'
     import { LoaderIcon, MoreHorizontalIcon } from 'svelte-feather-icons'
     import { closeModal, closeModals, openModal } from 'svelte-modals'
     import { push } from 'svelte-spa-router'
+    import CreatePlaylist from '../components/widgets/CreatePlaylist.svelte'
 
     let data: Promise<[]> = new Promise<[]>(() => [])
 
@@ -18,13 +19,13 @@
         openModal(Modal, {
             title: 'Actions',
             actions: [
-                {
-                    title: $_('page.playlistList.more.importPlaylist'),
-                    onClick: () => {
-                        closeModals()
-                        openModal(ImportPlaylistModal)
-                    },
-                },
+                // {
+                //     title: $_('page.playlistList.more.importPlaylist'),
+                //     onClick: () => {
+                //         closeModals()
+                //         openModal(ImportPlaylistModal)
+                //     },
+                // },
                 {
                     title: $_('page.playlistList.more.importM3U'),
                     onClick: () => {
@@ -47,6 +48,7 @@
 <Header iconAfter={MoreHorizontalIcon} onClickAfter={handleClick} text={$_('page.playlistList.title')} />
 
 <main>
+    <CreatePlaylist />
     {#await data }
         <div class='loader'>
             <LoaderIcon />
