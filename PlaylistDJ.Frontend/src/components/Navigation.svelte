@@ -76,21 +76,23 @@
         {#if isOpen}
             <!-- Visible if navigation open -->
             <div class='secondary' in:fly={{ y:200, duration: 300 }}>
-                <CreatePlaylist/>
-                <!-- Pinned playlist divider -->
-                <div class='secondary__item secondary__pin'>
-                    <span class='secondary__icon pin-icon'><PinIcon /></span>
-                    {$_('component.navigation.pinnedPlaylists')}
-                </div>
-                <!-- Pinned playlists -->
-                <div class='secondary__item secondary__pinned'>
-                    {#each playlists as { src, name, id }}
-                        <a href='/playlist/{id}' use:link class='playlist'>
-                            <img {src} class='playlist__image' alt='{name} playlist icon' />
-                            <p class='playlist__name'>{name}</p>
-                        </a>
-                    {/each}
-                </div>
+                <CreatePlaylist slim />
+                {@debug pinnedPlaylists}
+                {#if pinnedPlaylists.length > 0}
+                    <!-- Pinned playlist divider -->
+                    <div class='secondary__item secondary__pin'>
+                        <span class='secondary__icon pin-icon'><PinIcon /></span>
+                        {$_('component.navigation.pinnedPlaylists')}
+                    </div>
+                    <!-- Pinned playlists -->
+                    <div class='secondary__item secondary__list'>
+                        <PlaylistList
+                            playlists='{pinnedPlaylists}'
+                            on:click={e => push(`/playlist/${e.detail.id}`)}
+                            slim
+                        />
+                    </div>
+                {/if}
             </div>
         {/if}
     </nav>
@@ -105,18 +107,21 @@
     /*}*/
 
     .nav__wrapper {
-        position: absolute;
+        position: fixed;
         bottom: 0;
-        width: 100%;
+        width: 100vw;
     }
 
     .nav {
+        max-width: 100vw;
         display: flex;
         flex-direction: column;
         align-items: center;
         border-radius: 20px 20px 0 0;
         background-color: var(--darker-bg);
         padding-bottom: env(safe-area-inset-bottom);
+        overflow-y: scroll;
+        max-height: 80vh;
         /*Enable when nav is draggable*/
         /*margin: 0 10px;*/
     }
@@ -127,8 +132,7 @@
         align-items: center;
         max-height: 55px;
         min-height: 55px;
-        margin: 0 10px;
-        width: 100%;
+        width: 100vw;
     }
 
     .primary__item {
@@ -156,22 +160,15 @@
     }
 
     .secondary {
-        margin-top: 10px;
-        max-width: 100vw;
-        width: calc(100% - 10px);
-        padding: 0 5px;
         display: flex;
-        align-items: center;
         flex-direction: column;
+        width: calc(100% - 20px);
     }
 
     .secondary__item {
         display: flex;
         flex-direction: row;
-        align-items: center;
         justify-content: center;
-        margin: 7px;
-        width: inherit;
     }
 
     .secondary__icon {
@@ -181,32 +178,10 @@
     .secondary__pin {
         color: gray;
         padding-bottom: 5px;
-        width: 65%;
+        user-select: none;
     }
 
-    .secondary__pinned {
-        display: flex;
+    .secondary__list {
         flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .playlist {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-    }
-
-    .playlist__image {
-        width: 50px;
-        height: auto;
-        margin-right: 10px;
-    }
-
-    .playlist__name {
-        width: 75vw;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: block;
     }
 </style>
