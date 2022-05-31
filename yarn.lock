@@ -95,43 +95,43 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@mikro-orm/cli@^5.0.5":
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/@mikro-orm/cli/-/cli-5.1.4.tgz#b333d9f30b3eba2a4b32373aa5c7f311366c58b2"
-  integrity sha512-5x8B4pmyogqnp2fuulx5WD7Y2SqHEpOj67VQzkRXKUFJXDfMel2Ydp7HrknrJwn0dumB5H/MoIBLQ/Y9qFDoVg==
+"@mikro-orm/cli@^5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@mikro-orm/cli/-/cli-5.1.5.tgz#fccdeee57e33b93cf6763d34099d0b24501019cf"
+  integrity sha512-K085njvTdyVlAUKX/u7BX2BsAgtqz3R4zlao+uWS2zgwtMrZY2nTmcjGMaelAw/DVs7UKdR0y6p0JIs/vZPzxQ==
   dependencies:
-    "@mikro-orm/core" "^5.1.4"
-    "@mikro-orm/knex" "^5.1.4"
+    "@mikro-orm/core" "^5.1.5"
+    "@mikro-orm/knex" "^5.1.5"
     fs-extra "10.1.0"
     tsconfig-paths "4.0.0"
     yargonaut "1.1.4"
     yargs "15.4.1"
 
-"@mikro-orm/core@^5.0.5", "@mikro-orm/core@^5.1.4":
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/@mikro-orm/core/-/core-5.1.4.tgz#2f138fad9b652d0e94e47fc61d4d0fbe08f0c4fc"
-  integrity sha512-D/nIjjAAehPQ0g51iDJrp6XS+KEfza349H2ykOd2Hztf/PnuYE5z+2HrVrAp/5GxF1Be0kD/E1CPHGFoNQMvsA==
+"@mikro-orm/core@^5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@mikro-orm/core/-/core-5.1.5.tgz#0840857aace9b65bfd22431745e821fd64f6b120"
+  integrity sha512-UU4c6QhdRFO81sF/QlVhJncDEu50nYo+MZzHD3fIP7dNn8cjr86zv2uqK8Bs2TWhPz4HE8mPT6qoZHWlisUNJA==
   dependencies:
     dotenv "16.0.1"
     escaya "0.0.61"
     fs-extra "10.1.0"
     globby "11.0.4"
-    mikro-orm "^5.1.4"
+    mikro-orm "^5.1.5"
     reflect-metadata "0.1.13"
 
-"@mikro-orm/knex@^5.1.4":
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/@mikro-orm/knex/-/knex-5.1.4.tgz#6131925500b7a76725fc44140c0863eeab4cf150"
-  integrity sha512-5+E4E/Hn+SfuKOSBfCaOnmAmr1ZOtRw5XWtpKdo8u1GoHQZlnu7Pv45BEbjlTDpKnumIBx4bJYsXNMXyGypOBQ==
+"@mikro-orm/knex@^5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@mikro-orm/knex/-/knex-5.1.5.tgz#dad6ce41bca3e779e2553591e0e3d60864755744"
+  integrity sha512-u1L5WIBliXYTpuRLpTcTPn8/b6loQ41EMsiZTHs5utBKJK19RDqv8YtMVzu7Wku5E8RTYuF27OjHVVLvUV61PQ==
   dependencies:
     fs-extra "10.1.0"
-    knex "2.0.0"
+    knex "2.1.0"
     sqlstring "2.3.3"
 
-"@mikro-orm/mongodb@^5.0.5":
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/@mikro-orm/mongodb/-/mongodb-5.1.4.tgz#7ab9f1ca5f1355581cd2ea7020163b2610729935"
-  integrity sha512-LHPBWPg0MJ62tGUEacFKdHxly+eULKDOoi6ymFUYg5WCbBszE8p6EzL7JTeGzogJahmQ2vv1/0zD9YAmn94bOw==
+"@mikro-orm/mongodb@^5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@mikro-orm/mongodb/-/mongodb-5.1.5.tgz#619fe6cd20fedf563f46e1d67fd53979dc5f9d4e"
+  integrity sha512-ZI+KjxF6K7Hvax4fxQNhyPbbHD1lHp5KSyT3FsAoaP/OFXumRC+XQp8wXx1tNiKc+7STg9WTtCOz6F4cgY+tjA==
   dependencies:
     bson "^4.6.3"
     mongodb "4.6.0"
@@ -1721,10 +1721,10 @@ kleur@^3.0.0:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-knex@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/knex/-/knex-2.0.0.tgz#84296ced7ef27e0f3b954302ac7d9da67c28b5d3"
-  integrity sha512-LchC8/GLfreMz8d4kCwh/ymXttsoJG8zO1O0AJBjnxdyr2oT/k2ik77hP1PpZkZH9mDQrq6WsQcIu18Pnqppzg==
+knex@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/knex/-/knex-2.1.0.tgz#9348aace3a08ff5be26eb1c8e838416ddf1aa216"
+  integrity sha512-vVsnD6UJdSJy55TvCXfFF9syfwyXNxfE9mvr2hJL/4Obciy2EPGoqjDpgRSlMruHuPWDOeYAG25nyrGvU+jJog==
   dependencies:
     colorette "2.0.16"
     commander "^9.1.0"
@@ -1869,10 +1869,10 @@ micromatch@^4.0.4:
     braces "^3.0.2"
     picomatch "^2.3.1"
 
-mikro-orm@^5.1.4:
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/mikro-orm/-/mikro-orm-5.1.4.tgz#a11adaad7fe643f916ef554563672b1599f59097"
-  integrity sha512-etO+2eooBMf/dHJmLbnRsk9P8rf9oYJn1lJ13gEUuBUE7+Rqs7XXqGMR2AFiEbhLU1ZxH58rWOODLZd5zl+V7g==
+mikro-orm@^5.1.5:
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/mikro-orm/-/mikro-orm-5.1.5.tgz#5cbe1b6e56956f8ed6cdf5f53c8ef581695db151"
+  integrity sha512-yGSGat+DllafSlAYX3TO7309WufAa6xU2pSYgHMuAo0C+QSOdOFug9w7Vo8+PDMwLTtx2fO/qDLMHthbU0r7gA==
 
 mime-db@1.52.0:
   version "1.52.0"
