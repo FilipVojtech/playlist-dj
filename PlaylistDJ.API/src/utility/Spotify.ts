@@ -75,6 +75,25 @@ export async function renewToken(user: User): Promise<Token> {
     return user.token
 }
 
+// Haha no
+// It appears the import is not specified in the assignment, so I won't do it
+// export async function filtersFromPlaylistTracks(user: User, playlistId: string): Promise<Filter[]> {
+//     const tracks: Spotify.TrackFromPlaylist[] = await endpoint(user).playlistTracks(playlistId)
+//     let analysis: any = {}
+//     for (const { track } of tracks) {
+//         if (!analysis[track.artists[0].name]) {
+//             analysis[track.artists[0].name] = {}
+//         }
+//         if (!analysis[track.artists[0].name][track.album.name]) {
+//             analysis[track.artists[0].name][track.album.name] = {}
+//         }
+//         analysis[track.artists[0].name][track.album.name][track.name] = true
+//     }
+//     console.log('analysis', analysis)
+//     // @ts-ignore
+//     return tracks
+// }
+
 /**
  * Spotify API endpoints
  */
@@ -142,20 +161,27 @@ export function endpoint(user: User) {
          * Get info about playlist
          * @param playlistId
          */
-        async playlistInfo(playlistId: string): Promise<[{}]> {
+        async playlistInfo(playlistId: string): Promise<Spotify.PlaylistInfo> {
             return await got(`${apiUrl}/playlists/${playlistId}`, { headers })
-                .then(res => JSON.parse(res.body))
+                .then(res => snakeToCamelCase(JSON.parse(res.body)) as any)
                 .catch(e => console.error(e))
-
         },
 
         /**
          * Get playlists' tracks
          * @param playlistId
+         * @param nextUrl
          */
-        async playlistTracks(playlistId: string): Promise<[{}]> {
-            return await got(`${apiUrl}/playlists/${playlistId}/tracks`, { headers })
-                .then(res => JSON.parse(res.body))
+        async playlistTracks(playlistId: string, nextUrl: string | null = null): Promise<Spotify.TrackFromPlaylist[]> {
+            const url = `${apiUrl}/playlists/${playlistId}/tracks`
+            return await got(nextUrl ?? url, { headers })
+                .then(res => snakeToCamelCase(JSON.parse(res.body)) as any)
+                .then(async value => {
+                    let songs = []
+                    songs.push(...value.items)
+                    if (value.next) songs.push(...await this.playlistTracks(playlistId, value.next))
+                    return songs as any
+                })
                 .catch(e => console.error(e))
         },
 

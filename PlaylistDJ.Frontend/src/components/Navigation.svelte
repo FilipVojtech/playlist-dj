@@ -1,10 +1,10 @@
 <script lang='ts' xmlns='http://www.w3.org/1999/html'>
-    import { ChevronDownIcon, HexagonIcon, HomeIcon, ListIcon, PlusCircleIcon } from 'svelte-feather-icons'
+    import { ChevronDownIcon, HexagonIcon, HomeIcon, ListIcon } from 'svelte-feather-icons'
     import PinIcon from './PinIcon.svelte'
     import { link } from 'svelte-spa-router'
     import { _ } from 'svelte-i18n'
     import { fly } from 'svelte/transition'
-    import aport from '../utility/Aport'
+    import CreatePlaylist from './widgets/CreatePlaylist.svelte'
 
     let active: string = window.location.hash
     let isOpen: boolean = false
@@ -80,12 +80,7 @@
         {#if isOpen}
             <!-- Visible if navigation open -->
             <div class='secondary' in:fly={{ y:200, duration: 300 }}>
-                <!-- Create playlist button -->
-                <div class='secondary__item secondary__add-playlist'
-                     on:click={() => aport('/api/playlist', { method: 'POST' })}>
-                    <span class='secondary__icon'><PlusCircleIcon size='30' /></span>
-                    {$_('component.navigation.createPlaylist')}
-                </div>
+                <CreatePlaylist/>
                 <!-- Pinned playlist divider -->
                 <div class='secondary__item secondary__pin'>
                     <span class='secondary__icon pin-icon'><PinIcon /></span>
@@ -125,6 +120,9 @@
         align-items: center;
         border-radius: 20px 20px 0 0;
         background-color: var(--darker-bg);
+        padding-bottom: env(safe-area-inset-bottom);
+        /*Enable when nav is draggable*/
+        /*margin: 0 10px;*/
     }
 
     .primary {
@@ -178,11 +176,6 @@
         justify-content: center;
         margin: 7px;
         width: inherit;
-    }
-
-    .secondary__add-playlist {
-        text-transform: uppercase;
-        cursor: pointer;
     }
 
     .secondary__icon {
