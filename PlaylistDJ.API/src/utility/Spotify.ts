@@ -27,8 +27,8 @@ export async function requestToken(code: string): Promise<Token> {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
         form: {
-            code: code,
-            redirect_uri: 'http://localhost:3000/login/callback',
+            code,
+            redirect_uri: `${process.env.REDIRECT_URI}/login/callback`,
             grant_type: 'authorization_code',
         },
     })
