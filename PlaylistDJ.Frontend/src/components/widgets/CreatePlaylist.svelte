@@ -5,6 +5,7 @@
     import { PlusIcon } from 'svelte-feather-icons'
     import { _ } from 'svelte-i18n'
 
+    export let slim: boolean = false
     let isCreating: boolean = false
     let playlistName: string = $_('page.playlistList.newPlaylist')
 
@@ -34,7 +35,7 @@
 </script>
 
 {#if !isCreating}
-    <div class='item item--interactive' on:click={itemOnClickHandle}>
+    <div class='item item--interactive' class:item--slim={slim} on:click={itemOnClickHandle}>
         <FilterPlaceholder icon={PlusIcon} />
         <div class='filter__info'>{$_('page.playlistList.createPlaylist')}</div>
     </div>
