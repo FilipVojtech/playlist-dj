@@ -1,5 +1,3 @@
-import { User } from '@playlist-dj/api/dist/entities'
-
 export namespace Spotify {
     export interface UserMinimal {
         'externalUrls': {
@@ -114,7 +112,7 @@ export namespace Spotify {
         id: string
         images: [0] | { height: number, url: string, width: number }[]
         name: string
-        owner: User
+        owner: UserMinimal
         primaryColor: null | string
         public: boolean
         snapshotId: string
