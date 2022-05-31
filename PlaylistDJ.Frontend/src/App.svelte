@@ -39,6 +39,7 @@
         <div class='main-content'>
             <Router {routes} />
         </div>
+        <div class:nav-space={$showNav} ></div>
         {#if $showNav && $user}
             <Navigation />
         {/if}
@@ -58,10 +59,12 @@
 
 <style>
     .main-content {
-        /* Whole page - height of the nav */
-        min-height: calc(100vh - 62px);
         max-width: 100vw;
         padding: 0 10px;
+    }
+
+    .nav-space {
+        height: calc(55px + env(safe-area-inset-bottom));
     }
 
     .backdrop {
