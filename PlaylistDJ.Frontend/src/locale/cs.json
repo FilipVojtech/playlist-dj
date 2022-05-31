@@ -1,45 +1,103 @@
 {
   "app": {
-    "name": "Playlist DJ",
-    "welcome": "Playlist DJ vás vítá",
+    "back": "Zpět",
+    "cancel": "Zrušit",
     "description": "Spravujte Spotify playlisty s lehkostí",
     "login": {
-      "short": "Přihlásit se",
-      "long": "Přihlásit se se Spotify"
+      "long": "Přihlásit se se Spotify",
+      "short": "Přihlásit se"
     },
-    "back": "Zpět"
+    "logout": "Odhlásit se",
+    "name": "Playlist DJ",
+    "no": "Ne",
+    "ok": "Ok",
+    "upload": "Nahrát",
+    "welcome": "Playlist DJ vás vítá",
+    "yes": "Ano",
+    "create": "Vytvořit"
+  },
+  "component": {
+    "navigation": {
+      "pinnedPlaylists": "Připnuté playlisty"
+    }
+  },
+  "locales": {
+    "cs": "Čeština",
+    "en": "English"
+  },
+  "modal": {
+    "importPlaylist": {
+      "title": "Vyberte playlist..."
+    }
   },
   "page": {
     "home": {
-      "title": "Domů",
-      "greeting": "Vítej {user}!"
-    },
-    "social": {
-      "title": "Síť"
-    },
-    "playlistList": {
-      "title": "Playlisty"
+      "greeting": "Vítej {user}!",
+      "title": "Domů"
     },
     "playlist": {
       "title": "Playlist"
     },
+    "playlistList": {
+      "createPlaylist": "Vytvořit nový playlist",
+      "more": {
+        "importM3U": "Nahrát playlist z m3u souboru",
+        "importPlaylist": "Nahrát playlist ze Spotify"
+      },
+      "title": "Playlisty",
+      "playlistName": "Název playlistu",
+      "newPlaylist": "Nový playlist",
+      "error": "Název playlistu nesmí být prázdný"
+    },
     "settings": {
+      "account": {
+        "deleteAccount": {
+          "delete": "Odstranit účet",
+          "modal": {
+            "action": "Smazat můj účet",
+            "message1": "Chcete odstranit svůj účet?",
+            "message2": "Tuto akci nelze vzít zpět",
+            "message3": "Váš účet a všechna data s ním spojená byla odstraněna. Za okamžik budete přesměrováni.",
+            "title2": "Jste si jistí?",
+            "title3": "Odstranění účtu"
+          }
+        },
+        "title": "Účet"
+      },
+      "communication": {
+        "subscribeTo": {
+          "important": "Důležitá oznámení",
+          "product": "Aktualizace a novinky"
+        },
+        "title": "Oznámení",
+        "updateFrequency": {
+          "biWeekly": "Obtýden",
+          "custom": "Vlastní",
+          "daily": "Denně",
+          "disabled": "Neposílat",
+          "monthly": "Měsíčně",
+          "weekly": "Týdne"
+        }
+      },
+      "profile": {
+        "title": "Profil"
+      },
       "title": "Nastavení"
-    }
-  },
-  "component": {
-    "navigation": {
-      "pinnedPlaylists": "Připnuté playlisty",
-      "createPlaylist": "Vytvořit nový playlist"
+    },
+    "social": {
+      "create": {
+        "cantLoad": "Nelze načíst playlisty",
+        "nothingFound": "Nebyly nalezeny žádné playlisty",
+        "post": "Zveřejnit",
+        "title": "Vytvořit příspěvek",
+        "whatsUp": "Jak to jde?"
+      },
+      "title": "Síť"
     }
   },
   "widget": {
     "login": {
       "message": "Přidejte se taky!"
     }
-  },
-  "locales": {
-    "cs": "Čeština",
-    "en": "English"
   }
 }

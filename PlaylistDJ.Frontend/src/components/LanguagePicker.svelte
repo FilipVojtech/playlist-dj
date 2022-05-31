@@ -4,13 +4,24 @@
 
     // Format the locale value before binding
     $locale = $locale?.indexOf('-') === -1 ? $locale : $locale?.substring(0, $locale?.indexOf('-'))
+
+    function setLocaleCookie() {
+        const date = new Date(2100, 1).toUTCString()
+        document.cookie = `locale=${$locale}; expires=${date};`
+    }
 </script>
 
-<main class='option'>
-    <span class='option__icon'>
-        <GlobeIcon size='30' />
+<main class='item item--with-input'>
+    <span class='item__icon'>
+        <GlobeIcon size='25' />
     </span>
-    <select bind:value={$locale} class='select' id='language-select' name='language'>
+    <select
+        bind:value={$locale}
+        class='form__input form__input--lang-picker'
+        id='language-select'
+        name='language'
+        on:change={setLocaleCookie}
+    >
         {#each $locales as loc}
             <option value={loc}>{$_(`locales.${loc}`)}</option>
         {/each}
@@ -18,26 +29,13 @@
 </main>
 
 <style>
-    .option {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 15px 10px;
-
-        background-color: var(--lighter-bg);
-        border-radius: 20px;
-    }
-
-    .option__icon {
-        margin-right: 10px;
-    }
-
-    .select {
-        background-color: var(--darker-bg);
-        border: 1px solid var(--darker-bg);
-        border-radius: 15px;
-        color: white;
-        padding: 5px;
+    .form__input--lang-picker {
         width: 100%;
+        margin-bottom: 0;
     }
+
+    .item--with-input {
+        padding: 10px;
+    }
+
 </style>

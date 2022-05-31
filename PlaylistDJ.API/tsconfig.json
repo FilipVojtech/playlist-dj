@@ -7,6 +7,9 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "inlineSourceMap": true,
     "outDir": "./dist",
     "rootDir": "./src"
   },

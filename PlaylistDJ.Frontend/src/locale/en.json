@@ -1,45 +1,103 @@
 {
   "app": {
-    "name": "Playlist DJ",
-    "welcome": "Welcome to Playlist DJ",
+    "back": "Back",
+    "cancel": "Cancel",
     "description": "Manage your Spotify playlists with ease",
     "login": {
-      "short": "Log in",
-      "long": "Log in with Spotify"
+      "long": "Log in with Spotify",
+      "short": "Log in"
     },
-    "back": "Back"
+    "logout": "Log out",
+    "name": "Playlist DJ",
+    "no": "No",
+    "ok": "Ok",
+    "upload": "Upload",
+    "welcome": "Welcome to Playlist DJ",
+    "yes": "Yes",
+    "create": "Create"
+  },
+  "component": {
+    "navigation": {
+      "pinnedPlaylists": "Pinned playlists"
+    }
+  },
+  "locales": {
+    "cs": "Čeština",
+    "en": "English"
+  },
+  "modal": {
+    "importPlaylist": {
+      "title": "Choose a playlist..."
+    }
   },
   "page": {
     "home": {
-      "title": "Home",
-      "greeting": "Welcome {user}!"
-    },
-    "social": {
-      "title": "Social"
-    },
-    "playlistList": {
-      "title": "Playlists"
+      "greeting": "Welcome {user}!",
+      "title": "Home"
     },
     "playlist": {
       "title": "Playlist"
     },
+    "playlistList": {
+      "createPlaylist": "Create a new playlist",
+      "more": {
+        "importM3U": "Import m3u file",
+        "importPlaylist": "Import Spotify playlist"
+      },
+      "title": "Playlists",
+      "playlistName": "Playlist name",
+      "newPlaylist": "New playlist",
+      "error": "Name cannot be empty"
+    },
     "settings": {
+      "account": {
+        "deleteAccount": {
+          "delete": "Delete account",
+          "modal": {
+            "action": "Delete my account",
+            "message1": "Do you want to delete your account?",
+            "message2": "This action cannot be undone",
+            "message3": "Your account and all data associated with it has been deleted. You will be redirected in a moment.",
+            "title2": "Are you sure?",
+            "title3": "Account deletion"
+          }
+        },
+        "title": "Account"
+      },
+      "communication": {
+        "subscribeTo": {
+          "important": "Important emails",
+          "product": "Product updates"
+        },
+        "title": "Notifications",
+        "updateFrequency": {
+          "biWeekly": "Biweekly",
+          "custom": "Custom",
+          "daily": "Daily",
+          "disabled": "Disabled",
+          "monthly": "Monthly",
+          "weekly": "Weekly"
+        }
+      },
+      "profile": {
+        "title": "Profile"
+      },
       "title": "Settings"
-    }
-  },
-  "component": {
-    "navigation": {
-      "pinnedPlaylists": "Pinned playlists",
-      "createPlaylist": "Create a new playlist"
+    },
+    "social": {
+      "create": {
+        "cantLoad": "Couldn't fetch playlists",
+        "nothingFound": "No playlists found",
+        "post": "Post",
+        "title": "Create a post",
+        "whatsUp": "What's poppin'?"
+      },
+      "title": "Social"
     }
   },
   "widget": {
     "login": {
       "message": "Join the experience!"
     }
-  },
-  "locales": {
-    "cs": "Čeština",
-    "en": "English"
   }
 }

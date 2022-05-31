@@ -1,12 +1,16 @@
 <script lang='ts' xmlns='http://www.w3.org/1999/html'>
-    import { ChevronDownIcon, HexagonIcon, HomeIcon, ListIcon, PlusCircleIcon } from 'svelte-feather-icons'
-    import { PinIcon } from './'
-    import { link } from 'svelte-spa-router'
+    import { ChevronDownIcon, HexagonIcon, HomeIcon, ListIcon } from 'svelte-feather-icons'
+    import PinIcon from './PinIcon.svelte'
+    import { link, push, location } from 'svelte-spa-router'
     import { _ } from 'svelte-i18n'
     import { fly } from 'svelte/transition'
+    import CreatePlaylist from './widgets/CreatePlaylist.svelte'
+    import { onMount } from 'svelte'
+    import aport from '../utility/Aport'
+    import PlaylistList from '../components/PlaylistList.svelte'
 
-    let active: string = window.location.hash
     let isOpen: boolean = false
+    let pinnedPlaylists: [] = []
 
     const routes = [
         { href: '/social', name: 'social', icon: HexagonIcon },
@@ -14,27 +18,10 @@
         { href: '/playlists', name: 'playlists', icon: ListIcon },
     ]
 
-    /*
-     * Placeholder data
-     * todo: Implement pinned playlists
-     */
-    const playlists = [
-        {
-            src: 'https://i.scdn.co/image/ab67706f00000003d33da3d4e483709cb1b33c8b',
-            name: 'Floating Through Space',
-            id: '132abc321cba',
-        },
-        {
-            src: 'https://i.scdn.co/image/ab67616d00001e028ff9ce48387873c883afa037',
-            name: 'Arcane League of Legends (Soundtrack from the Animated Series)',
-            id: 'necojakoid',
-        },
-        {
-            src: 'https://i.scdn.co/image/ab67616d00001e02c5663e50de353981ed2b1a37',
-            name: 'Donda (Deluxe)',
-            id: 'UwUOwO',
-        },
-    ]
+    onMount(async () => {
+        pinnedPlaylists = await aport('/api/playlist?pinned=true')
+            .then(value => value.json())
+    })
 
     // This is for a future endeavour to implement swipe to open navigation
     // todo: Implement swipe to open navigation
@@ -54,18 +41,14 @@
     // }
 </script>
 
-<main class='nav__wrapper'> <!-- on:touchend={onTouchEnd} on:touchmove={onTouchMove} on:touchstart={onTouchStart}> -->
+<div class='nav__wrapper'> <!-- on:touchend={onTouchEnd} on:touchmove={onTouchMove} on:touchstart={onTouchStart}> -->
     <!-- <div class='handle'></div> -->
     <nav class='nav'>
         <!-- Always visible -->
         <div class='primary'>
             {#each routes as { href, icon, name }}
-                <div class='primary__item' class:primary__item--active='{active === `#/${name}`}'>
-                    <a
-                        {href}
-                        use:link
-                        on:click={() => active = `#/${name}`}
-                    >
+                <div class='primary__item' class:primary__item--active={href === $location}>
+                    <a {href} use:link>
                         <svelte:component this={icon} size='35' />
                     </a>
                 </div>
@@ -79,50 +62,54 @@
         {#if isOpen}
             <!-- Visible if navigation open -->
             <div class='secondary' in:fly={{ y:200, duration: 300 }}>
-                <!-- Create playlist button -->
-                <a class='secondary__item secondary__add-playlist' href='/playlist/new' use:link>
-                    <span class='secondary__icon'><PlusCircleIcon size='30' /></span>
-                    {$_('component.navigation.createPlaylist')}
-                </a>
-                <!-- Pinned playlist divider -->
-                <div class='secondary__item secondary__pin'>
-                    <span class='secondary__icon pin-icon'><PinIcon /></span>
-                    {$_('component.navigation.pinnedPlaylists')}
-                </div>
-                <!-- Pinned playlists -->
-                <div class='secondary__item secondary__pinned'>
-                    {#each playlists as { src, name, id }}
-                        <a href='/playlist/{id}' use:link class='playlist'>
-                            <img {src} class='playlist__image' />
-                            <p class='playlist__name'>{name}</p>
-                        </a>
-                    {/each}
-                </div>
+                <CreatePlaylist slim />
+                {@debug pinnedPlaylists}
+                {#if pinnedPlaylists.length > 0}
+                    <!-- Pinned playlist divider -->
+                    <div class='secondary__item secondary__pin'>
+                        <span class='secondary__icon pin-icon'><PinIcon /></span>
+                        {$_('component.navigation.pinnedPlaylists')}
+                    </div>
+                    <!-- Pinned playlists -->
+                    <div class='secondary__item secondary__list'>
+                        <PlaylistList
+                            playlists='{pinnedPlaylists}'
+                            on:click={e => push(`/playlist/${e.detail.id}`)}
+                            slim
+                        />
+                    </div>
+                {/if}
             </div>
         {/if}
     </nav>
-</main>
+</div>
 
 <style>
-    .handle {
-        border: 2px solid gray;
-        width: 30px;
-        margin: 0 auto 3px;
-        border-radius: 25px;
-    }
+    /*.handle {*/
+    /*    border: 2px solid gray;*/
+    /*    width: 30px;*/
+    /*    margin: 0 auto 3px;*/
+    /*    border-radius: 25px;*/
+    /*}*/
 
     .nav__wrapper {
-        position: absolute;
+        position: fixed;
         bottom: 0;
-        width: 100%;
+        width: 100vw;
     }
 
     .nav {
+        max-width: 100vw;
         display: flex;
         flex-direction: column;
         align-items: center;
         border-radius: 20px 20px 0 0;
         background-color: var(--darker-bg);
+        padding-bottom: env(safe-area-inset-bottom);
+        overflow-y: scroll;
+        max-height: 80vh;
+        /*Enable when nav is draggable*/
+        /*margin: 0 10px;*/
     }
 
     .primary {
@@ -131,8 +118,7 @@
         align-items: center;
         max-height: 55px;
         min-height: 55px;
-        margin: 0 10px;
-        width: 100%;
+        width: 100vw;
     }
 
     .primary__item {
@@ -160,26 +146,15 @@
     }
 
     .secondary {
-        margin-top: 10px;
-        max-width: 100vw;
-        width: calc(100% - 10px);
-        padding: 0 5px;
         display: flex;
-        align-items: center;
         flex-direction: column;
+        width: calc(100% - 20px);
     }
 
     .secondary__item {
         display: flex;
         flex-direction: row;
-        align-items: center;
         justify-content: center;
-        margin: 7px;
-        width: inherit;
-    }
-
-    .secondary__add-playlist {
-        text-transform: uppercase;
     }
 
     .secondary__icon {
@@ -189,32 +164,10 @@
     .secondary__pin {
         color: gray;
         padding-bottom: 5px;
-        width: 65%;
+        user-select: none;
     }
 
-    .secondary__pinned {
-        display: flex;
+    .secondary__list {
         flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .playlist {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-    }
-
-    .playlist__image {
-        width: 50px;
-        height: auto;
-        margin-right: 10px;
-    }
-
-    .playlist__name {
-        width: 75vw;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: block;
     }
 </style>

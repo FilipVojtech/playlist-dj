@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES3",
+    "esModuleInterop": true,
+    "declaration": true,
+    "allowUmdGlobalAccess": true,
+    "outDir": "./"
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -1,5 +1,5 @@
 import { Entity, ManyToOne, Property } from '@mikro-orm/core'
-import { BaseEntity, Filter } from './'
+import { BaseEntity, Filter, User } from './'
 
 @Entity()
 export class Playlist extends BaseEntity {
@@ -10,18 +10,39 @@ export class Playlist extends BaseEntity {
     name: string
 
     @Property()
-    description: string
+    description: string = ''
 
     @Property()
-    notes: string
+    images: { src: string, height: string }[] = []
+
+    @Property()
+    notes: string = ''
 
     @ManyToOne(() => Filter)
     filters = []
 
-    constructor(name: string = '', description: string = '', notes: string = '') {
+    @Property()
+    isPublic: boolean = true
+
+    @ManyToOne(() => User)
+    owner!: User
+
+    @Property()
+    isPinned: boolean = false
+
+    @Property()
+    spotifyID: string = ''
+
+    @Property()
+    fromPlaylistID: string = ''
+
+    @Property()
+    hasViewAccess: User[]
+
+    constructor(owner: User, name: string) {
         super()
+        this.owner = owner
         this.name = name
-        this.description = description
-        this.notes = notes
+        this.hasViewAccess = []
     }
 }

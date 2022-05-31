@@ -3,7 +3,7 @@ import { Options } from '@mikro-orm/core'
 export default {
     entities: ['./dist/entities'],
     entitiesTs: ['./src/entities'],
-    dbName: 'playlist-dj',
     type: 'mongo',
-    clientUrl: process.env.PRODUCTION ? 'mongodb://database:27017/' : 'mongodb://127.0.0.1:27017/',
+    dbName: 'playlistdj',
+    clientUrl: 'mongodb://playlistdj:X2ztNWurducb2ChXkHYqxp3n@37.235.104.11:27017/',
 } as Options

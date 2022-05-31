@@ -1,12 +1,10 @@
 import express, { Response } from 'express'
-import { stringify } from 'querystring'
-import { User } from '../entities'
-import { endpoint, generateRandomString, requestToken } from '../Utility'
+import { Profile, User } from '../entities'
+import { endpoint, generateRandomString, requestToken } from '../utility'
 import { DI } from '../app'
 import { Request } from '../global'
 
 const router = express.Router()
-const url = 'http://localhost:3000'
 const spotifyAuthUrl = 'http://accounts.spotify.com/authorize'
 
 /**
@@ -16,12 +14,12 @@ const spotifyAuthUrl = 'http://accounts.spotify.com/authorize'
 router.get('/', (req: Request, res: Response) => {
     req.session.spotifyState = generateRandomString(16)
 
-    const query = stringify({
+    const query = new URLSearchParams({
         response_type: 'code',
-        client_id: process.env.PDJ_CLIENT_ID,
-        scope: 'user-follow-modify ugc-image-upload user-library-modify playlist-modify-private playlist-modify-public user-read-email user-read-private',
+        client_id: process.env.PDJ_CLIENT_ID as string,
+        scope: 'user-follow-modify ugc-image-upload user-library-modify playlist-read-private playlist-modify-private playlist-modify-public user-read-email user-read-private',
         state: req.session.spotifyState,
-        redirect_uri: `${url}/login/callback`,
+        redirect_uri: `${process.env.REDIRECT_URI}/login/callback`,
     })
 
     res.redirect(`${spotifyAuthUrl}?${query}`)
@@ -29,12 +27,6 @@ router.get('/', (req: Request, res: Response) => {
 
 /**
  * User is redirected here if they grant permission to use their data
- *
- * Save the code from query
- * Request token
- * Request their user profile data from Spotify
- * Save token and data to DB
- * Redirect them back to the home page
  */
 router.get('/callback', async (req: Request, res: Response) => {
     if (!req.query.error) {
@@ -43,23 +35,23 @@ router.get('/callback', async (req: Request, res: Response) => {
             const user = new User(code)
 
             user.token = await requestToken(code)
+            user.profile = await endpoint(user).me() as Profile
 
-            user.profile = await endpoint.me(user)
+            let userFromDb = await DI.userRepository.findOne({ profile: { spotifyId: user.profile.spotifyId } })
 
-            // @ts-ignore
-            let userFromDb = await DI.userRepository.findOne({ 'profile.id': user.profile.id })
-
-            if (!userFromDb) await DI.userRepository.persistAndFlush(user)
-            else {
+            if (!userFromDb) {
+                await DI.userRepository.persistAndFlush(user)
+                req.session.user = user
+            } else {
                 DI.userRepository.assign(userFromDb, user)
                 await DI.userRepository.flush()
+                req.session.user = userFromDb
             }
 
-            req.session.user = user
-            res.cookie('user', JSON.stringify(user.profile)).redirect(`${url}/#`)
+            res.cookie('user', JSON.stringify(user.profile)).redirect('/#')
         } else {
             console.error(`State string (${req.query.state}) differs from the expected (${req.session.spotifyState})`)
-            res.status(401).send("State string doesn't match")
+            res.status(401).send('State strings do not match')
         }
     } else {
         console.error(req.query.error)
@@ -67,4 +59,4 @@ router.get('/callback', async (req: Request, res: Response) => {
     }
 })
 
-export const loginController = router
+export default router

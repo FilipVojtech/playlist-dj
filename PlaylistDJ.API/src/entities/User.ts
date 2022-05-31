@@ -1,6 +1,5 @@
-import { BaseEntity } from './'
-import { Entity, Property } from '@mikro-orm/core'
-import { Profile } from '../Utility'
+import { BaseEntity, Profile } from './'
+import { Embedded, Entity, Property } from '@mikro-orm/core'
 
 @Entity()
 export class User extends BaseEntity {
@@ -17,8 +16,27 @@ export class User extends BaseEntity {
         refreshToken: '',
     }
 
+    @Embedded(() => Profile)
+    profile!: Profile
+
     @Property()
-    profile: Profile = new Profile()
+    communication: {
+        [key: string]: any
+        // /** How frequently should be update emails sent */
+        // updateFrequency: UpdateFrequency
+        // /** If updateFrequency set to custom, then use this value
+        //  * Currently disabled
+        //  */
+        // customFrequency: number
+        /**
+         * Should we send marketing emails to the user
+         */
+        sendMarketing: boolean
+    } = {
+        // updateFrequency: UpdateFrequency.Disabled,
+        // customFrequency: 14,
+        sendMarketing: false,
+    }
 
     constructor(code: string) {
         super()
