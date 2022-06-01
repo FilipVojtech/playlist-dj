@@ -55,15 +55,19 @@ a {
     }
 }
 
+.list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .item {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding: 10px;
-    margin: 10px 0;
+    margin: 5px 0;
     font-size: 18px;
-    width: -moz-available;
-    width: -webkit-fill-available;
 
     background-color: var(--lighter-bg);
     border-radius: 20px;
@@ -204,6 +208,25 @@ a {
 @media (min-width: 1080px) {
     .modal__contents {
         width: 30vw;
+    }
+
+    .list {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: flex-start;
+    }
+
+    .item--half {
+        --margin-size: 10px;
+        flex: max-content;
+        box-sizing: border-box;
+        min-width: calc(50% - var(--margin-size));
+        max-width: calc(50% - var(--margin-size));
+        margin-bottom: 5px;
+    }
+
+    .item--half:nth-child(2n) {
+        margin-left: var(--margin-size);
     }
 }
 

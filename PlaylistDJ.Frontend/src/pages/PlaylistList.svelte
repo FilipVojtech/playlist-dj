@@ -47,15 +47,15 @@
 </svelte:head>
 <Header iconAfter={MoreHorizontalIcon} onClickAfter={handleClick} text={$_('page.playlistList.title')} />
 
-<main>
-    <CreatePlaylist />
+<div class='list'>
+    <CreatePlaylist half />
     {#await data }
         <div class='loader'>
             <LoaderIcon />
         </div>
     {:then playlists}
-        <PlaylistList {playlists} on:click={(e) => push(`/playlist/${e.detail.id}`)} />
+        <PlaylistList half {playlists} on:click={(e) => push(`/playlist/${e.detail.id}`)} />
     {:catch e}
         <p>{e}</p>
     {/await}
-</main>
+</div>

@@ -6,6 +6,7 @@
     import { _ } from 'svelte-i18n'
 
     export let slim: boolean = false
+    export let half: boolean = false
     let isCreating: boolean = false
     let playlistName: string = $_('page.playlistList.newPlaylist')
 
@@ -35,12 +36,12 @@
 </script>
 
 {#if !isCreating}
-    <div class='item item--interactive' class:item--slim={slim} on:click={itemOnClickHandle}>
+    <div class='item item--interactive' class:item--half={half} class:item--slim={slim} on:click={itemOnClickHandle}>
         <FilterPlaceholder icon={PlusIcon} />
         <div class='filter__info'>{$_('page.playlistList.createPlaylist')}</div>
     </div>
 {:else}
-    <div class='item item--column'>
+    <div class='item item--column' class:item--half={half}>
         <form on:submit|preventDefault={createPlaylist} class='form'>
             <label for='playlistName' class='form__label'>
                 {$_('page.playlistList.playlistName')}
@@ -57,7 +58,11 @@
             >
         </form>
         <div class='actions'>
-            <button class='action text--accept' on:click={createPlaylist} class:action--disabled={playlistName.length < 1}>
+            <button
+                class='action text--accept'
+                class:action--disabled={playlistName.length < 1}
+                on:click={createPlaylist}
+            >
                 {$_('app.create')}
             </button>
             <button class='action text--reject' on:click={cancelHandle}>{$_('app.cancel')}</button>
@@ -68,7 +73,6 @@
 <style>
     .item--column {
         flex-direction: column;
-        align-items: flex-start;
     }
 
     .actions {
