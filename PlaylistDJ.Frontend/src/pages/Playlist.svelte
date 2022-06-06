@@ -3,7 +3,7 @@
     import { onDestroy, onMount } from 'svelte'
     import { searchResult, showNav } from '../utility/stores'
     import { _ } from 'svelte-i18n'
-    import { PlusCircleIcon } from 'svelte-feather-icons'
+    import { LoaderIcon, PlusCircleIcon } from 'svelte-feather-icons'
     import aport from '../utility/Aport'
     import { getCookies } from '../utility'
     import LoginWidget from '../components/widgets/LoginWidget.svelte'
@@ -43,7 +43,11 @@
     {/if}
 </svelte:head>
 
-{#await data then playlist}
+{#await data}
+    <div class='loader'>
+        <LoaderIcon size='100' />
+    </div>
+{:then playlist}
     {#if playlist.status === 404}
         <Header text='Playlist not found' />
     {:else if playlist.status === 403}
@@ -63,13 +67,14 @@
         </div>
     {/if}
 
-
+    <button on:click={() => data = aport(`/api/playlist/${params.id}`, { method: 'GET' })}
+            style='color: black'>GET
+    </button>
+    <button on:click={() => aport(`/api/playlist/${params.id}`, { method: 'PUT' })} style='color: black'>PUT</button>
+    <button on:click={() => aport(`/api/playlist/${params.id}`, { method: 'DELETE' })} style='color: black'>DELETE
+    </button>
 {:catch e}
     <h1>Error</h1>
     <p>{e}</p>
 {/await}
-<button on:click={() => data = aport(`/api/playlist/${params.id}`, { method: 'GET' })}
-        style='color: black'>GET
-</button>
-<button on:click={() => aport(`/api/playlist/${params.id}`, { method: 'PUT' })} style='color: black'>PUT</button>
-<button on:click={() => aport(`/api/playlist/${params.id}`, { method: 'DELETE' })} style='color: black'>DELETE</button>
+
