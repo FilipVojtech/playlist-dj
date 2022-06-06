@@ -1,7 +1,7 @@
 <script lang='ts' xmlns='http://www.w3.org/1999/html'>
     import { ChevronDownIcon, HexagonIcon, HomeIcon, ListIcon } from 'svelte-feather-icons'
     import PinIcon from './PinIcon.svelte'
-    import { link, push, location } from 'svelte-spa-router'
+    import { link, location, push } from 'svelte-spa-router'
     import { _ } from 'svelte-i18n'
     import { fly } from 'svelte/transition'
     import CreatePlaylist from './widgets/CreatePlaylist.svelte'
@@ -41,48 +41,55 @@
     // }
 </script>
 
-<div class='nav__wrapper'> <!-- on:touchend={onTouchEnd} on:touchmove={onTouchMove} on:touchstart={onTouchStart}> -->
-    <!-- <div class='handle'></div> -->
-    <nav class='nav'>
-        <!-- Always visible -->
-        <div class='primary'>
-            {#each routes as { href, icon, name }}
-                <div class='primary__item' class:primary__item--active={href === $location}>
-                    <a {href} use:link>
-                        <svelte:component this={icon} size='35' />
-                    </a>
-                </div>
-            {/each}
-            <div class='primary__item open-button' class:open-button--closed={!isOpen}
-                 on:click={() => isOpen = !isOpen}>
-                <ChevronDownIcon size='35' />
-            </div>
+<!--<div class='handle'></div>-->
+<nav class='nav'> <!-- on:touchend={onTouchEnd} on:touchmove={onTouchMove} on:touchstart={onTouchStart}> -->
+    <!-- Always visible -->
+    <div class='primary'>
+        <div class='primary__item logo'>
+            <img alt='Playlist DJ icon' class='logo__img' src='/images/logo.png' />
+            <h1 class='logo__text'>{$_('app.name')}</h1>
         </div>
+        {#each routes as { href, icon, name }}
+            <a
+                class='primary__item'
+                class:primary__item--active={$location.startsWith(href)}
+                {href}
+                use:link
+                on:click={() => isOpen = false}
+            >
+                <span><svelte:component this={icon} size='35' /></span>
+                <div class='item__name'>{$_(`component.navigation.${name}`)}</div>
+            </a>
+        {/each}
+        <div
+            class='primary__item open-button'
+            class:open-button--closed={!isOpen}
+            on:click={() => isOpen = !isOpen}
+        >
+            <ChevronDownIcon size='35' />
+        </div>
+    </div>
 
-        {#if isOpen}
-            <!-- Visible if navigation open -->
-            <div class='secondary' in:fly={{ y:200, duration: 300 }}>
-                <CreatePlaylist slim />
-                {@debug pinnedPlaylists}
-                {#if pinnedPlaylists.length > 0}
-                    <!-- Pinned playlist divider -->
-                    <div class='secondary__item secondary__pin'>
-                        <span class='secondary__icon pin-icon'><PinIcon /></span>
-                        {$_('component.navigation.pinnedPlaylists')}
-                    </div>
-                    <!-- Pinned playlists -->
-                    <div class='secondary__item secondary__list'>
-                        <PlaylistList
-                            playlists='{pinnedPlaylists}'
-                            on:click={e => push(`/playlist/${e.detail.id}`)}
-                            slim
-                        />
-                    </div>
-                {/if}
+    <!-- Visible if navigation open -->
+    <div class='secondary' class:secondary--shown='{isOpen}' transition:fly={{ y:200, duration: 300 }}>
+        <CreatePlaylist slim />
+        {#if pinnedPlaylists.length > 0}
+            <!-- Pinned playlist divider -->
+            <div class='secondary__item secondary__pin'>
+                <span class='secondary__icon pin-icon'><PinIcon /></span>
+                {$_('component.navigation.pinnedPlaylists')}
+            </div>
+            <!-- Pinned playlists -->
+            <div class='secondary__item secondary__list'>
+                <PlaylistList
+                    playlists='{pinnedPlaylists}'
+                    on:click={e => push(`/playlist/${e.detail.id}`)}
+                    slim
+                />
             </div>
         {/if}
-    </nav>
-</div>
+    </div>
+</nav>
 
 <style>
     /*.handle {*/
@@ -92,22 +99,18 @@
     /*    border-radius: 25px;*/
     /*}*/
 
-    .nav__wrapper {
-        position: fixed;
-        bottom: 0;
-        width: 100vw;
-    }
-
     .nav {
-        max-width: 100vw;
         display: flex;
         flex-direction: column;
         align-items: center;
-        border-radius: 20px 20px 0 0;
-        background-color: var(--darker-bg);
-        padding-bottom: env(safe-area-inset-bottom);
         overflow-y: scroll;
         max-height: 80vh;
+
+        padding-bottom: env(safe-area-inset-bottom);
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 -5px 10px var(--darker-bg);
+
+        background-color: var(--darker-bg);
         /*Enable when nav is draggable*/
         /*margin: 0 10px;*/
     }
@@ -116,9 +119,12 @@
         display: flex;
         justify-content: space-evenly;
         align-items: center;
-        max-height: 55px;
-        min-height: 55px;
-        width: 100vw;
+        height: 55px;
+        width: calc(100% - 20px);
+    }
+
+    .logo {
+        display: none;
     }
 
     .primary__item {
@@ -127,12 +133,15 @@
     }
 
     .primary__item--active {
-        background-color: white;
+        background-color: var(--main);
+    }
+
+    .item__name {
+        display: none;
     }
 
     :global(.primary__item--active svg) {
-        fill: black;
-        stroke: black;
+        fill: white;
         transform: scale(0.8);
     }
 
@@ -146,9 +155,13 @@
     }
 
     .secondary {
-        display: flex;
+        display: none;
         flex-direction: column;
         width: calc(100% - 20px);
+    }
+
+    .secondary--shown {
+        display: flex;
     }
 
     .secondary__item {
@@ -162,12 +175,95 @@
     }
 
     .secondary__pin {
-        color: gray;
+        align-self: center;
+        width: 90%;
+        margin-top: 20px;
+        margin-bottom: 5px;
         padding-bottom: 5px;
+        border-bottom: 1px solid gray;
+
+        color: gray;
         user-select: none;
     }
 
     .secondary__list {
         flex-direction: column;
+    }
+
+    @media screen and (min-width: 1080px) {
+        /*.handle {*/
+        /*    display: none;*/
+        /*}*/
+        .nav {
+            box-sizing: border-box;
+            height: -webkit-fill-available;
+            height: 100%;
+            max-height: unset;
+            margin: 0;
+            padding-bottom: 0;
+            overflow-y: auto;
+            border-radius: 0 20px 20px 0;
+            box-shadow: 10px 0 20px -5px var(--darker-bg);
+        }
+
+        .primary {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            height: unset;
+            margin: 10px 0;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 20px !important;
+        }
+
+        .logo__img {
+            margin-right: 10px;
+            height: 40px;
+        }
+
+        .logo__text {
+            user-select: none;
+            font-family: "saffran", sans-serif;
+        }
+
+        .primary__item {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            margin: 3px 0 3px 3px;
+        }
+
+        .primary__item--active {
+            background-color: initial;
+            border: 3px solid var(--main);
+            margin: 0;
+        }
+
+        .item__name {
+            display: initial;
+            width: auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-left: 10px;
+            font-size: 24px;
+        }
+
+        :global(.primary__item--active svg) {
+            fill: var(--main);
+            stroke: var(--main);
+            transform: scale(1);
+        }
+
+        .open-button {
+            display: none;
+        }
+
+        .secondary {
+            display: flex;
+        }
     }
 </style>

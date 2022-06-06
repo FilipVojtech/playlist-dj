@@ -7,7 +7,7 @@
     import './utility/i18n'
     import { isLoading } from 'svelte-i18n'
     import { closeAllModals, Modals } from 'svelte-modals'
-    import { fade } from 'svelte/transition'
+    import { fade, fly } from 'svelte/transition'
     import { LoaderIcon } from 'svelte-feather-icons'
 
     const generalRoutes = {
@@ -32,16 +32,23 @@
     const routes = $user
         ? { ...generalRoutes, ...loggedInRoutes, ...generalRoutesAfter }
         : { ...generalRoutes, ...loggedOutRoutes, ...generalRoutesAfter }
+
+    /**
+     * Check if media queries use wide layout
+     */
+    const isWide = window.innerWidth >= 1080
 </script>
 
-<main>
+<div class='page'>
     {#if !$isLoading}
-        <div class='main-content'>
+        <main class='main-content'>
             <Router {routes} />
-        </div>
-        <div class:nav-space={$showNav} ></div>
+        </main>
+        <div class:nav-space={$showNav}></div>
         {#if $showNav && $user}
-            <Navigation />
+            <div class='nav-wrapper' transition:fly={{ x: isWide ? -350 : 0, y: isWide ? 0 : 55, duration: 200 }}>
+                <Navigation />
+            </div>
         {/if}
         <Modals>
             <div
@@ -55,12 +62,25 @@
             <LoaderIcon size='100' />
         </div>
     {/if}
-</main>
+</div>
 
 <style>
+    .page {
+        display: flex;
+        flex-flow: column nowrap;
+        width: 100%;
+        min-height: 100vh;
+    }
+
     .main-content {
-        max-width: 100vw;
-        padding: 0 10px;
+        overflow-x: hidden;
+        padding: 0 10px env(safe-area-inset-bottom);
+    }
+
+    .nav-wrapper {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
     }
 
     .nav-space {
@@ -84,10 +104,24 @@
         }
     }
 
+    @media screen and (min-width: 1080px) {
+        .page {
+            flex-direction: row;
+        }
+
+        .nav-wrapper {
+            top: 0;
+            order: -1;
+            width: 320px;
+            height: 100vh;
+            position: sticky;
+        }
+    }
+
     @media (min-width: 640px) {
         .main-content {
-            max-width: 60vw;
-            margin: auto;
+            width: 60vw;
+            margin: 0 auto;
         }
     }
 </style>
