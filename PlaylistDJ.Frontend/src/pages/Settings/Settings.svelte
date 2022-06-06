@@ -1,20 +1,14 @@
 <script lang='ts'>
     import { Header, LanguagePicker, ListItem } from '../../components'
-    import { BellIcon, ChevronLeftIcon, LogOutIcon, UserIcon } from 'svelte-feather-icons'
-    import { push } from 'svelte-spa-router'
-    import { onDestroy, onMount } from 'svelte'
-    import { showNav } from '../../utility/stores'
+    import { BellIcon, LogOutIcon, UserIcon } from 'svelte-feather-icons'
     import { _ } from 'svelte-i18n'
-
-    onMount(() => $showNav = false)
-    onDestroy(() => $showNav = true)
 </script>
 
 <svelte:head>
     <title>{$_('page.settings.title')}</title>
 </svelte:head>
-<main class='options'>
-    <Header iconBefore={ChevronLeftIcon} onClickBefore={() => push('/')} text={$_('page.settings.title')} />
+    <Header text={$_('page.settings.title')} />
+<div class='options'>
     <div class='options__list'>
         <!--App - Start app on screen-->
         <!--Display name, show account info, delete account:-->
@@ -30,16 +24,11 @@
             {$_('app.logout')}
         </a>
     </footer>
-</main>
+</div>
 
 <style>
     .options {
         display: flex;
         flex-direction: column;
-        height: 100vh;
-    }
-
-    .options__list {
-        flex-grow: 1;
     }
 </style>

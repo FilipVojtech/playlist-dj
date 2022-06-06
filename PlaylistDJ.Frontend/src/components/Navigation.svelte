@@ -1,5 +1,5 @@
-<script lang='ts' xmlns='http://www.w3.org/1999/html'>
-    import { ChevronDownIcon, HexagonIcon, HomeIcon, ListIcon } from 'svelte-feather-icons'
+<script lang='ts'>
+    import { ChevronDownIcon, HexagonIcon, ListIcon, SettingsIcon } from 'svelte-feather-icons'
     import PinIcon from './PinIcon.svelte'
     import { link, location, push } from 'svelte-spa-router'
     import { _ } from 'svelte-i18n'
@@ -15,6 +15,7 @@
     const routes = [
         { href: '/playlists', name: 'playlists', icon: ListIcon },
         { href: '/social', name: 'social', icon: HexagonIcon },
+        { href: '/settings', name: 'settings', icon: SettingsIcon },
     ]
 
     onMount(async () => {
