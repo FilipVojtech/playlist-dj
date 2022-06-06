@@ -18,7 +18,7 @@ router.use(log)
  */
 if (!process.env.PRODUCTION) {
     router.get('/debug', async (req: Request, res: Response) => {
-        req.session.user = await DI.userRepository.findOne({ profile: { email: 'filip@aprex.cz' } }) as User
+        req.session.user = (await DI.userRepository.findOne({ profile: { email: 'YOUR EMAIL ADDRESS' } })) as User
         res.sendStatus(200)
     })
 }
@@ -60,9 +60,12 @@ router.get('/search', renewToken, async (req: Request, res: Response) => {
     // Set limit if not present
     if (!req.query.limit) req.query.limit = '10'
 
-
-    // @ts-ignore
-    if (typeof req.query.type !== 'string' && !(req.query.type === 'artist' || req.query.type === 'album' || req.query.type === 'track')) res.sendStatus(400)
+    if (
+        typeof req.query.type !== 'string' &&
+        // @ts-ignore
+        !(req.query.type === 'artist' || req.query.type === 'album' || req.query.type === 'track')
+    )
+        res.sendStatus(400)
     else if (!req.query.q || typeof req.query.q !== 'string') res.sendStatus(400)
     else if (typeof req.query.limit !== 'string') req.query.limit.toString()
     else res.json(await endpoint(req.session.user!).search(req.query.type, req.query.q, req.query.limit))

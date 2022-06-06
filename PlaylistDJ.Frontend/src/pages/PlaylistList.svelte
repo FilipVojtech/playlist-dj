@@ -3,7 +3,7 @@
     import { _ } from 'svelte-i18n'
     import aport from '../utility/Aport'
     import { onMount } from 'svelte'
-    import { LoaderIcon, MoreHorizontalIcon } from 'svelte-feather-icons'
+    import { LoaderIcon } from 'svelte-feather-icons'
     import { closeModal, closeModals, openModal } from 'svelte-modals'
     import { push } from 'svelte-spa-router'
     import CreatePlaylist from '../components/widgets/CreatePlaylist.svelte'
@@ -17,7 +17,7 @@
 
     function handleClick() {
         openModal(Modal, {
-            title: 'Actions',
+            title: $_('app.actions'),
             actions: [
                 // {
                 //     title: $_('page.playlistList.more.importPlaylist'),
@@ -34,7 +34,7 @@
                     },
                 },
                 {
-                    title: 'Close',
+                    title: $_('app.cancel'),
                     onClick: closeModal,
                 },
             ],
@@ -45,13 +45,14 @@
 <svelte:head>
     <title>{$_('page.playlistList.title')}</title>
 </svelte:head>
-<Header iconAfter={MoreHorizontalIcon} onClickAfter={handleClick} text={$_('page.playlistList.title')} />
+<!--<Header iconAfter={MoreHorizontalIcon} onClickAfter={handleClick} text={$_('page.playlistList.title')} />-->
+<Header text={$_('page.playlistList.title')} />
 
 <div class='list'>
     <CreatePlaylist half />
     {#await data }
         <div class='loader'>
-            <LoaderIcon />
+            <LoaderIcon size='35'/>
         </div>
     {:then playlists}
         <PlaylistList half {playlists} on:click={(e) => push(`/playlist/${e.detail.id}`)} />

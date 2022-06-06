@@ -1,29 +1,27 @@
 <script>
     import { LoginButton } from '../components'
     import { LoginWidget } from '../components/widgets'
-    import { link } from 'svelte-spa-router'
     import { _ } from 'svelte-i18n'
 </script>
 
 <svelte:head>
     <title>{$_('app.name')}</title>
 </svelte:head>
-<main>
-    <header class='header'>
-        <div class='header__row'>
-            <img alt='Playlist DJ icon' class='logo__img' src='/images/logo.png' />
-            <h1 class='logo__text'>{$_('app.name')}</h1>
-        </div>
-        <LoginButton text={$_('app.login.short')} />
-    </header>
-    <section class='section'>
-        <h1>{$_('app.welcome')}</h1>
-        <p>{$_('app.description')}</p>
-    </section>
-    <section class='section'>
-        <LoginWidget />
-    </section>
-</main>
+
+<header class='header'>
+    <div class='header__row'>
+        <img alt='Playlist DJ icon' class='logo__img' src='/images/logo.png' />
+        <h1 class='logo__text'>{$_('app.name')}</h1>
+    </div>
+    <LoginButton text={$_('app.login.short')} />
+</header>
+<section class='section'>
+    <h1>{$_('app.welcome')}</h1>
+    <p>{$_('app.description')}</p>
+</section>
+<section class='section'>
+    <LoginWidget />
+</section>
 
 <style>
     .header {
