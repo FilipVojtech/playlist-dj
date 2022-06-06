@@ -3,7 +3,7 @@
     import { _ } from 'svelte-i18n'
     import aport from '../utility/Aport'
     import { onMount } from 'svelte'
-    import { LoaderIcon, MoreHorizontalIcon } from 'svelte-feather-icons'
+    import { LoaderIcon } from 'svelte-feather-icons'
     import { closeModal, closeModals, openModal } from 'svelte-modals'
     import { push } from 'svelte-spa-router'
     import CreatePlaylist from '../components/widgets/CreatePlaylist.svelte'
@@ -52,7 +52,7 @@
     <CreatePlaylist half />
     {#await data }
         <div class='loader'>
-            <LoaderIcon />
+            <LoaderIcon size='35'/>
         </div>
     {:then playlists}
         <PlaylistList half {playlists} on:click={(e) => push(`/playlist/${e.detail.id}`)} />
