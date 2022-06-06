@@ -40,6 +40,11 @@
       "greeting": "Vítej {user}!",
       "title": "Domů"
     },
+    "notFound": {
+      "goBack": "Jít o stránku zpět",
+      "notFound": "Nenalezeno",
+      "returnHome": "Vrátit se na playlisty"
+    },
     "playlist": {
       "title": "Playlist"
     },
