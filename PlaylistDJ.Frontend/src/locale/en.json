@@ -40,6 +40,11 @@
       "greeting": "Welcome {user}!",
       "title": "Home"
     },
+    "notFound": {
+      "goBack": "Go back",
+      "notFound": "Not Found",
+      "returnHome": "Return to playlists page"
+    },
     "playlist": {
       "title": "Playlist"
     },
