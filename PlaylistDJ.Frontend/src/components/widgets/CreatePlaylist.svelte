@@ -38,13 +38,13 @@
 {#if !isCreating}
     <div class='item item--interactive' class:item--half={half} class:item--slim={slim} on:click={itemOnClickHandle}>
         <FilterPlaceholder icon={PlusIcon} />
-        <div class='filter__info'>{$_('page.playlistList.createPlaylist')}</div>
+        <div class='filter__info'>{$_('widget.createPlaylist.action')}</div>
     </div>
 {:else}
     <div class='item item--column' class:item--half={half}>
         <form on:submit|preventDefault={createPlaylist} class='form'>
             <label for='playlistName' class='form__label'>
-                {$_('page.playlistList.playlistName')}
+                {$_('widget.createPlaylist.playlistName')}
             </label>
             <input
                 type='text'
