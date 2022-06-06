@@ -42,8 +42,8 @@ a {
 
 .loader {
     animation: rotate 3s linear infinite;
-    width: 30px;
-    height: 30px;
+    width: min-content;
+    aspect-ratio: 1 / 1;
     margin: auto;
 }
 
