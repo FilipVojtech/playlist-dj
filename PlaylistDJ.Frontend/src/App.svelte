@@ -2,47 +2,49 @@
     import { Navigation } from './components'
     import { About, Home, NotFound, Playlist, PlaylistList, Social } from './pages'
     import Settings, { Account, Communication, Profile } from './pages/Settings'
-    import Router from 'svelte-spa-router'
+    import Router, { replace } from 'svelte-spa-router'
     import { showNav, user } from './utility/stores'
     import './utility/i18n'
     import { isLoading } from 'svelte-i18n'
     import { closeAllModals, Modals } from 'svelte-modals'
     import { fade, fly } from 'svelte/transition'
     import { LoaderIcon } from 'svelte-feather-icons'
+    import wrap from 'svelte-spa-router/wrap'
 
-    const generalRoutes = {
+    const routes = {
+        '/': wrap({ component: Home, conditions: [authorize], userData: $user }),
+        '/about': About,
+        '/playlists': wrap({ component: PlaylistList, conditions: [authorize] }),
         '/playlist/:id': Playlist,
-    }
-    const loggedOutRoutes = {
-        '/': About,
-    }
-    const loggedInRoutes = {
-        '/': Home,
-        '/playlists': PlaylistList,
-        '/playlist/:id/edit': Playlist,
-        '/social': Social,
-        '/settings': Settings,
-        '/settings/account': Account,
-        '/settings/notifications': Communication,
-        '/settings/profile': Profile,
-    }
-    const generalRoutesAfter = {
+        '/playlist/:id/edit': wrap({ component: Playlist, conditions: [authorize] }),
+        '/social': wrap({ component: Social, conditions: [authorize] }),
+        '/settings': wrap({ component: Settings, conditions: [authorize] }),
+        '/settings/account': wrap({ component: Account, conditions: [authorize] }),
+        '/settings/notifications': wrap({ component: Communication, conditions: [authorize] }),
+        '/settings/profile': wrap({ component: Profile, conditions: [authorize] }),
         '*': NotFound,
     }
-    const routes = $user
-        ? { ...generalRoutes, ...loggedInRoutes, ...generalRoutesAfter }
-        : { ...generalRoutes, ...loggedOutRoutes, ...generalRoutesAfter }
 
     /**
      * Check if media queries use wide layout
      */
     const isWide = window.innerWidth >= 1080
+
+    function authorize(): boolean {
+        return !!$user
+    }
+
+    function conditionsFailedHandler(e) {
+        if (e.detail.route !== '/about' && !$user) {
+            replace('/about')
+        }
+    }
 </script>
 
 <div class='page'>
     {#if !$isLoading}
         <main class='main-content'>
-            <Router {routes} />
+            <Router {routes} restoreScrollState={true} on:conditionsFailed={conditionsFailedHandler} />
         </main>
         <div class:nav-space={$showNav}></div>
         {#if $showNav && $user}
