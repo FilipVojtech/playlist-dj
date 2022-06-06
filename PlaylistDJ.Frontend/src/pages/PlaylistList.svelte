@@ -17,7 +17,7 @@
 
     function handleClick() {
         openModal(Modal, {
-            title: 'Actions',
+            title: $_('app.actions'),
             actions: [
                 // {
                 //     title: $_('page.playlistList.more.importPlaylist'),
@@ -34,7 +34,7 @@
                     },
                 },
                 {
-                    title: 'Close',
+                    title: $_('app.cancel'),
                     onClick: closeModal,
                 },
             ],
@@ -45,7 +45,8 @@
 <svelte:head>
     <title>{$_('page.playlistList.title')}</title>
 </svelte:head>
-<Header iconAfter={MoreHorizontalIcon} onClickAfter={handleClick} text={$_('page.playlistList.title')} />
+<!--<Header iconAfter={MoreHorizontalIcon} onClickAfter={handleClick} text={$_('page.playlistList.title')} />-->
+<Header text={$_('page.playlistList.title')} />
 
 <div class='list'>
     <CreatePlaylist half />
