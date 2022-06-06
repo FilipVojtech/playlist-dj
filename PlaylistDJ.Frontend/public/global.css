@@ -9,8 +9,10 @@
 
 :root {
     --main-bg: #262626;
-    --darker-bg: #161616;
-    --lighter-bg: #393939;
+    --main-bg--hover: #333333;
+    --darker-bg: #121212;
+    --lighter-bg: #404040;
+    --main: #5e2ebf;
     --spotify-green: #1db956;
     --warning: #d34747;
     --text-accept: #baffc1;
