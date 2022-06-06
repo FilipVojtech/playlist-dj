@@ -13,9 +13,8 @@
     let pinnedPlaylists: [] = []
 
     const routes = [
-        { href: '/social', name: 'social', icon: HexagonIcon },
-        { href: '/', name: 'home', icon: HomeIcon },
         { href: '/playlists', name: 'playlists', icon: ListIcon },
+        { href: '/social', name: 'social', icon: HexagonIcon },
     ]
 
     onMount(async () => {
