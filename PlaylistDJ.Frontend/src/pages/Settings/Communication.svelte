@@ -1,7 +1,6 @@
 <script lang='ts'>
-    import { onDestroy, onMount } from 'svelte'
+    import { onMount } from 'svelte'
     import { _ } from 'svelte-i18n'
-    import { showNav } from '../../utility/stores'
     import { Header } from '../../components'
     import { ChevronLeftIcon } from 'svelte-feather-icons'
     import { push } from 'svelte-spa-router'
@@ -10,13 +9,11 @@
     let communicationSettings
 
     onMount(async () => {
-        $showNav = false
         communicationSettings = await aport('/api/user/communication')
             .then(value => value.json())
     })
-    onDestroy(() => $showNav = true)
 
-    const onSubmit = e =>
+    const onSubmit = () =>
         aport('/api/user/communication', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },

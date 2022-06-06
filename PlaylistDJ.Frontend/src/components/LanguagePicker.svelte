@@ -11,7 +11,7 @@
     }
 </script>
 
-<main class='item item--with-input'>
+<div class='item item--with-input'>
     <span class='item__icon'>
         <GlobeIcon size='25' />
     </span>
@@ -26,7 +26,7 @@
             <option value={loc}>{$_(`locales.${loc}`)}</option>
         {/each}
     </select>
-</main>
+</div>
 
 <style>
     .form__input--lang-picker {

@@ -6,10 +6,10 @@
 </script>
 
 
-<main class='widget'>
+<div class='widget'>
     <p class='widget__text'>{message}</p>
     <LoginButton text={$_('app.login.long')} />
-</main>
+</div>
 
 <style>
     .widget {

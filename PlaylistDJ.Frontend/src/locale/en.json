@@ -1,7 +1,9 @@
 {
   "app": {
+    "actions": "Actions",
     "back": "Back",
     "cancel": "Cancel",
+    "create": "Create",
     "description": "Manage your Spotify playlists with ease",
     "login": {
       "long": "Log in with Spotify",
@@ -13,12 +15,15 @@
     "ok": "Ok",
     "upload": "Upload",
     "welcome": "Welcome to Playlist DJ",
-    "yes": "Yes",
-    "create": "Create"
+    "yes": "Yes"
   },
   "component": {
     "navigation": {
-      "pinnedPlaylists": "Pinned playlists"
+      "home": "Home",
+      "pinnedPlaylists": "Pinned playlists",
+      "playlists": "Playlists",
+      "settings": "Settings",
+      "social": "Social"
     }
   },
   "locales": {
@@ -39,15 +44,13 @@
       "title": "Playlist"
     },
     "playlistList": {
-      "createPlaylist": "Create a new playlist",
+      "error": "Name cannot be empty",
       "more": {
         "importM3U": "Import m3u file",
         "importPlaylist": "Import Spotify playlist"
       },
-      "title": "Playlists",
-      "playlistName": "Playlist name",
       "newPlaylist": "New playlist",
-      "error": "Name cannot be empty"
+      "title": "Playlists"
     },
     "settings": {
       "account": {
@@ -96,6 +99,10 @@
     }
   },
   "widget": {
+    "createPlaylist": {
+      "action": "Create a new playlist",
+      "playlistName": "Playlist name"
+    },
     "login": {
       "message": "Join the experience!"
     }

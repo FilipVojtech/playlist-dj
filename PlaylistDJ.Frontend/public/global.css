@@ -68,7 +68,7 @@ a {
     padding: 10px;
     margin: 5px 0;
     font-size: 18px;
-
+    overflow: clip;
     background-color: var(--lighter-bg);
     border-radius: 20px;
 }
@@ -85,7 +85,7 @@ a {
 
 .item--interactive:hover {
     transition: 150ms;
-    background-color: var(--main-bg);
+    background-color: var(--main-bg--hover);
 }
 
 .item--warning {
@@ -111,8 +111,8 @@ a {
 }
 
 .filter__info {
-    display: flex;
-    flex-direction: column;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .form {
