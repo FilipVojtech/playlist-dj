@@ -26,9 +26,10 @@ jobs:
           cd PlaylistDJ.API
           yarn build
           cd ..
-          ls -a
+      - name: Archive
+        run: tar czf playlistdj.tar.gz *
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
           name: Playlist DJ
-          path: .
+          path: playlistdj.tar.gz
