@@ -27,20 +27,8 @@ jobs:
           yarn build
           cd ..
           ls -a
-      - name: Create zip
-        uses: ihiroky/archive-action@v1
-        with:
-          root_dir: .
-          file_path: playlistdj.zip
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
-          name: playlistdj
-          path: playlistdj.zip
-#      - name: Upload files
-#        uses: sebastianpopp/ftp-action@releases/v2
-#        with:
-#          host: ${{ secrets.FTP_HOST }}
-#          user: ${{ secrets.FTP_USERNAME }}
-#          password: ${{ secrets.FTP_PASSWORD }}
-#          options: '--verbose -P'
+          name: Playlist DJ
+          path: .
