@@ -75,6 +75,10 @@ a {
     border-radius: 20px;
 }
 
+.item--column {
+    flex-direction: column;
+}
+
 .item--slim {
     padding: 5px;
     margin: 0 0 5px;
@@ -96,6 +100,32 @@ a {
 
 .item__icon {
     margin-right: 10px;
+}
+
+.item__actions {
+    display: flex;
+    border-radius: 15px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.item__actions__action {
+    border: unset;
+    padding: 10px;
+    background-color: var(--darker-bg);
+    cursor: pointer;
+    flex-grow: 1;
+    font-size: 16px;
+}
+
+.item__actions__action:first-child {
+    margin-right: 2px;
+}
+
+.item__actions__action--disabled {
+    background-color: unset;
+    color: grey;
+    cursor: default;
 }
 
 .filter {

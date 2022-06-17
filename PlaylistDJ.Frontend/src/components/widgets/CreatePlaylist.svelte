@@ -1,5 +1,4 @@
-<script lang='ts'>
-
+<script lang="ts">
     import aport from '../../utility/Aport'
     import FilterPlaceholder from '../FilterPlaceholder.svelte'
     import { PlusIcon } from 'svelte-feather-icons'
@@ -36,68 +35,36 @@
 </script>
 
 {#if !isCreating}
-    <div class='item item--interactive' class:item--half={half} class:item--slim={slim} on:click={itemOnClickHandle}>
+    <div class="item item--interactive" class:item--half={half} class:item--slim={slim} on:click={itemOnClickHandle}>
         <FilterPlaceholder icon={PlusIcon} />
-        <div class='filter__info'>{$_('widget.createPlaylist.action')}</div>
+        <div class="filter__info">{$_('widget.createPlaylist.action')}</div>
     </div>
 {:else}
-    <div class='item item--column' class:item--half={half}>
-        <form on:submit|preventDefault={createPlaylist} class='form'>
-            <label for='playlistName' class='form__label'>
+    <div class="item item--column" class:item--half={half}>
+        <form on:submit|preventDefault={createPlaylist} class="form">
+            <label for="playlistName" class="form__label">
                 {$_('widget.createPlaylist.playlistName')}
             </label>
             <input
-                type='text'
-                id='playlistName'
-                name='playlistName'
-                class='form__input'
+                type="text"
+                id="playlistName"
+                name="playlistName"
+                class="form__input"
                 autofocus
                 required
                 bind:value={playlistName}
                 on:keyup={cancelHandle}
-            >
+            />
+            <div class="item__actions">
+                <button
+                    class="item__actions__action text--accept"
+                    class:item__actions__action--disabled={playlistName.length < 1}
+                    on:click={createPlaylist}
+                >
+                    {$_('app.create')}
+                </button>
+                <button class="item__actions__action text--reject" on:click={cancelHandle}>{$_('app.cancel')}</button>
+            </div>
         </form>
-        <div class='actions'>
-            <button
-                class='action text--accept'
-                class:action--disabled={playlistName.length < 1}
-                on:click={createPlaylist}
-            >
-                {$_('app.create')}
-            </button>
-            <button class='action text--reject' on:click={cancelHandle}>{$_('app.cancel')}</button>
-        </div>
     </div>
 {/if}
-
-<style>
-    .item--column {
-        flex-direction: column;
-    }
-
-    .actions {
-        display: flex;
-        border-radius: 15px;
-        width: 100%;
-        overflow: hidden;
-    }
-
-    .action {
-        border: unset;
-        padding: 10px;
-        background-color: var(--darker-bg);
-        cursor: pointer;
-        flex-grow: 1;
-        font-size: 16px;
-    }
-
-    .action:first-of-type {
-        margin-right: 2px;
-    }
-
-    .action--disabled {
-        background-color: unset;
-        color: grey;
-        cursor: default;
-    }
-</style>
