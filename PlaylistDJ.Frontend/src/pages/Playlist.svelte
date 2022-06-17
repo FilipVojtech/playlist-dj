@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { CollaborateModal, Header, Modal, SpotifySearchModal } from '../components'
+    import { FilterList, Header, Modal, SpotifySearchModal } from '../components'
     import { onDestroy, onMount } from 'svelte'
     import { searchResult, showNav, user } from '../utility/stores'
     import { _ } from 'svelte-i18n'
@@ -10,7 +10,6 @@
     import { push } from 'svelte-spa-router'
     import NotFound from './NotFound.svelte'
     import { copyToClipboard, ModalAction } from '../utility'
-    import FilterList from '../components/FilterList.svelte'
 
     export let params = { id: '' }
     export let previousPage = '/playlists'
@@ -37,14 +36,6 @@
             title: $_('app.actions'),
             message: '',
             actions: [
-                new ModalAction(
-                    $_('page.playlist.more.addUser'),
-                    () => {
-                        closeModal()
-                        openModal(CollaborateModal, { playlistId: params.id })
-                    },
-                    $user!.id === (await data.id)
-                ),
                 new ModalAction($_('page.playlist.more.delete'), handleDelete),
                 new ModalAction($_('app.cancel'), closeModal),
             ],
