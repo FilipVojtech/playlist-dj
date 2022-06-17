@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
     import { ChevronDownIcon, HexagonIcon, ListIcon, SettingsIcon } from 'svelte-feather-icons'
     import PinIcon from './PinIcon.svelte'
     import { link, location, push } from 'svelte-spa-router'
@@ -18,10 +18,7 @@
         { href: '/settings', name: 'settings', icon: SettingsIcon },
     ]
 
-    onMount(async () => {
-        pinnedPlaylists = await aport('/api/playlist?pinned=true')
-            .then(value => value.json())
-    })
+    onMount(async () => (pinnedPlaylists = await aport('/api/playlist?pinned=true').then(value => value.json())))
 
     // This is for a future endeavour to implement swipe to open navigation
     // todo: Implement swipe to open navigation
@@ -42,50 +39,43 @@
 </script>
 
 <!--<div class='handle'></div>-->
-<nav class='nav'> <!-- on:touchend={onTouchEnd} on:touchmove={onTouchMove} on:touchstart={onTouchStart}> -->
+<nav class="nav">
+    <!-- on:touchend={onTouchEnd} on:touchmove={onTouchMove} on:touchstart={onTouchStart}> -->
     <!-- Always visible -->
-    <div class='primary'>
-        <div class='primary__item logo'>
-            <img alt='Playlist DJ icon' class='logo__img' src='/images/logo.png' />
-            <h1 class='logo__text'>{$_('app.name')}</h1>
+    <div class="primary">
+        <div class="primary__item logo">
+            <img alt="Playlist DJ icon" class="logo__img" src="/images/logo.png" />
+            <h1 class="logo__text">{$_('app.name')}</h1>
         </div>
         {#each routes as { href, icon, name }}
             <a
-                class='primary__item'
+                class="primary__item"
                 class:primary__item--active={$location.startsWith(href)}
                 {href}
                 use:link
-                on:click={() => isOpen = false}
+                on:click={() => (isOpen = false)}
             >
-                <span><svelte:component this={icon} size='35' /></span>
-                <div class='item__name'>{$_(`component.navigation.${name}`)}</div>
+                <span><svelte:component this={icon} size="35" /></span>
+                <div class="item__name">{$_(`component.navigation.${name}`)}</div>
             </a>
         {/each}
-        <div
-            class='primary__item open-button'
-            class:open-button--closed={!isOpen}
-            on:click={() => isOpen = !isOpen}
-        >
-            <ChevronDownIcon size='35' />
+        <div class="primary__item open-button" class:open-button--closed={!isOpen} on:click={() => (isOpen = !isOpen)}>
+            <ChevronDownIcon size="35" />
         </div>
     </div>
 
     <!-- Visible if navigation open -->
-    <div class='secondary' class:secondary--shown='{isOpen}' transition:fly={{ y:200, duration: 300 }}>
+    <div class="secondary" class:secondary--shown={isOpen} transition:fly={{ y: 200, duration: 300 }}>
         <CreatePlaylist slim />
         {#if pinnedPlaylists.length > 0}
             <!-- Pinned playlist divider -->
-            <div class='secondary__item secondary__pin'>
-                <span class='secondary__icon pin-icon'><PinIcon /></span>
+            <div class="secondary__item secondary__pin">
+                <span class="secondary__icon pin-icon"><PinIcon /></span>
                 {$_('component.navigation.pinnedPlaylists')}
             </div>
             <!-- Pinned playlists -->
-            <div class='secondary__item secondary__list'>
-                <PlaylistList
-                    playlists='{pinnedPlaylists}'
-                    on:click={e => push(`/playlist/${e.detail.id}`)}
-                    slim
-                />
+            <div class="secondary__item secondary__list">
+                <PlaylistList playlists={pinnedPlaylists} on:click={e => push(`/playlist/${e.detail.id}`)} slim />
             </div>
         {/if}
     </div>
@@ -104,7 +94,7 @@
         flex-direction: column;
         align-items: center;
         overflow-y: scroll;
-        max-height: 80vh;
+        max-height: 70vh;
 
         padding-bottom: env(safe-area-inset-bottom);
         border-radius: 20px 20px 0 0;
@@ -227,7 +217,7 @@
 
         .logo__text {
             user-select: none;
-            font-family: "saffran", sans-serif;
+            font-family: 'saffran', sans-serif;
         }
 
         .primary__item {
