@@ -33,3 +33,5 @@ interface Cookies {
 }
 
 type CookieValue = string | number | JSON
+
+export { default as ModalAction } from './ModalAction'
