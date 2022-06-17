@@ -118,11 +118,12 @@ export function endpoint(user: User) {
          * @returns Detailed profile information about the current user (including the current user username).
          */
         async me(): Promise<Profile | null> {
-            return await got(`${apiUrl}/me`, { headers })
+            return (
+                (await got(`${apiUrl}/me`, { headers })
                     .then(value => JSON.parse(value.body))
                     .then(body => Profile.fromBody(body))
-                    .catch(e => console.error(e))
-                ?? null
+                    .catch(e => console.error(e))) ?? null
+            )
         },
 
         /**
@@ -132,7 +133,11 @@ export function endpoint(user: User) {
          * @param limit Limit results count
          * @returns Search results
          */
-        async search(type: 'artist' | 'album' | 'track' | string, query: string, limit = '10'): Promise<Spotify.SearchResults> {
+        async search(
+            type: 'artist' | 'album' | 'track' | string,
+            query: string,
+            limit = '10'
+        ): Promise<Spotify.SearchResults> {
             const queryParams = new URLSearchParams({
                 q: query,
                 type,
@@ -140,7 +145,7 @@ export function endpoint(user: User) {
                 market: user.profile.country,
             })
 
-            return await got(`${apiUrl}/search?${queryParams.toString()}`, { headers })
+            return await got(`${apiUrl}/search?${queryParams}`, { headers })
                 .then(value => JSON.parse(value.body) as Spotify.SearchResults)
                 .then(value => snakeToCamelCase(value) as any)
                 .catch(e => console.error(e))
@@ -150,7 +155,7 @@ export function endpoint(user: User) {
          * Get current users owned playlists
          */
         async ownedPlaylists(): Promise<[{}]> {
-            const query = new URLSearchParams({ limit: '50' }).toString()
+            const query = new URLSearchParams({ limit: '50' })
             return await got(`${apiUrl}/me/playlists?${query}`, { headers })
                 .then(data => JSON.parse(data.body))
                 .then(data => data.items.filter((value: any) => value.owner.id === user.profile.spotifyId))
@@ -179,7 +184,7 @@ export function endpoint(user: User) {
                 .then(async value => {
                     let songs = []
                     songs.push(...value.items)
-                    if (value.next) songs.push(...await this.playlistTracks(playlistId, value.next))
+                    if (value.next) songs.push(...(await this.playlistTracks(playlistId, value.next)))
                     return songs as any
                 })
                 .catch(e => console.error(e))

@@ -9,8 +9,10 @@
 
 :root {
     --main-bg: #262626;
-    --darker-bg: #161616;
-    --lighter-bg: #393939;
+    --main-bg--hover: #333333;
+    --darker-bg: #121212;
+    --lighter-bg: #404040;
+    --main: #5e2ebf;
     --spotify-green: #1db956;
     --warning: #d34747;
     --text-accept: #baffc1;
@@ -40,8 +42,8 @@ a {
 
 .loader {
     animation: rotate 3s linear infinite;
-    width: 30px;
-    height: 30px;
+    width: min-content;
+    aspect-ratio: 1 / 1;
     margin: auto;
 }
 
@@ -55,18 +57,26 @@ a {
     }
 }
 
+.list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .item {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding: 10px;
-    margin: 10px 0;
+    margin: 5px 0;
     font-size: 18px;
-    width: -moz-available;
-    width: -webkit-fill-available;
-
+    overflow: clip;
     background-color: var(--lighter-bg);
     border-radius: 20px;
+}
+
+.item--column {
+    flex-direction: column;
 }
 
 .item--slim {
@@ -81,7 +91,7 @@ a {
 
 .item--interactive:hover {
     transition: 150ms;
-    background-color: var(--main-bg);
+    background-color: var(--main-bg--hover);
 }
 
 .item--warning {
@@ -90,6 +100,32 @@ a {
 
 .item__icon {
     margin-right: 10px;
+}
+
+.item__actions {
+    display: flex;
+    border-radius: 15px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.item__actions__action {
+    border: unset;
+    padding: 10px;
+    background-color: var(--darker-bg);
+    cursor: pointer;
+    flex-grow: 1;
+    font-size: 16px;
+}
+
+.item__actions__action:first-child {
+    margin-right: 2px;
+}
+
+.item__actions__action--disabled {
+    background-color: unset;
+    color: grey;
+    cursor: default;
 }
 
 .filter {
@@ -107,8 +143,8 @@ a {
 }
 
 .filter__info {
-    display: flex;
-    flex-direction: column;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .form {
@@ -117,17 +153,41 @@ a {
     width: 100%;
 }
 
+.form > * {
+    margin-bottom: 5px;
+}
+
+.form > *:last-child {
+    margin-bottom: 0;
+}
+
+.form > label {
+    text-align: start;
+    padding-left: 10px;
+    margin-top: 10px;
+    user-select: none;
+}
+
+.form > label:first-child {
+    margin-top: 0;
+}
+
 .form__input {
     background-color: var(--darker-bg);
     border: none;
     border-radius: 15px;
     color: white;
-    padding: 5px;
+    padding: 5px 10px;
     max-width: 100%;
-    margin-bottom: 5px;
     font-size: 20px;
     width: 100%;
     box-sizing: border-box;
+}
+
+.form__input__slider {
+    padding: 0;
+    margin: 5px;
+    width: calc(100% - 10px);
 }
 
 .form__label {
@@ -204,6 +264,25 @@ a {
 @media (min-width: 1080px) {
     .modal__contents {
         width: 30vw;
+    }
+
+    .list {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: flex-start;
+    }
+
+    .item--half {
+        --margin-size: 10px;
+        flex: max-content;
+        box-sizing: border-box;
+        min-width: calc(50% - var(--margin-size));
+        max-width: calc(50% - var(--margin-size));
+        margin-bottom: 5px;
+    }
+
+    .item--half:nth-child(2n) {
+        margin-left: var(--margin-size);
     }
 }
 

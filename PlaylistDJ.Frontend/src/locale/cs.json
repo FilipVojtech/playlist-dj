@@ -1,7 +1,9 @@
 {
   "app": {
+    "actions": "Možnosti",
     "back": "Zpět",
     "cancel": "Zrušit",
+    "create": "Vytvořit",
     "description": "Spravujte Spotify playlisty s lehkostí",
     "login": {
       "long": "Přihlásit se se Spotify",
@@ -13,12 +15,15 @@
     "ok": "Ok",
     "upload": "Nahrát",
     "welcome": "Playlist DJ vás vítá",
-    "yes": "Ano",
-    "create": "Vytvořit"
+    "yes": "Ano"
   },
   "component": {
     "navigation": {
-      "pinnedPlaylists": "Připnuté playlisty"
+      "home": "Domů",
+      "pinnedPlaylists": "Připnuté playlisty",
+      "playlists": "Playlisty",
+      "settings": "Nastavení",
+      "social": "Síť"
     }
   },
   "locales": {
@@ -35,19 +40,22 @@
       "greeting": "Vítej {user}!",
       "title": "Domů"
     },
+    "notFound": {
+      "goBack": "Jít o stránku zpět",
+      "notFound": "Nenalezeno",
+      "returnHome": "Vrátit se na playlisty"
+    },
     "playlist": {
       "title": "Playlist"
     },
     "playlistList": {
-      "createPlaylist": "Vytvořit nový playlist",
+      "error": "Název playlistu nesmí být prázdný",
       "more": {
         "importM3U": "Nahrát playlist z m3u souboru",
         "importPlaylist": "Nahrát playlist ze Spotify"
       },
-      "title": "Playlisty",
-      "playlistName": "Název playlistu",
       "newPlaylist": "Nový playlist",
-      "error": "Název playlistu nesmí být prázdný"
+      "title": "Playlisty"
     },
     "settings": {
       "account": {
@@ -96,6 +104,10 @@
     }
   },
   "widget": {
+    "createPlaylist": {
+      "action": "Vytvořit nový playlist",
+      "playlistName": "Název playlistu"
+    },
     "login": {
       "message": "Přidejte se taky!"
     }

@@ -1,66 +1,84 @@
-<script lang='ts'>
+<script lang="ts">
     import { Navigation } from './components'
     import { About, Home, NotFound, Playlist, PlaylistList, Social } from './pages'
     import Settings, { Account, Communication, Profile } from './pages/Settings'
-    import Router from 'svelte-spa-router'
+    import Router, { replace } from 'svelte-spa-router'
     import { showNav, user } from './utility/stores'
     import './utility/i18n'
     import { isLoading } from 'svelte-i18n'
     import { closeAllModals, Modals } from 'svelte-modals'
-    import { fade } from 'svelte/transition'
+    import { fade, fly } from 'svelte/transition'
     import { LoaderIcon } from 'svelte-feather-icons'
+    import wrap from 'svelte-spa-router/wrap'
 
-    const generalRoutes = {
+    const routes = {
+        '/': wrap({ component: Home, conditions: [authorize], userData: $user }),
+        '/about': About,
+        '/playlists': wrap({ component: PlaylistList, conditions: [authorize] }),
         '/playlist/:id': Playlist,
-    }
-    const loggedOutRoutes = {
-        '/': About,
-    }
-    const loggedInRoutes = {
-        '/': Home,
-        '/playlists': PlaylistList,
-        '/playlist/:id/edit': Playlist,
-        '/social': Social,
-        '/settings': Settings,
-        '/settings/account': Account,
-        '/settings/notifications': Communication,
-        '/settings/profile': Profile,
-    }
-    const generalRoutesAfter = {
+        '/playlist/:id/edit': wrap({ component: Playlist, conditions: [authorize], props: { isEditing: true } }),
+        '/social': wrap({ component: Social, conditions: [authorize] }),
+        '/settings': wrap({ component: Settings, conditions: [authorize] }),
+        '/settings/account': wrap({ component: Account, conditions: [authorize] }),
+        '/settings/notifications': wrap({ component: Communication, conditions: [authorize] }),
+        '/settings/profile': wrap({ component: Profile, conditions: [authorize] }),
         '*': NotFound,
     }
-    const routes = $user
-        ? { ...generalRoutes, ...loggedInRoutes, ...generalRoutesAfter }
-        : { ...generalRoutes, ...loggedOutRoutes, ...generalRoutesAfter }
+
+    /**
+     * Check if media queries use wide layout
+     */
+    const isWide = window.innerWidth >= 1080
+
+    function authorize(): boolean {
+        return !!$user
+    }
+
+    function conditionsFailedHandler(e) {
+        if (e.detail.route !== '/about' && !$user) {
+            replace('/about')
+        }
+    }
 </script>
 
-<main>
+<div class="page">
     {#if !$isLoading}
-        <div class='main-content'>
-            <Router {routes} />
-        </div>
-        <div class:nav-space={$showNav} ></div>
+        <main class="main-content">
+            <Router {routes} restoreScrollState={true} on:conditionsFailed={conditionsFailedHandler} />
+        </main>
+        <div class:nav-space={$showNav} />
         {#if $showNav && $user}
-            <Navigation />
+            <div class="nav-wrapper" transition:fly={{ x: isWide ? -350 : 0, y: isWide ? 0 : 55, duration: 200 }}>
+                <Navigation />
+            </div>
         {/if}
         <Modals>
-            <div
-                class='backdrop'
-                on:click={closeAllModals}
-                slot='backdrop'
-                transition:fade></div>
+            <div class="backdrop" on:click={closeAllModals} slot="backdrop" transition:fade />
         </Modals>
-    {:else }
-        <div class='loader'>
-            <LoaderIcon size='100' />
+    {:else}
+        <div class="loader">
+            <LoaderIcon size="100" />
         </div>
     {/if}
-</main>
+</div>
 
 <style>
+    .page {
+        display: flex;
+        flex-flow: column nowrap;
+        width: 100%;
+        min-height: 100vh;
+    }
+
     .main-content {
-        max-width: 100vw;
-        padding: 0 10px;
+        overflow-x: clip;
+        padding: 0 10px env(safe-area-inset-bottom);
+    }
+
+    .nav-wrapper {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
     }
 
     .nav-space {
@@ -80,14 +98,28 @@
 
     @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
         .backdrop {
-            background-color: rgba(0, 0, 0, .8);
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+    }
+
+    @media screen and (min-width: 1080px) {
+        .page {
+            flex-direction: row;
+        }
+
+        .nav-wrapper {
+            top: 0;
+            order: -1;
+            width: 320px;
+            height: 100vh;
+            position: sticky;
         }
     }
 
     @media (min-width: 640px) {
         .main-content {
-            max-width: 60vw;
-            margin: auto;
+            width: 60vw;
+            margin: 0 auto;
         }
     }
 </style>

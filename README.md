@@ -9,7 +9,6 @@ Technologies defined here, are present in frontend as well as backend, they incl
 - Node
 - Yarn package manager
 - Prettier
-- Docker
 
 You should have at least basic knowledge about these technologies before committing. :)
 
@@ -35,8 +34,7 @@ cd PlaylistDJ.API && yarn run build
 
 **4. Start database**
 
-_MongoDB was used in development. The usage if an ORM makes it possible to connect different databases. Although not
-tested._
+_MongoDB was used in development. The usage if an ORM makes it possible to connect to different databases Although not tested._
 
 ```shell
 mongod

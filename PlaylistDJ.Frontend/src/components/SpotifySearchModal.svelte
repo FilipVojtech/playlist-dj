@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
     import { LoaderIcon, XIcon } from 'svelte-feather-icons'
     import { fade } from 'svelte/transition'
     import { closeModal } from 'svelte-modals'
@@ -23,43 +23,45 @@
             }
 
         waiting = true
-        counters.push(setTimeout(() => {
-            if (!value) {
-                results = new Promise<Spotify.SearchResults>(() => {
-                    waiting = false
-                    return {}
-                })
-                return
-            }
+        counters.push(
+            setTimeout(() => {
+                if (!value) {
+                    results = new Promise<Spotify.SearchResults>(() => {
+                        waiting = false
+                        return {}
+                    })
+                    return
+                }
 
-            results = aport(`/api/search?${new URLSearchParams({ q: value, type }).toString()}`)
-                .then(response => {
+                results = aport(`/api/search?${new URLSearchParams({ q: value, type })}`).then(response => {
                     waiting = false
                     return response.json()
                 })
-        }, 1250))
+            }, 1250)
+        )
     }
 </script>
 
 {#if isOpen}
-    <div role='dialog' class='modal' transition:fade>
-        <div class='modal__search'>
-            <div class='search-row'>
+    <div role="dialog" class="modal" transition:fade>
+        <div class="modal__search">
+            <div class="search-row">
                 <input
-                    class='search'
-                    placeholder='Search on Spotify'
-                    type='text'
+                    class="search"
+                    placeholder="Search on Spotify"
+                    type="search"
                     autofocus
                     on:keydown={handleKeyDown}
-                    bind:value />
-                <span on:click={closeModal} class='close-btn'><XIcon size='35' /></span>
+                    bind:value
+                />
+                <span on:click={closeModal} class="close-btn"><XIcon size="35" /></span>
             </div>
-            <div class='search__results'>
+            <div class="search__results">
                 {#await results}
                     {#if waiting}
-                    <span class='loader'>
-                        <LoaderIcon size='30' />
-                    </span>
+                        <span class="loader">
+                            <LoaderIcon size="30" />
+                        </span>
                     {/if}
                 {:then data}
                     <FilterList {data} />

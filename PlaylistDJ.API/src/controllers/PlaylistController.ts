@@ -1,4 +1,4 @@
-import { Response, Router } from 'express'
+import { Response, NextFunction, Router } from 'express'
 import { Request } from '../global'
 import { DI } from '../app'
 import { endpoint } from '../utility'
@@ -7,29 +7,63 @@ import { authentication, renewToken } from '../utility/Middleware'
 
 const router = Router()
 
-router.get('/:id', async (req: Request, res: Response) => {
-    let playlist = await DI.playlistRepository.findOne({ id: req.params.id })
+async function getPlaylist(req: Request, res: Response, next: NextFunction) {
+    if (!req.params.id) {
+        res.sendStatus(400)
+        return
+    }
+
+    const playlist = await DI.playlistRepository.findOne({ id: req.params.id }, { populate: true })
 
     if (playlist) {
-        if (playlist.isPublic) res.json(playlist)
-        else if (req.session.user) {
-            if (req.session.user.id === playlist.owner.id) res.json(playlist)
-            else res.sendStatus(403)
-        } else res.sendStatus(401)
+        req.playlist = playlist
+        next()
     } else res.sendStatus(404)
+}
+
+router.get('/:id', getPlaylist, (req: Request, res: Response) => {
+    if (!req.playlist) {
+        res.sendStatus(404)
+        return
+    }
+    // Now playlist exists
+
+    if (req.playlist.isPublic) {
+        res.json(req.playlist)
+        return
+    }
+    // Now playlists is private
+
+    if (req.session.user?._id.toString() !== req.playlist.owner._id.toString()) {
+        res.sendStatus(403)
+        return
+    }
+
+    if (!req.session.user) {
+        res.sendStatus(401)
+        return
+    }
+
+    if (req.session.user._id.toString() === req.playlist.owner._id.toString()) {
+        res.json(req.playlist)
+        return
+    }
 })
 
 router.use(authentication)
 
+// prettier-ignore
 router.route('/')
     .get(renewToken, async (req: Request, res: Response) => {
         if (req.query.src && req.query.src === 'spotify') {
             res.json(await endpoint(req.session.user!).ownedPlaylists())
         } else if (req.query.pinned) {
-            res.json(await DI.playlistRepository.find({
-                owner: req.session.user!._id.toString(),
-                isPinned: true,
-            }))
+            res.json(
+                await DI.playlistRepository.find({
+                    owner: req.session.user!._id.toString(),
+                    isPinned: true,
+                })
+            )
         } else {
             const playlists = await DI.playlistRepository.find({ owner: req.session.user!._id.toString() })
             res.json(playlists)
@@ -65,18 +99,27 @@ router.route('/')
 
         await DI.playlistRepository.persistAndFlush(playlist)
 
-        const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit`, importing: '' }).toString()
+        const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit`, importing: '' })
         res.redirect(`/?${query}`)
     })
 
+// prettier-ignore
 router.route('/:id')
     // Add item to playlist
     .put((req: Request, res: Response) => {
         res.sendStatus(501)
     })
     // Remove item from playlist
-    .delete((req: Request, res: Response) => {
+    .patch((req: Request, res: Response) => {
         res.sendStatus(501)
+    })
+    // Delete playlist
+    .delete(getPlaylist, async (req: Request, res: Response) => {
+        if (req.session.user!._id.toString() === req.playlist!.owner._id.toString()) {
+            await DI.playlistRepository.removeAndFlush(req.playlist!)
+            const query = new URLSearchParams({ url: '/#/playlists' })
+            res.redirect(`/?${query}`)
+        } else res.sendStatus(403)
     })
 
 export default router
