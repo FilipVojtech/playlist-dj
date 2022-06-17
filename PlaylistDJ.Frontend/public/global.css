@@ -75,6 +75,10 @@ a {
     border-radius: 20px;
 }
 
+.item--column {
+    flex-direction: column;
+}
+
 .item--slim {
     padding: 5px;
     margin: 0 0 5px;
@@ -96,6 +100,32 @@ a {
 
 .item__icon {
     margin-right: 10px;
+}
+
+.item__actions {
+    display: flex;
+    border-radius: 15px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.item__actions__action {
+    border: unset;
+    padding: 10px;
+    background-color: var(--darker-bg);
+    cursor: pointer;
+    flex-grow: 1;
+    font-size: 16px;
+}
+
+.item__actions__action:first-child {
+    margin-right: 2px;
+}
+
+.item__actions__action--disabled {
+    background-color: unset;
+    color: grey;
+    cursor: default;
 }
 
 .filter {
@@ -123,17 +153,41 @@ a {
     width: 100%;
 }
 
+.form > * {
+    margin-bottom: 5px;
+}
+
+.form > *:last-child {
+    margin-bottom: 0;
+}
+
+.form > label {
+    text-align: start;
+    padding-left: 10px;
+    margin-top: 10px;
+    user-select: none;
+}
+
+.form > label:first-child {
+    margin-top: 0;
+}
+
 .form__input {
     background-color: var(--darker-bg);
     border: none;
     border-radius: 15px;
     color: white;
-    padding: 5px;
+    padding: 5px 10px;
     max-width: 100%;
-    margin-bottom: 5px;
     font-size: 20px;
     width: 100%;
     box-sizing: border-box;
+}
+
+.form__input__slider {
+    padding: 0;
+    margin: 5px;
+    width: calc(100% - 10px);
 }
 
 .form__label {
