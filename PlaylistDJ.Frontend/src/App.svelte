@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
     import { Navigation } from './components'
     import { About, Home, NotFound, Playlist, PlaylistList, Social } from './pages'
     import Settings, { Account, Communication, Profile } from './pages/Settings'
@@ -16,7 +16,7 @@
         '/about': About,
         '/playlists': wrap({ component: PlaylistList, conditions: [authorize] }),
         '/playlist/:id': Playlist,
-        '/playlist/:id/edit': wrap({ component: Playlist, conditions: [authorize] }),
+        '/playlist/:id/edit': wrap({ component: Playlist, conditions: [authorize], props: { isEditing: true } }),
         '/social': wrap({ component: Social, conditions: [authorize] }),
         '/settings': wrap({ component: Settings, conditions: [authorize] }),
         '/settings/account': wrap({ component: Account, conditions: [authorize] }),
@@ -41,27 +41,23 @@
     }
 </script>
 
-<div class='page'>
+<div class="page">
     {#if !$isLoading}
-        <main class='main-content'>
+        <main class="main-content">
             <Router {routes} restoreScrollState={true} on:conditionsFailed={conditionsFailedHandler} />
         </main>
-        <div class:nav-space={$showNav}></div>
+        <div class:nav-space={$showNav} />
         {#if $showNav && $user}
-            <div class='nav-wrapper' transition:fly={{ x: isWide ? -350 : 0, y: isWide ? 0 : 55, duration: 200 }}>
+            <div class="nav-wrapper" transition:fly={{ x: isWide ? -350 : 0, y: isWide ? 0 : 55, duration: 200 }}>
                 <Navigation />
             </div>
         {/if}
         <Modals>
-            <div
-                class='backdrop'
-                on:click={closeAllModals}
-                slot='backdrop'
-                transition:fade></div>
+            <div class="backdrop" on:click={closeAllModals} slot="backdrop" transition:fade />
         </Modals>
-    {:else }
-        <div class='loader'>
-            <LoaderIcon size='100' />
+    {:else}
+        <div class="loader">
+            <LoaderIcon size="100" />
         </div>
     {/if}
 </div>
@@ -75,7 +71,7 @@
     }
 
     .main-content {
-        overflow-x: hidden;
+        overflow-x: clip;
         padding: 0 10px env(safe-area-inset-bottom);
     }
 
@@ -102,7 +98,7 @@
 
     @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
         .backdrop {
-            background-color: rgba(0, 0, 0, .8);
+            background-color: rgba(0, 0, 0, 0.8);
         }
     }
 
