@@ -17,6 +17,7 @@ import ImportM3UFileModal from './ImportM3UFileModal.svelte'
 import PlaylistList from './PlaylistList.svelte'
 import CreatePostModal from './CreatePostModal.svelte'
 import Post from './Post.svelte'
+import FilterImg from './FilterImg.svelte'
 
 export {
     Navigation,
@@ -38,4 +39,5 @@ export {
     PlaylistList,
     CreatePostModal,
     Post,
+    FilterImg,
 }
