@@ -99,7 +99,7 @@ router.route('/')
 
         await DI.playlistRepository.persistAndFlush(playlist)
 
-        const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit`, importing: '' }).toString()
+        const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit`, importing: '' })
         res.redirect(`/?${query}`)
     })
 
@@ -110,8 +110,16 @@ router.route('/:id')
         res.sendStatus(501)
     })
     // Remove item from playlist
-    .delete((req: Request, res: Response) => {
+    .patch((req: Request, res: Response) => {
         res.sendStatus(501)
+    })
+    // Delete playlist
+    .delete(getPlaylist, async (req: Request, res: Response) => {
+        if (req.session.user!._id.toString() === req.playlist!.owner._id.toString()) {
+            await DI.playlistRepository.removeAndFlush(req.playlist!)
+            const query = new URLSearchParams({ url: '/#/playlists' })
+            res.redirect(`/?${query}`)
+        } else res.sendStatus(403)
     })
 
 export default router
