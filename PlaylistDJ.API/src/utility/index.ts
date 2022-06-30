@@ -1,3 +1,6 @@
+import type { PDJ, Spotify } from '@playlist-dj/types'
+import { Artist } from '../Classes'
+
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
 export function generateRandomString(length: number) {
@@ -9,14 +12,10 @@ export function generateRandomString(length: number) {
 }
 
 function toCamel(s: string) {
-    return s.replace(/(_[a-z])/ig,
-        char => char
-            .toUpperCase()
-            .replace('_', ''))
+    return s.replace(/(_[a-z])/gi, char => char.toUpperCase().replace('_', ''))
 }
 
 export function snakeToCamelCase(object: { [key: string]: any } | string | []): object | string | [] | null {
-
     if (object === null) return null
     if (Array.isArray(object)) return object.map(i => snakeToCamelCase(i))
     else if (typeof object === 'object') {
@@ -26,6 +25,12 @@ export function snakeToCamelCase(object: { [key: string]: any } | string | []): 
         })
         return n
     } else return object
+}
+
+export function artistsFromSpotifyArtists(artists: Spotify.Artist[]): PDJ.Artist[] {
+    let value: PDJ.Artist[] = []
+    artists.forEach(({ id: artistId, name, href, images }) => value.push(new Artist(artistId, name, images, href)))
+    return value
 }
 
 export enum CookieTypes {
