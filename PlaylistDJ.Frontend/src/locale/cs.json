@@ -1,6 +1,7 @@
 {
   "app": {
     "actions": "Možnosti",
+    "add": "Přidat",
     "back": "Zpět",
     "cancel": "Zrušit",
     "create": "Vytvořit",
@@ -31,6 +32,10 @@
     "en": "English"
   },
   "modal": {
+    "deleteConfirm": {
+      "message": "Tuto akci nelze vzít zpět",
+      "title": "Jste si jisti?"
+    },
     "importPlaylist": {
       "title": "Vyberte playlist..."
     }
@@ -46,7 +51,17 @@
       "returnHome": "Vrátit se na playlisty"
     },
     "playlist": {
-      "title": "Playlist"
+      "addFilter": "Přidat filtr",
+      "edit": "Upravit",
+      "more": {
+        "addUser": "Pozvat uživatele ke kolaboraci",
+        "delete": "Odstranit playlist"
+      },
+      "privatePlaylist": "Tento playlist je soukromý",
+      "share": "Zkopírovat odkaz",
+      "taste": "Ochutnat playlist",
+      "title": "Playlist",
+      "tryLogIn": "Můžete se zkusit přihlásit"
     },
     "playlistList": {
       "error": "Název playlistu nesmí být prázdný",
