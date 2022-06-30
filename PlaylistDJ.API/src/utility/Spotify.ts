@@ -1,8 +1,9 @@
 import got from 'got'
 import { DI } from '../app'
 import { Profile, Token, User } from '../entities'
-import { Spotify } from '@playlist-dj/types'
-import { snakeToCamelCase } from './index'
+import type { PDJ, SearchFilter, Spotify } from '@playlist-dj/types'
+import { artistsFromSpotifyArtists, snakeToCamelCase } from './index'
+import { Artist, Album, Track } from '../Classes'
 
 const apiUrl = 'https://api.spotify.com/v1'
 const accUrl = 'https://accounts.spotify.com'
@@ -150,18 +151,6 @@ export function endpoint(token: string) {
         },
 
         /**
-         * @returns Detailed profile information about the current user (including the current user username).
-         */
-        async me(): Promise<Profile | null> {
-            return (
-                (await got(`${apiUrl}/me`, { headers })
-                    .then(value => JSON.parse(value.body))
-                    .then(body => Profile.fromBody(body))
-                    .catch(e => console.error(e))) ?? null
-            )
-        },
-
-        /**
          * Search on Spotify
          * @param type Which categories to search in
          * @param query Search phrase
@@ -186,6 +175,18 @@ export function endpoint(token: string) {
         },
 
         /**
+         * @returns Detailed profile information about the current user (including the current user's username).
+         */
+        async me(): Promise<Profile | null> {
+            return (
+                (await got(`${apiUrl}/me`, { headers })
+                    .then(value => JSON.parse(value.body))
+                    .then(body => Profile.fromBody(body))
+                    .catch(e => console.error(e))) ?? null
+            )
+        },
+
+        /**
          * Get current users owned playlists
          * @param userSpotifyId - User's Spotify ID
          */
@@ -198,10 +199,137 @@ export function endpoint(token: string) {
         },
 
         /**
+         * Information about an artist
+         * @param id - Artist ID
+         */
+        async artist(id: string): Promise<PDJ.Artist | null> {
+            return await got(`${apiUrl}/artists/${id}`, { headers })
+                .then(data => {
+                    const { id: artistId, name, href, type }: Spotify.Artist = JSON.parse(data.body)
+                    return { id: artistId, name, href, type } as PDJ.Artist
+                })
+                .catch(e => {
+                    console.error(e)
+                    return null
+                })
+        },
+
+        /**
+         * Get information on multiple artists
+         * @param ids - Artists IDs
+         */
+        async artists(ids: string[]): Promise<PDJ.Artist[] | []> {
+            const spotifyArtistIdLimit = 50
+            let reqIds = ''
+            reqIds = ids.slice(0, spotifyArtistIdLimit - 1).toString()
+            ids.splice(0, spotifyArtistIdLimit - 1)
+            let result = await got(`${apiUrl}/artists?ids=${reqIds}`, { headers })
+                .then(data => {
+                    let value: PDJ.Artist[] = []
+                    for (const { id, name, images, href } of JSON.parse(data.body).artists as Spotify.Artist[])
+                        value.push(new Artist(id, name, images, href))
+                    return value
+                })
+                .catch(e => {
+                    console.log(e)
+                    return []
+                })
+            if (ids.length > 0) result = [...result, ...(await this.artists(ids))]
+            return result
+        },
+
+        /**
+         * Information about an album
+         * @param id - Album ID
+         */
+        async album(id: string): Promise<PDJ.Album | null> {
+            return await got(`${apiUrl}/albums/${id}`, { headers })
+                .then(data => {
+                    const { id: albumId, name, artists, images }: Spotify.Album = JSON.parse(data.body)
+                    return new Album(albumId, name, artistsFromSpotifyArtists(artists), images)
+                })
+                .catch(e => {
+                    console.error(e)
+                    return null
+                })
+        },
+
+        /**
+         * Get information about multiple albums
+         * @param ids - Albums Spotify IDs
+         */
+        async albums(ids: string[]): Promise<PDJ.Album[] | []> {
+            const spotifyAlbumIdLimit = 20
+            let reqIds = ''
+            reqIds = ids.slice(0, spotifyAlbumIdLimit - 1).toString()
+            ids.splice(0, spotifyAlbumIdLimit - 1)
+            let result = await got(`${apiUrl}/albums?ids=${reqIds}`, { headers })
+                .then(data => {
+                    let value: PDJ.Album[] = []
+                    for (const { id, name, artists, images } of JSON.parse(data.body).albums as Spotify.Album[])
+                        value.push(new Album(id, name, artistsFromSpotifyArtists(artists), images))
+                    return value
+                })
+                .catch(e => {
+                    console.log(e)
+                    return []
+                })
+            if (ids.length > 0) result = [...result, ...(await this.albums(ids))]
+            return result
+        },
+
+        /**
+         * Track details
+         * @param id - Track ID
+         */
+        async track(id: string): Promise<PDJ.Track | null> {
+            return await got(`${apiUrl}/artists/${id}/albums`, { headers })
+                .then(data => {
+                    const { id, name, artists, album: trackAlbum }: Spotify.Track = JSON.parse(data.body)
+                    let album: PDJ.Album = new Album(
+                        id,
+                        name,
+                        artistsFromSpotifyArtists(trackAlbum.artists),
+                        trackAlbum.images
+                    )
+
+                    return { id, name, artists: artistsFromSpotifyArtists(artists), album } as PDJ.Track
+                })
+                .catch(e => {
+                    console.error(e)
+                    return null
+                })
+        },
+
+        /**
+         * Get information about multiple tracks
+         * @param ids - Tracks Spotify IDs
+         */
+        async tracks(ids: string[]): Promise<PDJ.Track[] | []> {
+            const spotifyTrackIdLimit = 50
+            let reqIds = ''
+            reqIds = ids.slice(0, spotifyTrackIdLimit - 1).toString()
+            ids.splice(0, spotifyTrackIdLimit - 1)
+            let result = await got(`${apiUrl}/tracks?ids=${reqIds}`, { headers })
+                .then(data => {
+                    let value: PDJ.Track[] = []
+                    for (const { id, name, album, artists } of JSON.parse(data.body).tracks as Spotify.Track[])
+                        value.push(new Track(id, name, album, artistsFromSpotifyArtists(artists)))
+                    return value
+                })
+                .catch(e => {
+                    console.log(e)
+                    return []
+                })
+            if (ids.length > 0) result = [...result, ...(await this.tracks(ids))]
+            return result
+        },
+
+        /**
          * Get info about playlist
          * @param playlistId
          */
-        async playlistInfo(playlistId: string): Promise<Spotify.PlaylistInfo> {
+        async playlist(playlistId: string): Promise<Spotify.Playlist> {
             return await got(`${apiUrl}/playlists/${playlistId}`, { headers })
                 .then(res => snakeToCamelCase(JSON.parse(res.body)) as any)
                 .catch(e => console.error(e))
@@ -225,34 +353,34 @@ export function endpoint(token: string) {
                 .catch(e => console.error(e))
         },
 
-        /**
-         * Information about an album
-         * @param id - Album ID
-         */
-        async album(id: string) {
-            return await got(`${apiUrl}/albums/${id}`, { headers })
-                .then(data => JSON.parse(data.body))
-                .catch(e => console.error(e))
-        },
+        async filtersToFilterList(filters: SearchFilter[]): Promise<PDJ.FilterList> {
+            let result = {
+                artists: { items: [] },
+                albums: { items: [] },
+                tracks: { items: [] },
+            } as PDJ.FilterList
+            let artists: string[] = []
+            let albums: string[] = []
+            let tracks: string[] = []
 
-        /**
-         * Information about an artist
-         * @param id - Artist ID
-         */
-        async artistInfo(id: string) {
-            return await got(`${apiUrl}/artists/${id}`, { headers })
-                .then(data => JSON.parse(data.body))
-                .catch(e => console.error(e))
-        },
+            for (const { type, id } of filters) {
+                switch (type) {
+                    case 'artist':
+                        artists.push(id)
+                        break
+                    case 'album':
+                        albums.push(id)
+                        break
+                    case 'track':
+                        tracks.push(id)
+                        break
+                }
+            }
+            if (artists.length > 0) result.artists!.items = await this.artists(artists)
+            if (albums.length > 0) result.albums!.items = await this.albums(albums)
+            if (tracks.length > 0) result.tracks!.items = await this.tracks(tracks)
 
-        /**
-         * Artists albums
-         * @param id - Artist ID
-         */
-        async artistAlbums(id: string) {
-            return await got(`${apiUrl}/artists/${id}/albums`, { headers })
-                .then(data => JSON.parse(data.body))
-                .catch(e => console.error(e))
+            return result
         },
     }
 }
