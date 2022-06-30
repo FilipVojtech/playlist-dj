@@ -18,6 +18,7 @@ import PlaylistList from './PlaylistList.svelte'
 import CreatePostModal from './CreatePostModal.svelte'
 import Post from './Post.svelte'
 import FilterImg from './FilterImg.svelte'
+import CollaborateModal from './CollaborateModal.svelte'
 
 export {
     Navigation,
@@ -40,4 +41,5 @@ export {
     CreatePostModal,
     Post,
     FilterImg,
+    CollaborateModal,
 }
