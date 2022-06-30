@@ -122,4 +122,52 @@ router.route('/:id')
         } else res.sendStatus(403)
     })
 
+// prettier-ignore
+router.route('/:id/collaborate')
+    /**
+     * Get collaboration users
+     */
+    .get(userIsOwner, (req: Request, res: Response) => {
+        res.json({
+            canView: req.playlist!.canView ?? [],
+            canEdit: req.playlist!.canEdit ?? [],
+        })
+    })
+    /**
+     * Add users to collaborate
+     */
+    .post(userIsOwner, async (req: Request, res: Response) => {
+        if (req.session.user!._id.toString() !== req.playlist!._id.toString()) {
+            res.sendStatus(403)
+            return
+        }
+
+        // noinspection RegExpSimplifiable,RegExpUnnecessaryNonCapturingGroup,RegExpRedundantEscape
+        const emailPattern = new RegExp(
+            '(?:[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*|"(?:[\u0001-\b\u000B\f\u000E-\u001F!#-[]-\u007F]|\\\\[\u0001-\t\u000B\f\u000E-\u007F])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\u0001-\b\u000B\f\u000E-\u001F!-ZS-\u007F]|\\\\[\u0001-\t\u000B\f\u000E-\u007F])+)\\])',
+        )
+        let users: [(User | string)?] = []
+
+        for (const accessType in req.body) {
+            if (accessType === 'canView' || accessType === 'canEdit') {
+                for (const email of req.body[accessType] as string[]) {
+                    if (emailPattern.test(email)) {
+                        const user = await DI.userRepository.findOne({ profile: { email } })
+
+                        if (!user) users.push(email)
+                        else req.playlist![accessType].push(user)
+                    }
+                }
+            }
+        }
+
+        res.sendStatus(200)
+    })
+    /**
+     * Remove user from collaboration
+     */
+    .delete((req: Request, res: Response) => {
+        res.sendStatus(501)
+    })
+
 export default router
