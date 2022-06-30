@@ -6,6 +6,7 @@ import { snakeToCamelCase } from './index'
 
 const apiUrl = 'https://api.spotify.com/v1'
 const accUrl = 'https://accounts.spotify.com'
+let clientCredentialsToken = { access_token: '', validity: new Date(0) }
 
 /**
  * Exchange the authorization code for an Access Token.
@@ -73,6 +74,39 @@ export async function renewToken(user: User): Promise<Token> {
         .catch(e => console.error(e))
     await DI.userRepository.flush()
     return user.token
+}
+
+/**
+ * Get access token user for non-user related requests from Spotify such as
+ * - requesting track/album/artist/etc. details
+ * - requesting publicly accessible data
+ * @returns string
+ */
+export async function getClientToken(): Promise<string> {
+    if (!(clientCredentialsToken.validity.valueOf() > new Date().valueOf()))
+        await got(`${accUrl}/api/token`, {
+            method: 'POST',
+            headers: {
+                Authorization:
+                    'Basic ' +
+                    Buffer.from(`${process.env.PDJ_CLIENT_ID}:${process.env.PDJ_CLIENT_SECRET}`).toString('base64'),
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            form: { grant_type: 'client_credentials' },
+        })
+            .then(value => {
+                const data = JSON.parse(value.body) as { access_token: string; expires_in: number }
+                const now = new Date()
+                if (value.statusCode === 200)
+                    clientCredentialsToken = {
+                        access_token: data.access_token,
+                        validity: new Date(now.setMilliseconds(now.getMilliseconds() + data.expires_in)),
+                    }
+                else return
+            })
+            .catch(e => console.log(e))
+
+    return clientCredentialsToken.access_token
 }
 
 // Haha no
@@ -143,7 +177,6 @@ export function endpoint(token: string) {
                 q: query,
                 type,
                 limit,
-                market: user.profile.country,
             })
 
             return await got(`${apiUrl}/search?${queryParams}`, { headers })
