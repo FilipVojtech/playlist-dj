@@ -1,6 +1,6 @@
 import express, { Response } from 'express'
 import { Request } from '../global'
-import { Spotify } from '@playlist-dj/types'
+import type { Spotify } from '@playlist-dj/types'
 import { DI } from '../app'
 import { User } from '../entities'
 import { endpoint } from '../utility'
