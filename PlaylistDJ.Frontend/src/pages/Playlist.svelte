@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { FilterList, Header, Modal, SpotifySearchModal } from '../components'
+    import { CollaborateModal, FilterList, Header, Modal, SpotifySearchModal } from '../components'
     import { onDestroy, onMount } from 'svelte'
     import { searchResult, showNav, user } from '../utility/stores'
     import { _ } from 'svelte-i18n'
@@ -36,6 +36,14 @@
             title: $_('app.actions'),
             message: '',
             actions: [
+                new ModalAction(
+                    $_('page.playlist.more.addUser'),
+                    () => {
+                        closeModal()
+                        openModal(CollaborateModal, { playlistId: params.id })
+                    },
+                    $user!.id === (await data.id)
+                ),
                 new ModalAction($_('page.playlist.more.delete'), handleDelete),
                 new ModalAction($_('app.cancel'), closeModal),
             ],
