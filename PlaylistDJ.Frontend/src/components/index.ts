@@ -19,6 +19,8 @@ import CreatePostModal from './CreatePostModal.svelte'
 import Post from './Post.svelte'
 import FilterImg from './FilterImg.svelte'
 import CollaborateModal from './CollaborateModal.svelte'
+import AddUser from './AddUser.svelte'
+import ToggleFormInput from './ToggleFormInput.svelte'
 
 export {
     Navigation,
@@ -42,4 +44,6 @@ export {
     Post,
     FilterImg,
     CollaborateModal,
+    AddUser,
+    ToggleFormInput,
 }
