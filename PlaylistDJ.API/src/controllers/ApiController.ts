@@ -52,7 +52,7 @@ router.use('/social', socialController)
 router.get('/search', renewToken, async (req: Request, res: Response) => {
     // Search through param is present
     if (req.query.url) {
-        res.json(await endpoint(req.session.user!).url(req.query.url as string))
+        res.json(await endpoint(req.session.user!.token.value).url(req.query.url as string))
         return
     }
     // Set type to any if not present
@@ -68,7 +68,7 @@ router.get('/search', renewToken, async (req: Request, res: Response) => {
         res.sendStatus(400)
     else if (!req.query.q || typeof req.query.q !== 'string') res.sendStatus(400)
     else if (typeof req.query.limit !== 'string') req.query.limit.toString()
-    else res.json(await endpoint(req.session.user!).search(req.query.type, req.query.q, req.query.limit))
+    else res.json(await endpoint(req.session.user!.token.value).search(req.query.type, req.query.q, req.query.limit))
 })
 
 export default router

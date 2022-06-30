@@ -56,7 +56,7 @@ router.use(authentication)
 router.route('/')
     .get(renewToken, async (req: Request, res: Response) => {
         if (req.query.src && req.query.src === 'spotify') {
-            res.json(await endpoint(req.session.user!).ownedPlaylists())
+            res.json(await endpoint(req.session.user!.token.value).ownedPlaylists(req.session.user!.profile.spotifyId))
         } else if (req.query.pinned) {
             res.json(
                 await DI.playlistRepository.find({
@@ -75,7 +75,7 @@ router.route('/')
      */
     // .post(renewToken, async (req: Request, res: Response) => {
     // const playlist = DI.playlistRepository.create(new Playlist(req.session.user!, req.body.name ?? 'New playlist'))
-    // const spotifyPlaylist = await endpoint(req.session.user!).playlistInfo(req.body.id)
+    // const spotifyPlaylist = await endpoint(req.session.user!.token.value).playlistInfo(req.body.id)
     //
     // if (req.body.id) {
     //     playlist.spotifyID = req.body.id

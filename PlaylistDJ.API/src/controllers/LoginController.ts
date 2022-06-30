@@ -35,7 +35,7 @@ router.get('/callback', async (req: Request, res: Response) => {
             const user = new User(code)
 
             user.token = await requestToken(code)
-            user.profile = await endpoint(user).me() as Profile
+            user.profile = (await endpoint(user.token.value).me()) as Profile
 
             let userFromDb = await DI.userRepository.findOne({ profile: { spotifyId: user.profile.spotifyId } })
 

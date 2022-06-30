@@ -96,10 +96,11 @@ export async function renewToken(user: User): Promise<Token> {
 
 /**
  * Spotify API endpoints
+ * @param token - Authentication token
  */
-export function endpoint(user: User) {
+export function endpoint(token: string) {
     const headers = {
-        Authorization: `Bearer ${user.token.value}`,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
     }
 
@@ -153,12 +154,13 @@ export function endpoint(user: User) {
 
         /**
          * Get current users owned playlists
+         * @param userSpotifyId - User's Spotify ID
          */
-        async ownedPlaylists(): Promise<[{}]> {
+        async ownedPlaylists(userSpotifyId: string): Promise<[{}]> {
             const query = new URLSearchParams({ limit: '50' })
             return await got(`${apiUrl}/me/playlists?${query}`, { headers })
                 .then(data => JSON.parse(data.body))
-                .then(data => data.items.filter((value: any) => value.owner.id === user.profile.spotifyId))
+                .then(data => data.items.filter((value: any) => value.owner.id === userSpotifyId))
                 .catch(e => console.error(e))
         },
 
