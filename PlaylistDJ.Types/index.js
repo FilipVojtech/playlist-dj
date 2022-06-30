@@ -14,5 +14,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 exports.__esModule = true;
+exports.FilterType = void 0;
+var FilterType;
+(function (FilterType) {
+    FilterType["None"] = "";
+    FilterType["Artist"] = "artist";
+    FilterType["Album"] = "album";
+    FilterType["Track"] = "track";
+})(FilterType = exports.FilterType || (exports.FilterType = {}));
 __exportStar(require("./Spotify"), exports);
 __exportStar(require("./PlaylistDJ"), exports);

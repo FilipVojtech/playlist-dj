@@ -1,5 +1,5 @@
 import * as Express from 'express';
-import { FilterType } from './index';
+import type { FilterType, Spotify } from './index';
 export interface SearchFilter {
     id: string;
     type: FilterType;
@@ -9,27 +9,25 @@ export interface FilterRequest extends Express.Request {
 }
 export declare namespace PDJ {
     interface Artist {
-        href: string;
         id: string;
         name: string;
+        images: Spotify.Images;
+        href: string;
         type: FilterType;
     }
     interface Album {
         id: string;
-        images: [{
-            height: number;
-            url: string;
-            width: number;
-        }];
         name: string;
-        type: FilterType;
+        images: Spotify.Images;
         artists: Artist[];
+        type: FilterType;
     }
     interface Track {
-        name: string;
         id: string;
+        name: string;
         album: Album;
         artists: Artist[];
+        type: FilterType;
     }
     interface FilterList {
         artists?: {

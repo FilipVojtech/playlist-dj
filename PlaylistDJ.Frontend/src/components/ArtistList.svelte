@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Spotify } from '@playlist-dj/types'
+    import type { SearchFilter, Spotify, FilterType } from '@playlist-dj/types'
     import { UserIcon } from 'svelte-feather-icons'
     import { searchResult } from '../utility/stores'
     import { closeModal } from 'svelte-modals'
@@ -7,14 +7,14 @@
 
     export let artists: Spotify.Artist[] = []
 
-    function handleSearchResultClick(id: { id: string; type: '' | 'artist' | 'album' | 'track' }) {
+    function handleSearchResultClick(id: SearchFilter) {
         $searchResult = id
         closeModal()
     }
 </script>
 
 {#each artists as { images, name, type, id }}
-    <div class="item item--interactive filter" on:click={() => handleSearchResultClick({ id, type: 'artist' })}>
+    <div class="item item--interactive filter" on:click={() => handleSearchResultClick({ id, type: FilterType.Artist })}>
         <FilterImg {images} {name} alt="{name} artist picture" placeholderIcon={UserIcon} />
         <div class="filter__info">
             <div class="info__name">{name}</div>

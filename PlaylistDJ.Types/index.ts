@@ -1,3 +1,8 @@
-export declare type FilterType = 'artist' | 'album' | 'track'
+export enum FilterType {
+    None = '',
+    Artist = 'artist',
+    Album = 'album',
+    Track = 'track',
+}
 export * from './Spotify'
 export * from './PlaylistDJ'

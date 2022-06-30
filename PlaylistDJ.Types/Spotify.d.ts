@@ -20,13 +20,7 @@ export declare namespace Spotify {
         genres: string[];
         href: string;
         id: string;
-        images: [
-            {
-                height: number;
-                url: string;
-                width: number;
-            }
-        ];
+        images: Images;
         name: string;
         popularity: number;
         type: FilterType;
@@ -40,13 +34,7 @@ export declare namespace Spotify {
         };
         href: string;
         id: string;
-        images: [
-            {
-                height: number;
-                url: string;
-                width: number;
-            }
-        ];
+        images: Images;
         name: string;
         releaseDate: string;
         releaseDatePrecision: string;
@@ -87,8 +75,6 @@ export declare namespace Spotify {
             url: null | string;
         };
     }
-    interface Playlist {
-    }
     interface SearchResults {
         albums?: {
             href: string;
@@ -118,7 +104,7 @@ export declare namespace Spotify {
             total: number;
         };
     }
-    interface PlaylistInfo {
+    interface Playlist {
         collaborative: boolean;
         description: string;
         externalUrls: {
@@ -130,11 +116,7 @@ export declare namespace Spotify {
         };
         href: string;
         id: string;
-        images: [0] | {
-            height: number;
-            url: string;
-            width: number;
-        }[];
+        images: Images;
         name: string;
         owner: UserMinimal;
         primaryColor: null | string;
@@ -150,9 +132,10 @@ export declare namespace Spotify {
         type: 'playlist';
         uri: string;
     }
-    interface Images {
+    interface Image {
         width: number;
         height: number;
-        href: string;
+        url: string;
     }
+    type Images = [0] | [Image] | [Image, Image, Image];
 }

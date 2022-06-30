@@ -21,7 +21,7 @@ export declare namespace Spotify {
         genres: string[]
         href: string
         id: string
-        images: Image[]
+        images: Images
         name: string
         popularity: number
         type: FilterType
@@ -35,13 +35,7 @@ export declare namespace Spotify {
         }
         href: string
         id: string
-        images: [
-            {
-                height: number
-                url: string
-                width: number
-            }
-        ]
+        images: Images
         name: string
         releaseDate: string
         releaseDatePrecision: string
@@ -123,13 +117,7 @@ export declare namespace Spotify {
         }
         href: string
         id: string
-        images:
-            | [0]
-            | {
-                  height: number
-                  url: string
-                  width: number
-              }[]
+        images: Images
         name: string
         owner: UserMinimal
         primaryColor: null | string
