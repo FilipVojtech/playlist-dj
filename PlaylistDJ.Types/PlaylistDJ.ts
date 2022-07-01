@@ -10,8 +10,8 @@ export interface FilterRequest extends Express.Request {
     body: SearchFilter[]
 }
 
-export namespace PDJ {
-    export interface Artist {
+export declare namespace PDJ {
+    interface Artist {
         id: string
         name: string
         images: Spotify.Images
@@ -19,7 +19,7 @@ export namespace PDJ {
         type: FilterType
     }
 
-    export interface Album {
+    interface Album {
         id: string
         name: string
         images: Spotify.Images
@@ -27,7 +27,7 @@ export namespace PDJ {
         type: FilterType
     }
 
-    export interface Track {
+    interface Track {
         id: string
         name: string
         album: Album
@@ -35,15 +35,32 @@ export namespace PDJ {
         type: FilterType
     }
 
-    export interface FilterList {
+    interface FilterList {
         artists?: { items: Artist[] }
         albums?: { items: Album[] }
         tracks?: { items: Track[] }
     }
+
+    interface Profile {
+        spotifyId: string
+        email: string
+        displayName: string
+        images: Spotify.Images
+        product: Spotify.Product
+        explicitContent: { enabled: boolean; locked: boolean }
+    }
+
     interface Token {
         value: string
         refreshToken: string
         expiration: Date
     }
 
+    interface User {
+        schemaVersion: string
+        code: string
+        token: Token
+        profile: Profile
+        communication: { [key: string]: any; sendMarketing: boolean }
+    }
 }
