@@ -21,6 +21,7 @@ import FilterImg from './FilterImg.svelte'
 import CollaborateModal from './CollaborateModal.svelte'
 import AddUser from './AddUser.svelte'
 import ToggleFormInput from './ToggleFormInput.svelte'
+import UserList from './UserList.svelte'
 
 export {
     Navigation,
@@ -46,4 +47,5 @@ export {
     CollaborateModal,
     AddUser,
     ToggleFormInput,
+    UserList,
 }

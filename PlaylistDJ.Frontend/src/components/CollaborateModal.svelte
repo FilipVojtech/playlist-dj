@@ -6,6 +6,7 @@
     import { LoaderIcon } from 'svelte-feather-icons'
     import { _ } from 'svelte-i18n'
     import AddUser from './AddUser.svelte'
+    import UserList from './UserList.svelte'
 
     export let isOpen: boolean
     export let playlistId: string
@@ -40,6 +41,7 @@
                 {:then users}
                     {@debug users}
                     <!--List users-->
+                    <UserList {users} />
                 {/await}
             </div>
             <div class="modal__actions">
