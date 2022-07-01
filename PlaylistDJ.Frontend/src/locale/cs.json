@@ -102,6 +102,9 @@
           "weekly": "Týdne"
         }
       },
+      "legal": {
+        "title": "Zákonné dokumenty"
+      },
       "profile": {
         "title": "Profil"
       },

@@ -102,6 +102,9 @@
           "weekly": "Weekly"
         }
       },
+      "legal": {
+        "title": "Legal"
+      },
       "profile": {
         "title": "Profile"
       },
