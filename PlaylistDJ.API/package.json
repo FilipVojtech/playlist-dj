@@ -9,7 +9,7 @@
     "email": "filip@aprex.cz"
   },
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsc -b && cp -r src/public/ dist/",
     "start": "node dist/bin/www.js",
     "dev": "concurrently \"doas mongod\" \"tsc -w\" \"nodemon dist/bin/www.js\""
   },
