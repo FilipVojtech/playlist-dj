@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Header, LanguagePicker, ListItem } from '../../components'
-    import { BellIcon, LogOutIcon, UserIcon } from 'svelte-feather-icons'
+    import { BellIcon, LogOutIcon, PaperclipIcon, UserIcon } from 'svelte-feather-icons'
     import { _ } from 'svelte-i18n'
 </script>
 
@@ -14,8 +14,8 @@
         <!--App - Start app on screen-->
         <!--Display name, show account info, delete account:-->
         <ListItem href="/settings/account" icon={UserIcon} text={$_('page.settings.account.title')} />
-        <!--Legal - Legal documents and other stuff-->
         <ListItem href="/settings/notifications" icon={BellIcon} text={$_('page.settings.communication.title')} />
+        <ListItem href="/settings/legal" icon={PaperclipIcon} text={$_('page.settings.legal.title')} />
         <LanguagePicker />
     </div>
     <footer>

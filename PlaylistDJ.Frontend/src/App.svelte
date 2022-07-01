@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Navigation } from './components'
     import { About, Home, NotFound, Playlist, PlaylistList, Social } from './pages'
-    import Settings, { Account, Communication, Profile } from './pages/Settings'
+    import Settings, { Account, Communication, Legal, Profile } from './pages/Settings'
     import Router, { replace } from 'svelte-spa-router'
     import { showNav, user } from './utility/stores'
     import './utility/i18n'
@@ -22,6 +22,7 @@
         '/settings/account': wrap({ component: Account, conditions: [authorize] }),
         '/settings/notifications': wrap({ component: Communication, conditions: [authorize] }),
         '/settings/profile': wrap({ component: Profile, conditions: [authorize] }),
+        '/settings/legal': wrap({ component: Legal, conditions: [authorize] }),
         '*': NotFound,
     }
 
