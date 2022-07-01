@@ -78,7 +78,12 @@
                     class:item__actions__action--disabled={!emailPattern.test(email)}
                     disabled={!emailPattern.test(email)}
                 />
-                <button class="item__actions__action text--reject" on:click={cancelHandle}>{$_('app.cancel')}</button>
+                <input
+                    type="reset"
+                    class="item__actions__action text--reject"
+                    on:click={cancelHandle}
+                    value={$_('app.cancel')}
+                />
             </div>
         </form>
     </div>
