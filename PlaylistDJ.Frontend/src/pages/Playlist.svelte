@@ -10,12 +10,16 @@
     import { push } from 'svelte-spa-router'
     import NotFound from './NotFound.svelte'
     import { copyToClipboard, ModalAction } from '../utility'
+    import type { PDJ } from '@playlist-dj/types'
 
     export let params = { id: '' }
     export let previousPage = '/playlists'
     export let isEditing: boolean = false
 
     let data: Promise<{}> = new Promise(() => {
+        return {}
+    })
+    let filtersData: Promise<PDJ.FilterList | null> = new Promise<{}>(() => {
         return {}
     })
 
@@ -25,9 +29,16 @@
                 if (value.ok) return value.json()
                 else return { status: value.status }
             })
-            .catch(e => {
-                console.log(e)
+            .catch(e => console.log(e))
+    }
+
+    function getFilters() {
+        filtersData = aport(`/api/playlist/${params.id}/filter`)
+            .then(value => {
+                if (value.ok) return value.json()
+                else return { status: value.status }
             })
+            .catch(e => console.log(e))
     }
 
     async function actions() {
@@ -68,16 +79,18 @@
     onMount(() => {
         $showNav = false
         getPlaylist()
+        getFilters()
     })
     onDestroy(() => ($showNav = true))
 
-    $: if ($searchResult.id) {
-        aport(`/api/playlist/${params.id}`, {
-            method: 'PUT',
+    $: if ($searchResult && $searchResult!.id) {
+        aport(`/api/playlist/${params.id}/filter`, {
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify($searchResult),
+            body: JSON.stringify([$searchResult]),
         })
-        $searchResult = {}
+        $searchResult = undefined
+        getFilters()
     }
 </script>
 
@@ -93,8 +106,8 @@
     <div class="loader">
         <LoaderIcon size="100" />
     </div>
-{:then { status, images, name, description, filters }}
-    {#if status === 404}
+{:then { status, images, name, description }}
+    {#if status && status === 404}
         <NotFound />
     {:else if status === 403}
         {#if !$user}
@@ -108,19 +121,22 @@
             />
         {/if}
     {:else}
-        <Header
-            iconBefore={ChevronLeftIcon}
-            onClickBefore={() => push(previousPage)}
-            text={$_('app.back')}
-            iconAfter={MoreHorizontalIcon}
-            onClickAfter={actions}
-        />
+        {#if $user}
+            <Header
+                iconBefore={ChevronLeftIcon}
+                onClickBefore={() => push(previousPage)}
+                text={$_('app.back')}
+                iconAfter={MoreHorizontalIcon}
+                onClickAfter={actions}
+            />
+        {/if}
 
         <div class="playlist">
             <div class="playlist__title">
                 <!--<editor-fold desc="Playlist cover art">-->
                 <div class="title__cover">
                     <!--Cannot use the FilterImg component, because this image is too unique ❄-->
+                    <!-- - custom css class for the most part-->
                     {#if images.length === 3}
                         <img class="cover__img" src={images[2].url} alt="{name} cover art" />
                     {:else if images.length === 1}
@@ -141,38 +157,52 @@
                     </div>
                 </div>
             </div>
-            <div class="playlist__actions scroll-shadows">
-                {#if isEditing}
-                    <div
-                        on:click={() => openModal(SpotifySearchModal)}
-                        class="actions__action actions__action--main item--interactive"
-                    >
-                        <span class="action__icon action__icon--left"><PlusIcon /></span> Add filter
-                    </div>
-                {/if}
-                {#if !isEditing}
-                    <div on:click={() => push(`/playlist/${params.id}/edit`)} class="actions__action item--interactive">
-                        Edit
-                    </div>
-                    <div
-                        class="actions__action item--interactive"
-                        on:click={() => copyToClipboard(`http://192.168.1.63:3000/#/playlist/${params.id}`)}
-                    >
-                        Share
-                    </div>
-                    <!--<editor-fold desc="Playlist taste | On hold">-->
-                    <!--<div class="actions__action">-->
-                    <!--    Taste the playlist-->
-                    <!--    <span class="action__icon action__icon&#45;&#45;right">-->
-                    <!--        <PlayIcon />-->
-                    <!--    </span>-->
-                    <!--</div>-->
-                    <!--</editor-fold>-->
-                {/if}
+            <div class="playlist__actions__wrapper">
+                <div class="playlist__actions scroll-shadows">
+                    {#if isEditing}
+                        <div
+                            on:click={() => openModal(SpotifySearchModal)}
+                            class="actions__action actions__action--main item--interactive"
+                        >
+                            <span class="action__icon action__icon--left"><PlusIcon /></span>
+                            {$_('page.playlist.addFilter')}
+                        </div>
+                    {/if}
+                    {#if !isEditing && $user}
+                        <div
+                            on:click={() => push(`/playlist/${params.id}/edit`)}
+                            class="actions__action item--interactive"
+                        >
+                            {$_('page.playlist.edit')}
+                        </div>
+                    {/if}
+                    {#if !isEditing}
+                        <div
+                            class="actions__action item--interactive"
+                            on:click={() => copyToClipboard(window.location.href)}
+                        >
+                            {$_('page.playlist.share')}
+                        </div>
+                        <!--&lt;!&ndash;<editor-fold desc="Playlist taste | On hold">&ndash;&gt;-->
+                        <!--<div class="actions__action item&#45;&#45;interactive">-->
+                        <!--    {$_('page.playlist.taste')}-->
+                        <!--    <span class="action__icon action__icon&#45;&#45;right">-->
+                        <!--        <PlayIcon />-->
+                        <!--    </span>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash;</editor-fold>&ndash;&gt;-->
+                    {/if}
+                </div>
             </div>
-            <div class="playlist__filters">
-                <FilterList data={{ albums: undefined, artists: undefined, tracks: undefined }} />
-            </div>
+            {#await filtersData}
+                <div class="loader">
+                    <LoaderIcon size="45" />
+                </div>
+            {:then data}
+                <div class="playlist__filters">
+                    <FilterList {data} />
+                </div>
+            {/await}
         </div>
     {/if}
 {:catch e}
@@ -184,7 +214,6 @@
     .playlist {
         display: flex;
         flex-flow: column nowrap;
-        min-height: 200vh;
         margin-top: 20px;
     }
 
@@ -227,22 +256,32 @@
         font-size: 20px;
     }
 
-    .playlist__actions {
+    .playlist__actions__wrapper {
         display: flex;
         flex-flow: row nowrap;
         white-space: nowrap;
 
         position: sticky;
-        top: 5px;
+        top: 3px;
         box-sizing: border-box;
         width: 100vw;
 
         margin-top: 15px;
-        padding: 0 5px 7px 5px;
+        /*padding: 5px 5px 7px 5px;*/
+        padding-bottom: 7px;
         overflow-y: scroll;
         transform: translateX(-10px);
         /*noinspection CssUnknownProperty*/
         scrollbar-width: thin;
+    }
+
+    .playlist__actions {
+        display: flex;
+        flex-flow: row nowrap;
+        white-space: nowrap;
+        background-color: var(--main-bg);
+        border-radius: 25px;
+        padding: 5px;
     }
 
     .playlist__actions > * {
@@ -284,8 +323,16 @@
     }
 
     @media screen and (min-width: 640px) {
-        .playlist__actions {
+        .playlist__actions__wrapper {
+            top: 5px;
             width: 100%;
+            transform: none;
+        }
+
+        .playlist__actions {
+            /*border-left: 2px solid white;*/
+            /*border-right: 2px solid white;*/
+            /*border: 5px solid var(--main-bg);*/
         }
 
         .actions__action {

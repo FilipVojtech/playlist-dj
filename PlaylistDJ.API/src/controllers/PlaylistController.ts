@@ -1,11 +1,17 @@
-import { Response, NextFunction, Router } from 'express'
+import { NextFunction, Response, Router } from 'express'
 import { Request } from '../global'
 import { DI } from '../app'
-import { endpoint } from '../utility'
-import { Playlist } from '../entities'
+import { endpoint, getClientToken } from '../utility'
+import { Playlist, User } from '../entities'
 import { authentication, renewToken } from '../utility/Middleware'
+import type { FilterRequest } from '@playlist-dj/types'
 
 const router = Router()
+
+async function userIsOwner(req: Request, res: Response, next: NextFunction) {
+    if (req.playlist!.owner._id.toString() !== req.session.user!._id.toString()) res.sendStatus(403)
+    else next()
+}
 
 async function getPlaylist(req: Request, res: Response, next: NextFunction) {
     if (!req.params.id) {
@@ -29,6 +35,8 @@ router.get('/:id', getPlaylist, (req: Request, res: Response) => {
     // Now playlist exists
 
     if (req.playlist.isPublic) {
+        // @ts-ignore
+        delete req.playlist.filters
         res.json(req.playlist)
         return
     }
@@ -45,7 +53,41 @@ router.get('/:id', getPlaylist, (req: Request, res: Response) => {
     }
 
     if (req.session.user._id.toString() === req.playlist.owner._id.toString()) {
+        // @ts-ignore
+        delete req.playlist.filters
         res.json(req.playlist)
+        return
+    }
+})
+
+/**
+ * Get playlist filters
+ */
+router.get('/:id/filter', getPlaylist, async (req: Request, res: Response) => {
+    if (!req.playlist) {
+        res.sendStatus(404)
+        return
+    }
+    // Now playlist exists
+
+    if (req.playlist.isPublic) {
+        res.json(await endpoint(await getClientToken()).filtersToFilterList(req.playlist!.filters))
+        return
+    }
+    // Now playlists is private
+
+    if (req.session.user?._id.toString() !== req.playlist.owner._id.toString()) {
+        res.sendStatus(403)
+        return
+    }
+
+    if (!req.session.user) {
+        res.sendStatus(401)
+        return
+    }
+
+    if (req.session.user._id.toString() === req.playlist.owner._id.toString()) {
+        res.json(await endpoint(req.session.user!.token.value).filtersToFilterList(req.playlist!.filters))
         return
     }
 })
@@ -56,7 +98,7 @@ router.use(authentication)
 router.route('/')
     .get(renewToken, async (req: Request, res: Response) => {
         if (req.query.src && req.query.src === 'spotify') {
-            res.json(await endpoint(req.session.user!).ownedPlaylists())
+            res.json(await endpoint(req.session.user!.token.value).ownedPlaylists(req.session.user!.profile.spotifyId))
         } else if (req.query.pinned) {
             res.json(
                 await DI.playlistRepository.find({
@@ -75,7 +117,7 @@ router.route('/')
      */
     // .post(renewToken, async (req: Request, res: Response) => {
     // const playlist = DI.playlistRepository.create(new Playlist(req.session.user!, req.body.name ?? 'New playlist'))
-    // const spotifyPlaylist = await endpoint(req.session.user!).playlistInfo(req.body.id)
+    // const spotifyPlaylist = await endpoint(req.session.user!.token.value).playlistInfo(req.body.id)
     //
     // if (req.body.id) {
     //     playlist.spotifyID = req.body.id
@@ -105,14 +147,6 @@ router.route('/')
 
 // prettier-ignore
 router.route('/:id')
-    // Add item to playlist
-    .put((req: Request, res: Response) => {
-        res.sendStatus(501)
-    })
-    // Remove item from playlist
-    .patch((req: Request, res: Response) => {
-        res.sendStatus(501)
-    })
     // Delete playlist
     .delete(getPlaylist, async (req: Request, res: Response) => {
         if (req.session.user!._id.toString() === req.playlist!.owner._id.toString()) {
@@ -120,6 +154,37 @@ router.route('/:id')
             const query = new URLSearchParams({ url: '/#/playlists' })
             res.redirect(`/?${query}`)
         } else res.sendStatus(403)
+    })
+
+// prettier-ignore
+router.route('/:id/filter')
+    .all(getPlaylist)
+    /**
+     * Add filters
+     */
+    .post(userIsOwner, renewToken, async (req: FilterRequest & Request, res: Response) => {
+        if (!req.body) {
+            res.sendStatus(400)
+            return
+        }
+
+        for (const filter of req.body) {
+            if ((!filter.id || typeof filter.id !== 'string') && (!filter.type || typeof filter.type !== 'string')) {
+                res.sendStatus(400)
+                return
+            }
+        }
+        req.playlist!.filters.push(...req.body)
+        // Remove duplicate values
+        req.playlist!.filters = [...new Map(req.playlist!.filters.map(value => [value.id, value])).values()]
+        await DI.em.flush()
+        res.sendStatus(200)
+    })
+    /**
+     * Delete filters
+     */
+    .delete(userIsOwner, (req: Request, res: Response) => {
+        res.sendStatus(501)
     })
 
 // prettier-ignore

@@ -1,5 +1,6 @@
 import { Entity, ManyToOne, Property } from '@mikro-orm/core'
-import { BaseEntity, Filter, User } from './'
+import { BaseEntity, User } from './'
+import type { SearchFilter } from '@playlist-dj/types'
 
 @Entity()
 export class Playlist extends BaseEntity {
@@ -13,13 +14,13 @@ export class Playlist extends BaseEntity {
     description: string = ''
 
     @Property()
-    images: { src: string, height: string }[] = []
+    images: { src: string; height: string }[] = []
 
     @Property()
     notes: string = ''
 
-    @ManyToOne(() => Filter)
-    filters = []
+    @Property()
+    filters: SearchFilter[] = []
 
     @Property()
     isPublic: boolean = true
@@ -31,18 +32,20 @@ export class Playlist extends BaseEntity {
     isPinned: boolean = false
 
     @Property()
-    spotifyID: string = ''
+    spotifyId: string = ''
 
     @Property()
     fromPlaylistID: string = ''
 
     @Property()
-    hasViewAccess: User[]
+    canView: User[] = []
+
+    @Property()
+    canEdit: User[] = []
 
     constructor(owner: User, name: string) {
         super()
         this.owner = owner
         this.name = name
-        this.hasViewAccess = []
     }
 }

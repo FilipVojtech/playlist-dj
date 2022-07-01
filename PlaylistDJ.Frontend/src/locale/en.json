@@ -1,6 +1,7 @@
 {
   "app": {
     "actions": "Actions",
+    "add": "Add",
     "back": "Back",
     "cancel": "Cancel",
     "create": "Create",
@@ -42,6 +43,10 @@
       "permissions": "User permissions",
       "title": "Collaborate"
     },
+    "deleteConfirm": {
+      "message": "This action cannot be undone",
+      "title": "Are you sure?"
+    },
     "importPlaylist": {
       "title": "Choose a playlist..."
     }
@@ -57,7 +62,17 @@
       "returnHome": "Return to playlists page"
     },
     "playlist": {
-      "title": "Playlist"
+      "addFilter": "Add fitler",
+      "edit": "Edit",
+      "more": {
+        "addUser": "Invite users to collaborate",
+        "delete": "Delete playlist"
+      },
+      "privatePlaylist": "This playlist is private",
+      "share": "Copy link",
+      "taste": "Taste the playlist",
+      "title": "Playlist",
+      "tryLogIn": "You can try logging in"
     },
     "playlistList": {
       "error": "Name cannot be empty",
