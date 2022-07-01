@@ -40,4 +40,10 @@ export namespace PDJ {
         albums?: { items: Album[] }
         tracks?: { items: Track[] }
     }
+    interface Token {
+        value: string
+        refreshToken: string
+        expiration: Date
+    }
+
 }

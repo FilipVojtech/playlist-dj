@@ -1,8 +1,9 @@
 import { BaseEntity, Profile } from './'
 import { Embedded, Entity, Property } from '@mikro-orm/core'
+import { PDJ } from '@playlist-dj/types'
 
 @Entity()
-export class User extends BaseEntity {
+export class User extends BaseEntity implements PDJ.User {
     @Property()
     schemaVersion: string = '1'
 
@@ -10,7 +11,7 @@ export class User extends BaseEntity {
     code!: string
 
     @Property()
-    token: Token = {
+    token: PDJ.Token = {
         value: '',
         expiration: new Date(0),
         refreshToken: '',
@@ -42,10 +43,4 @@ export class User extends BaseEntity {
         super()
         this.code = code
     }
-}
-
-export interface Token {
-    value: string
-    refreshToken: string
-    expiration: Date
 }

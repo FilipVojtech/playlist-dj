@@ -1,6 +1,6 @@
 import got from 'got'
 import { DI } from '../app'
-import { Profile, Token, User } from '../entities'
+import { Profile, User } from '../entities'
 import type { PDJ, SearchFilter, Spotify } from '@playlist-dj/types'
 import { artistsFromSpotifyArtists, snakeToCamelCase } from './index'
 import { Artist, Album, Track } from '../Classes'
@@ -13,8 +13,8 @@ let clientCredentialsToken = { access_token: '', validity: new Date(0) }
  * Exchange the authorization code for an Access Token.
  * @param code Authorization code
  */
-export async function requestToken(code: string): Promise<Token> {
-    const token: Token = {
+export async function requestToken(code: string): Promise<PDJ.Token> {
+    const token: PDJ.Token = {
         value: '',
         refreshToken: '',
         expiration: new Date(0),
@@ -49,7 +49,7 @@ export async function requestToken(code: string): Promise<Token> {
 /**
  * Request refreshed token
  */
-export async function renewToken(user: User): Promise<Token> {
+export async function renewToken(user: User): Promise<PDJ.Token> {
     if (user.token.expiration.valueOf() > new Date().valueOf()) return user.token
     user = (await DI.userRepository.findOne({ profile: { spotifyId: user.profile.spotifyId } })) as User
 
