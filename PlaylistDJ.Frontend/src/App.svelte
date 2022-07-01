@@ -22,7 +22,7 @@
         '/settings/account': wrap({ component: Account, conditions: [authorize] }),
         '/settings/notifications': wrap({ component: Communication, conditions: [authorize] }),
         '/settings/profile': wrap({ component: Profile, conditions: [authorize] }),
-        '/settings/legal': wrap({ component: Legal, conditions: [authorize] }),
+        // '/settings/legal': wrap({ component: Legal, conditions: [authorize] }),
         '*': NotFound,
     }
 
