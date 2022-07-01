@@ -34,13 +34,13 @@
     "collaborate": {
       "access": {
         "edit": "Upravit",
-      },
         "view": "Zobrazit"
-      "email": "Email",
+      },
       "addUser": "Přidat uživatele",
+      "email": "Email",
       "mail": "Email uživatele",
-      "title": "Kolaborace"
       "permissions": "Oprávnění uživatele",
+      "title": "Kolaborace"
     },
     "importPlaylist": {
       "title": "Vyberte playlist..."
