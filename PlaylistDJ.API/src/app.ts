@@ -70,6 +70,12 @@ export const DI = {} as {
     app.use('/logout', (req: Request, res: Response) =>
         req.session.destroy(() => res.clearCookie(CookieTypes.Session).clearCookie(CookieTypes.User).redirect(`/`))
     )
+    app.use('/gdpr/:lang?', (req, res) => {
+        let lang = ''
+        if (req.params.lang) lang = `-${req.params.lang}`
+
+        res.sendFile(path.resolve(__dirname, 'public', `gdpr${lang}.pdf`))
+    })
     app.use(express.static(`${__dirname}/../../PlaylistDJ.Frontend/public`))
     app.get('*', (req: Request, res: Response) =>
         res.sendFile(path.resolve(__dirname, '..', '..', 'PlaylistDJ.Frontend', 'public', 'index.html'))
