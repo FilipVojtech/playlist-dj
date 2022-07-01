@@ -47,14 +47,14 @@
             title: $_('app.actions'),
             message: '',
             actions: [
-                new ModalAction(
-                    $_('page.playlist.more.addUser'),
-                    () => {
-                        closeModal()
-                        openModal(CollaborateModal, { playlistId: params.id })
-                    },
-                    $user!.id === (await data.id)
-                ),
+                // new ModalAction(
+                //     $_('page.playlist.more.addUser'),
+                //     () => {
+                //         closeModal()
+                //         openModal(CollaborateModal, { playlistId: params.id })
+                //     },
+                //     $user!.id === (await data.id)
+                // ),
                 new ModalAction($_('page.playlist.more.delete'), handleDelete),
                 new ModalAction($_('app.cancel'), closeModal),
             ],
