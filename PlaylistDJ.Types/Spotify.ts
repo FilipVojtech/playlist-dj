@@ -10,6 +10,7 @@ export declare namespace Spotify {
         type: 'user'
         uri: string
     }
+
     interface Artist {
         externalUrls: {
             [key: string]: string
@@ -27,6 +28,7 @@ export declare namespace Spotify {
         type: FilterType
         uri: string
     }
+
     interface Album {
         albumType: string
         artists: Artist[]
@@ -43,6 +45,7 @@ export declare namespace Spotify {
         type: FilterType
         uri: string
     }
+
     interface Track {
         album: Album
         artists: Artist[]
@@ -66,6 +69,7 @@ export declare namespace Spotify {
         type: string
         uri: string
     }
+
     interface TrackFromPlaylist {
         addedAt: string
         addedBy: UserMinimal
@@ -76,6 +80,7 @@ export declare namespace Spotify {
             url: null | string
         }
     }
+
     interface SearchResults {
         albums?: {
             href: string
@@ -105,6 +110,7 @@ export declare namespace Spotify {
             total: number
         }
     }
+
     interface Playlist {
         collaborative: boolean
         description: string
@@ -133,10 +139,30 @@ export declare namespace Spotify {
         type: 'playlist'
         uri: string
     }
+
     interface Image {
         width: number
         height: number
         url: string
     }
+
     type Images = [0] | [Image] | [Image, Image, Image]
+
+    interface User {
+        country: string
+        displayName: string
+        email: string
+        explicitContent: { enabled: boolean; locked: boolean }
+        externalUrls: {}
+        href: string
+        spotifyId: string
+        images: Images
+        product: Product
+        uri: string
+    }
+
+    enum Product {
+        Premium = 'premium',
+        Free = 'free',
+    }
 }
