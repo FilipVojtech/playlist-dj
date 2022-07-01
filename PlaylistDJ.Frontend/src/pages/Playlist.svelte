@@ -13,8 +13,8 @@
     import type { PDJ } from '@playlist-dj/types'
 
     export let params = { id: '' }
-    export let previousPage = '/playlists'
     export let isEditing: boolean = false
+    export let previousPage = isEditing ? `/playlist/${params.id}` : '/playlists'
 
     let data: Promise<{}> = new Promise(() => {
         return {}
