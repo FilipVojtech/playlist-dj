@@ -1,15 +1,17 @@
 <script lang="ts">
-    import { Navigation } from './components'
+    import { ConsentModal, Navigation } from './components'
     import { About, Home, NotFound, Playlist, PlaylistList, Social } from './pages'
     import Settings, { Account, Communication, Legal, Profile } from './pages/Settings'
     import Router, { replace } from 'svelte-spa-router'
     import { showNav, user } from './utility/stores'
     import './utility/i18n'
     import { isLoading } from 'svelte-i18n'
-    import { closeAllModals, Modals } from 'svelte-modals'
+    import { closeAllModals, Modals, openModal } from 'svelte-modals'
     import { fade, fly } from 'svelte/transition'
     import { LoaderIcon } from 'svelte-feather-icons'
     import wrap from 'svelte-spa-router/wrap'
+    import { onMount } from 'svelte'
+    import aport from './utility/Aport'
 
     const routes = {
         '/': wrap({ component: Home, conditions: [authorize], userData: $user }),
@@ -40,6 +42,26 @@
             replace('/about')
         }
     }
+
+    onMount(async () => {
+        const nullDate = new Date(0)
+        if ($user) {
+            const consentDate: Date = await aport('/api/user/consent')
+                .then(res => {
+                    if (res.ok) return res.json()
+                    else return null
+                })
+                .then(value => {
+                    if (value !== null) return new Date(value['consent'])
+                    else return nullDate
+                })
+                .catch(e => {
+                    console.log(e)
+                    return nullDate
+                })
+            if (consentDate.toString() === nullDate.toString()) openModal(ConsentModal)
+        }
+    })
 </script>
 
 <div class="page">
