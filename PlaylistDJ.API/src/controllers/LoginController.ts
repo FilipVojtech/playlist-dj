@@ -47,6 +47,7 @@ router.get('/callback', async (req: Request, res: Response) => {
                 await DI.userRepository.persistAndFlush(user)
                 req.session.user = user
             } else {
+                user.consent = userFromDb.consent
                 DI.userRepository.assign(userFromDb, user)
                 await DI.userRepository.flush()
                 req.session.user = userFromDb
