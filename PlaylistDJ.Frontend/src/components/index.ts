@@ -18,6 +18,8 @@ import PlaylistList from './PlaylistList.svelte'
 import CreatePostModal from './CreatePostModal.svelte'
 import Post from './Post.svelte'
 import FilterImg from './FilterImg.svelte'
+import RegisterModal from './RegisterModal.svelte'
+import ConsentModal from './ConsentModal.svelte'
 
 export {
     Navigation,
@@ -40,4 +42,6 @@ export {
     CreatePostModal,
     Post,
     FilterImg,
+    RegisterModal,
+    ConsentModal,
 }
