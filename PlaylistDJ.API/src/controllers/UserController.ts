@@ -5,6 +5,7 @@ import { DI } from '../app'
 
 const router = express.Router()
 
+// prettier-ignore
 router.route('/account')
     .get((req: Request, res: Response) => {
         // todo: Get account
@@ -24,6 +25,7 @@ router.route('/account')
         await DI.userRepository.flush()
     })
 
+// prettier-ignore
 router.route('/profile')
     .get((req: Request, res: Response) => {
         res.json(req.session.user!.profile)
@@ -33,6 +35,7 @@ router.route('/profile')
         res.sendStatus(501)
     })
 
+// prettier-ignore
 router.route('/communication')
     .get((req: Request, res: Response) => {
         res.json(req.session.user!.communication)
@@ -43,6 +46,18 @@ router.route('/communication')
         wrap(user).assign(req.session.user!)
         await DI.userRepository.flush()
         res.json(req.session.user!.communication)
+    })
+
+// prettier-ignore
+router.route('/consent')
+    .get(async (req: Request, res: Response) => {
+        res.json({ consent: req.session.user!.consent })
+    })
+    .patch(async (req: Request, res: Response) => {
+        const user = await DI.userRepository.findOne({ profile: { spotifyId: req.session.user!.profile.spotifyId } })
+        user!.consent = new Date()
+        await DI.userRepository.flush()
+        res.sendStatus(200)
     })
 
 export default router
