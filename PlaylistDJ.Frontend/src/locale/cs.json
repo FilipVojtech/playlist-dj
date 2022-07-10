@@ -35,7 +35,7 @@
   "modal": {
     "consent": {
       "agree": {
-        "1": "Souhlasit s",
+        "1": "Souhlasit se",
         "2": "a"
       },
       "message": "Pokud chcete nadále používat službu Playlist DJ, budete muset",
@@ -57,7 +57,7 @@
     },
     "register": {
       "consent": {
-        "1": "Souhlasím s",
+        "1": "Souhlasím se",
         "2": "a"
       },
       "message": "V dalším kroku se přihlaste do svého Spotify účtu.",
