@@ -17,7 +17,7 @@
 {#if isOpen}
     <div role="dialog" class="modal" transition:fade>
         <div class="modal__contents">
-            <form action="/login">
+            <form action="/login" on:submit|preventDefault={handleConsent}>
                 <div class="modal__title">{$_('modal.consent.title')}</div>
                 <div class="modal__message">
                     <p>{$_('modal.consent.message')}</p>
@@ -37,7 +37,6 @@
                         type="submit"
                         class:disabled={!checked}
                         class="actions__button"
-                        on:click={handleConsent}
                         disabled={!checked}
                         value={$_('app.continue')}
                     />

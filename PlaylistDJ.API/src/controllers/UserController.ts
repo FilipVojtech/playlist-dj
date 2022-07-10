@@ -57,6 +57,7 @@ router.route('/consent')
         const user = await DI.userRepository.findOne({ profile: { spotifyId: req.session.user!.profile.spotifyId } })
         user!.consent = new Date()
         await DI.userRepository.flush()
+        req.session.user = user!
         res.sendStatus(200)
     })
 
