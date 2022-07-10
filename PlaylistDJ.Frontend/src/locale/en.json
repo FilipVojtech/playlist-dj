@@ -129,7 +129,9 @@
         }
       },
       "legal": {
-        "title": "Privacy policy"
+        "privacyPolicy": "Privacy policy",
+        "title": "Legal",
+        "tos": "Terms of service"
       },
       "profile": {
         "title": "Profile"
