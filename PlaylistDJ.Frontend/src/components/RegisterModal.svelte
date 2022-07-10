@@ -18,9 +18,11 @@
                     <input type="checkbox" name="gdpr" id="gdpr" bind:checked required />
                     <label for="gdpr">
                         {$_('modal.register.consent.1')}
-                        <a class="link" href="/tos/{$locale}">{$_('modal.register.tos')}</a>
+                        <a class="link" href="/tos/{$locale}" target="_blank"> {$_('modal.register.tos')}</a>
                         {$_('modal.register.consent.2')}
-                        <a class="link" href="/privacy/{$locale}">{$_('modal.register.privacyPolicy')}</a>
+                        <a class="link" href="/privacy/{$locale}" target="_blank">
+                            {$_('modal.register.privacyPolicy')}
+                        </a>
                     </label>
                 </div>
                 <div class="modal__actions">

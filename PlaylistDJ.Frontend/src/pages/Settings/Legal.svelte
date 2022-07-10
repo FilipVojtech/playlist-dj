@@ -7,11 +7,11 @@
 
 <Header iconBefore={ChevronLeftIcon} onClickBefore={() => push('/settings')} text={$_('page.settings.legal.title')} />
 
-<a class="item item--interactive" href="/tos/{$locale}">
+<a class="item item--interactive" href="/tos/{$locale}" target="_blank">
     <span class="item__icon"><PaperclipIcon size="25" /></span>
     {$_('page.settings.legal.tos')}
 </a>
-<a class="item item--interactive" href="/privacy/{$locale}">
+<a class="item item--interactive" href="/privacy/{$locale}" target="_blank">
     <span class="item__icon"><PaperclipIcon size="25" /></span>
     {$_('page.settings.legal.privacyPolicy')}
 </a>
