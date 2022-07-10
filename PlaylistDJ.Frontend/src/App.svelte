@@ -3,7 +3,7 @@
     import { About, Home, NotFound, Playlist, PlaylistList, Social } from './pages'
     import Settings, { Account, Communication, Legal, Profile } from './pages/Settings'
     import Router, { replace } from 'svelte-spa-router'
-    import { showNav, user } from './utility/stores'
+    import { canCloseModal, showNav, user } from './utility/stores'
     import './utility/i18n'
     import { isLoading } from 'svelte-i18n'
     import { closeAllModals, Modals, openModal } from 'svelte-modals'
@@ -76,7 +76,7 @@
             </div>
         {/if}
         <Modals>
-            <div class="backdrop" on:click={closeAllModals} slot="backdrop" transition:fade />
+            <div class="backdrop" on:click={$canCloseModal ? closeAllModals : null} slot="backdrop" transition:fade />
         </Modals>
     {:else}
         <div class="loader">

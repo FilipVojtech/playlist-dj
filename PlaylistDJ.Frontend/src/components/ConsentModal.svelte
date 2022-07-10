@@ -1,9 +1,9 @@
 <script lang="ts">
     import { fade } from 'svelte/transition'
-    import { closeModals } from 'svelte-modals'
     import { _, locale } from 'svelte-i18n'
-    import { replace } from 'svelte-spa-router'
     import aport from '../utility/Aport'
+    import { onDestroy, onMount } from 'svelte'
+    import { canCloseModal } from '../utility/stores'
 
     export let isOpen: boolean
     let checked: boolean = false
@@ -12,6 +12,9 @@
         await aport('/api/user/consent', { method: 'PATCH' })
         window.location.reload()
     }
+
+    onMount(() => ($canCloseModal = false))
+    onDestroy(() => ($canCloseModal = true))
 </script>
 
 {#if isOpen}

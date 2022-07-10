@@ -8,3 +8,8 @@ export const showNav = writable(true)
 export const user = readable(getCookies().user)
 
 export const searchResult: Writable<SearchFilter> | {} = writable({})
+
+/**
+ * Can user close modal by clicking on the backdrop
+ */
+export const canCloseModal: Writable<boolean> = writable(true)
