@@ -4,6 +4,7 @@
     "add": "Přidat",
     "back": "Zpět",
     "cancel": "Zrušit",
+    "continue": "Pokračovat",
     "create": "Vytvořit",
     "description": "Spravujte Spotify playlisty s lehkostí",
     "login": {
@@ -32,12 +33,37 @@
     "en": "English"
   },
   "modal": {
+    "consent": {
+      "agree": {
+        "1": "Souhlasit se",
+        "2": "a"
+      },
+      "message": "Pokud chcete nadále používat službu Playlist DJ, budete muset",
+      "privacyPolicy": "Zásadami ochrany osobních údajů",
+      "title": "Obnovení souhlasu",
+      "tos": "Podmínkami poskytování služeb"
+    },
     "deleteConfirm": {
       "message": "Tuto akci nelze vzít zpět",
       "title": "Jste si jisti?"
     },
     "importPlaylist": {
       "title": "Vyberte playlist..."
+    },
+    "login": {
+      "logIn": "Přihlásit se",
+      "register": "Registrovat se",
+      "title": "Přihlášení"
+    },
+    "register": {
+      "consent": {
+        "1": "Souhlasím se",
+        "2": "a"
+      },
+      "message": "V dalším kroku se přihlaste do svého Spotify účtu.",
+      "privacyPolicy": "Zásadami ochrany osobních údajů",
+      "title": "Registrace",
+      "tos": "Podmínkami poskytování služeb"
     }
   },
   "page": {
@@ -101,6 +127,11 @@
           "monthly": "Měsíčně",
           "weekly": "Týdne"
         }
+      },
+      "legal": {
+        "privacyPolicy": "Zásady ochrany osobních údajů",
+        "title": "Právní dokumenty",
+        "tos": "Podmínky poskytování služeb"
       },
       "profile": {
         "title": "Profil"

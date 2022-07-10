@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { CollaborateModal, FilterList, Header, Modal, SpotifySearchModal } from '../components'
+    import { FilterList, Header, Modal, SpotifySearchModal } from '../components'
     import { onDestroy, onMount } from 'svelte'
     import { searchResult, showNav, user } from '../utility/stores'
     import { _ } from 'svelte-i18n'

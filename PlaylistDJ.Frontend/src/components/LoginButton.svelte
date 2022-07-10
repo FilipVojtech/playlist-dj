@@ -1,11 +1,30 @@
-<script lang='ts'>
-    export let text: string = 'Login with Spotify'
+<script lang="ts">
+    import { _ } from 'svelte-i18n'
+    import { closeModals, openModal } from 'svelte-modals'
+    import { ModalAction } from '../utility'
+    import Modal from './Modal.svelte'
+    import RegisterModal from './RegisterModal.svelte'
+
+    export let text: string = $_('app.login.long')
+
+    function handleClick() {
+        openModal(Modal, {
+            title: $_('modal.login.title'),
+            actions: [
+                new ModalAction($_('modal.login.logIn'), () => window.location.assign('/login')),
+                new ModalAction($_('modal.login.register'), () => {
+                    closeModals()
+                    openModal(RegisterModal)
+                }),
+            ],
+        })
+    }
 </script>
 
-<a class='login-button' href='/login'>
-    <img alt='Spotify logo' class='login-button__logo' src='images/Spotify_Icon.png' />
+<div class="login-button item--interactive" on:click={handleClick}>
+    <img alt="Spotify logo" class="login-button__logo" src="images/Spotify_Icon.png" />
     {text}
-</a>
+</div>
 
 <style>
     .login-button {

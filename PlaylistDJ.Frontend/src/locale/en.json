@@ -4,6 +4,7 @@
     "add": "Add",
     "back": "Back",
     "cancel": "Cancel",
+    "continue": "Continue",
     "create": "Create",
     "description": "Manage your Spotify playlists with ease",
     "login": {
@@ -32,12 +33,37 @@
     "en": "English"
   },
   "modal": {
+    "consent": {
+      "agree": {
+        "1": "Agree to",
+        "2": "and"
+      },
+      "message": "To continue using the Playlist DJ service you will have to",
+      "privacyPolicy": "Privacy policy",
+      "title": "Consent renewal",
+      "tos": "Terms of Service"
+    },
     "deleteConfirm": {
       "message": "This action cannot be undone",
       "title": "Are you sure?"
     },
     "importPlaylist": {
       "title": "Choose a playlist..."
+    },
+    "login": {
+      "logIn": "Log in",
+      "register": "Register",
+      "title": "Login"
+    },
+    "register": {
+      "consent": {
+        "1": "Agree with",
+        "2": "and"
+      },
+      "message": "You will need to login using your Spotify account in the next step.",
+      "privacyPolicy": "Privacy policy",
+      "title": "Register",
+      "tos": "Terms of Service"
     }
   },
   "page": {
@@ -101,6 +127,11 @@
           "monthly": "Monthly",
           "weekly": "Weekly"
         }
+      },
+      "legal": {
+        "privacyPolicy": "Privacy policy",
+        "title": "Legal",
+        "tos": "Terms of service"
       },
       "profile": {
         "title": "Profile"

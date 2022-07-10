@@ -10,6 +10,9 @@ export class User extends BaseEntity {
     code!: string
 
     @Property()
+    consent: Date = new Date(0)
+
+    @Property()
     token: Token = {
         value: '',
         expiration: new Date(0),
