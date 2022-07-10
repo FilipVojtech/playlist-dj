@@ -1,7 +1,7 @@
 <script lang="ts">
     import { fade } from 'svelte/transition'
     import { closeModals } from 'svelte-modals'
-    import { _ } from 'svelte-i18n'
+    import { _, locale } from 'svelte-i18n'
     import { replace } from 'svelte-spa-router'
     import aport from '../utility/Aport'
 
@@ -25,9 +25,9 @@
                     <input type="checkbox" name="gdpr" id="gdpr" bind:checked required />
                     <label for="gdpr">
                         {$_('modal.consent.agree.1')}
-                        <a class="link" href="/tos">{$_('modal.consent.tos')}</a>
+                        <a class="link" href="/tos/{$locale}">{$_('modal.consent.tos')}</a>
                         {$_('modal.consent.agree.2')}
-                        <a class="link" href="/privacy">{$_('modal.consent.privacyPolicy')}</a>
+                        <a class="link" href="/privacy/{$locale}">{$_('modal.consent.privacyPolicy')}</a>
                     </label>
                 </div>
                 <div class="modal__actions">

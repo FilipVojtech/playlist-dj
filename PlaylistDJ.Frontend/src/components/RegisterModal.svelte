@@ -1,7 +1,7 @@
 <script lang="ts">
     import { fade } from 'svelte/transition'
     import { closeModals } from 'svelte-modals'
-    import { _ } from 'svelte-i18n'
+    import { _, locale } from 'svelte-i18n'
 
     export let isOpen: boolean
     let checked: boolean = false
@@ -18,9 +18,9 @@
                     <input type="checkbox" name="gdpr" id="gdpr" bind:checked required />
                     <label for="gdpr">
                         {$_('modal.register.consent.1')}
-                        <a class="link" href="/tos">{$_('modal.register.tos')}</a>
+                        <a class="link" href="/tos/{$locale}">{$_('modal.register.tos')}</a>
                         {$_('modal.register.consent.2')}
-                        <a class="link" href="/privacy">{$_('modal.register.privacyPolicy')}</a>
+                        <a class="link" href="/privacy/{$locale}">{$_('modal.register.privacyPolicy')}</a>
                     </label>
                 </div>
                 <div class="modal__actions">
