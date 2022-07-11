@@ -2,7 +2,7 @@ import { NextFunction, Response, Router } from 'express'
 import { Request } from '../global'
 import { DI } from '../app'
 import { endpoint, getClientToken } from '../utility'
-import { Playlist, User } from '../entities'
+import { Playlist } from '../entities'
 import { authentication, renewToken } from '../utility/Middleware'
 import type { FilterRequest } from '@playlist-dj/types'
 
@@ -148,6 +148,11 @@ router.route('/')
 // prettier-ignore
 router.route('/:id')
     .all(getPlaylist, userIsOwner)
+    .patch(async (req: Request, res: Response) => {
+        req.playlist!.isPinned = !req.playlist!.isPinned
+        await DI.playlistRepository.flush()
+        res.sendStatus(200)
+    })
     // Delete playlist
     .delete(async (req: Request, res: Response) => {
         await DI.playlistRepository.removeAndFlush(req.playlist!)
