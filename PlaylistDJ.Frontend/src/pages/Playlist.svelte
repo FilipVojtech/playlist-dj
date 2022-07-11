@@ -98,7 +98,7 @@
     <div class="loader">
         <LoaderIcon size="100" />
     </div>
-{:then { status, images, name, description }}
+{:then { status, images, name, description, isPinned }}
     {#if status && status === 404}
         <NotFound />
     {:else if status === 403}
@@ -144,9 +144,7 @@
                 <!--</editor-fold>-->
                 <div class="title__detail">
                     <div class="title__name">{name}</div>
-                    <div class="title__description">
-                        {description}
-                    </div>
+                    <div class="title__description">{description}</div>
                 </div>
             </div>
             <div class="playlist__actions__wrapper">
@@ -169,6 +167,19 @@
                         </div>
                     {/if}
                     {#if !isEditing}
+                        <div
+                            class="actions__action item--interactive"
+                            on:click={async () => {
+                                await aport(`/api/playlist/${params.id}`, { method: 'PATCH' })
+                                getPlaylist()
+                            }}
+                        >
+                            {#if isPinned}
+                                {$_('page.playlist.unpin')}
+                            {:else}
+                                {$_('page.playlist.pin')}
+                            {/if}
+                        </div>
                         <div
                             class="actions__action item--interactive"
                             on:click={() => copyToClipboard(window.location.href)}
