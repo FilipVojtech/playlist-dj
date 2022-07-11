@@ -147,13 +147,12 @@ router.route('/')
 
 // prettier-ignore
 router.route('/:id')
+    .all(getPlaylist, userIsOwner)
     // Delete playlist
-    .delete(getPlaylist, async (req: Request, res: Response) => {
-        if (req.session.user!._id.toString() === req.playlist!.owner._id.toString()) {
-            await DI.playlistRepository.removeAndFlush(req.playlist!)
-            const query = new URLSearchParams({ url: '/#/playlists' })
-            res.redirect(`/?${query}`)
-        } else res.sendStatus(403)
+    .delete(async (req: Request, res: Response) => {
+        await DI.playlistRepository.removeAndFlush(req.playlist!)
+        const query = new URLSearchParams({ url: '/#/playlists' })
+        res.redirect(`/?${query}`)
     })
 
 // prettier-ignore
