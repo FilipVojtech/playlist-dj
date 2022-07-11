@@ -83,11 +83,13 @@
         "addUser": "Invite users to collaborate",
         "delete": "Delete playlist"
       },
+      "pin": "Pin",
       "privatePlaylist": "This playlist is private",
       "share": "Copy link",
       "taste": "Taste the playlist",
       "title": "Playlist",
-      "tryLogIn": "You can try logging in"
+      "tryLogIn": "You can try logging in",
+      "unpin": "Unpin"
     },
     "playlistList": {
       "error": "Name cannot be empty",

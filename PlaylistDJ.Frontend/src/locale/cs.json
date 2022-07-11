@@ -83,11 +83,13 @@
         "addUser": "Pozvat uživatele ke kolaboraci",
         "delete": "Odstranit playlist"
       },
+      "pin": "Připnout",
       "privatePlaylist": "Tento playlist je soukromý",
       "share": "Zkopírovat odkaz",
       "taste": "Ochutnat playlist",
       "title": "Playlist",
-      "tryLogIn": "Můžete se zkusit přihlásit"
+      "tryLogIn": "Můžete se zkusit přihlásit",
+      "unpin": "Odepnout"
     },
     "playlistList": {
       "error": "Název playlistu nesmí být prázdný",
