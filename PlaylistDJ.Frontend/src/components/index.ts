@@ -20,6 +20,7 @@ import Post from './Post.svelte'
 import FilterImg from './FilterImg.svelte'
 import RegisterModal from './RegisterModal.svelte'
 import ConsentModal from './ConsentModal.svelte'
+import Filter from './Filter.svelte'
 
 export {
     Navigation,
@@ -44,4 +45,5 @@ export {
     FilterImg,
     RegisterModal,
     ConsentModal,
+    Filter,
 }
