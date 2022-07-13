@@ -20,6 +20,12 @@
     "yes": "Yes"
   },
   "component": {
+    "filterList": {
+      "albums": "Albums",
+      "artists": "Artists",
+      "loadMore": "Load more",
+      "tracks": "Tracks"
+    },
     "navigation": {
       "home": "Home",
       "pinnedPlaylists": "Pinned playlists",
@@ -64,6 +70,9 @@
       "privacyPolicy": "Privacy policy",
       "title": "Register",
       "tos": "Terms of Service"
+    },
+    "search": {
+      "placeholder": "Search on Spotify"
     }
   },
   "page": {
