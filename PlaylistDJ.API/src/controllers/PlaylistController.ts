@@ -187,8 +187,23 @@ router.route('/:id/filter')
     /**
      * Delete filters
      */
-    .delete(userIsOwner, (req: Request, res: Response) => {
-        res.sendStatus(501)
+    .delete(userIsOwner, async (req: Request, res: Response) => {
+        if (!req.body) {
+            res.sendStatus(400)
+            return
+        }
+
+        for (const filter of req.body) {
+            if ((!filter.id || typeof filter.id !== 'string') && (!filter.type || typeof filter.type !== 'string')) {
+                res.sendStatus(400)
+                break
+            }
+            // Remove by id
+            const removeItemIndex = req.playlist!.filters.findIndex(value => value.id === filter.id)
+            req.playlist!.filters.splice(removeItemIndex, 1)
+        }
+        await DI.playlistRepository.flush()
+        res.sendStatus(200)
     })
 
 export default router
