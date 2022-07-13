@@ -88,7 +88,7 @@
 
 <svelte:head>
     {#if isEditing}
-        <title>Editing {$_('page.playlist.title')}</title>
+        <title>{$_('page.playlist.editTitle')}</title>
     {:else}
         <title>{$_('page.playlist.title')}</title>
     {/if}

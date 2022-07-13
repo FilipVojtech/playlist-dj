@@ -88,6 +88,7 @@
     "playlist": {
       "addFilter": "Add fitler",
       "edit": "Edit",
+      "editTitle": "Editing playlist",
       "more": {
         "addUser": "Invite users to collaborate",
         "delete": "Delete playlist"

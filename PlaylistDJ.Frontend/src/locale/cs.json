@@ -88,6 +88,7 @@
     "playlist": {
       "addFilter": "Přidat filtr",
       "edit": "Upravit",
+      "editTitle": "Upravování playlistu",
       "more": {
         "addUser": "Pozvat uživatele ke kolaboraci",
         "delete": "Odstranit playlist"
