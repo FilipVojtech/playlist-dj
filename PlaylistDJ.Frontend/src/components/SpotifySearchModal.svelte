@@ -87,7 +87,7 @@
         right: 0;
         transform: none;
         overflow-y: initial !important;
-        max-width: 100vw;
+        width: 100vw;
     }
 
     .modal__search {
@@ -134,5 +134,13 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+
+    @media (min-width: 640px) {
+        .modal {
+            right: 50%;
+            transform: translateX(50%);
+            width: 50vw;
+        }
     }
 </style>
