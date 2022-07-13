@@ -34,11 +34,13 @@
 
 {#if data.artists}
     <div class="list__section">{$_('component.filterList.artists')}</div>
-    {#each data.artists.items as { name, images, id }}
-        <div class="filter-wrapper" on:click={() => onItemClick({ id, type: FilterType.Artist })}>
-            <Filter {name} {images} {actions} />
-        </div>
-    {/each}
+    <div class="list">
+        {#each data.artists.items as { name, images, id }}
+            <div class="filter-wrapper item--half" on:click={() => onItemClick({ id, type: FilterType.Artist })}>
+                <Filter {name} {images} {actions} />
+            </div>
+        {/each}
+    </div>
     {#if data.artists.next}
         <button class="list__more" on:click={() => loadMore(data.artists.next)}>
             {$_('component.filterList.loadMore')}
@@ -47,15 +49,17 @@
 {/if}
 {#if data.albums}
     <div class="list__section">{$_('component.filterList.albums')}</div>
-    {#each data.albums.items as { name, images, artists, id }}
-        <div class="filter-wrapper" on:click={() => onItemClick({ id, type: FilterType.Album })}>
-            <Filter {name} {images} {actions}>
-                <svelte:fragment slot="artists">
-                    {artistListFromArray(artists)}
-                </svelte:fragment>
-            </Filter>
-        </div>
-    {/each}
+    <div class="list">
+        {#each data.albums.items as { name, images, artists, id }}
+            <div class="filter-wrapper item--half" on:click={() => onItemClick({ id, type: FilterType.Album })}>
+                <Filter {name} {images} {actions}>
+                    <svelte:fragment slot="artists">
+                        {artistListFromArray(artists)}
+                    </svelte:fragment>
+                </Filter>
+            </div>
+        {/each}
+    </div>
     {#if data.albums.next}
         <button class="list__more" on:click={() => loadMore(data.albums.next)}>
             {$_('component.filterList.loadMore')}
@@ -64,15 +68,17 @@
 {/if}
 {#if data.tracks}
     <div class="list__section">{$_('component.filterList.tracks')}</div>
-    {#each data.tracks.items as { album, artists, name, id }}
-        <div class="filter-wrapper" on:click={() => onItemClick({ id, type: FilterType.Track })}>
-            <Filter {name} images={album.images} {actions}>
-                <svelte:fragment slot="artists">
-                    {artistListFromArray(artists)} - {album.name}
-                </svelte:fragment>
-            </Filter>
-        </div>
-    {/each}
+    <div class="list">
+        {#each data.tracks.items as { album, artists, name, id }}
+            <div class="filter-wrapper item--half" on:click={() => onItemClick({ id, type: FilterType.Track })}>
+                <Filter {name} images={album.images} {actions}>
+                    <svelte:fragment slot="artists">
+                        {artistListFromArray(artists)} - {album.name}
+                    </svelte:fragment>
+                </Filter>
+            </div>
+        {/each}
+    </div>
     {#if data.tracks.next}
         <button class="list__more" on:click={() => loadMore(data.tracks.next)}>
             {$_('component.filterList.loadMore')}
