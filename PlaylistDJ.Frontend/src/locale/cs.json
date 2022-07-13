@@ -20,6 +20,12 @@
     "yes": "Ano"
   },
   "component": {
+    "filterList": {
+      "albums": "Alba",
+      "artists": "Umělci",
+      "loadMore": "Načíst další",
+      "tracks": "Skladby"
+    },
     "navigation": {
       "home": "Domů",
       "pinnedPlaylists": "Připnuté playlisty",
@@ -64,6 +70,9 @@
       "privacyPolicy": "Zásadami ochrany osobních údajů",
       "title": "Registrace",
       "tos": "Podmínkami poskytování služeb"
+    },
+    "search": {
+      "placeholder": "Vyhledat na Spotify"
     }
   },
   "page": {
@@ -79,6 +88,7 @@
     "playlist": {
       "addFilter": "Přidat filtr",
       "edit": "Upravit",
+      "editTitle": "Upravování playlistu",
       "more": {
         "addUser": "Pozvat uživatele ke kolaboraci",
         "delete": "Odstranit playlist"

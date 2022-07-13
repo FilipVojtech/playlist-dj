@@ -8,9 +8,6 @@ import Modal from './Modal.svelte'
 import OkModal from './OkModal.svelte'
 import SpotifySearchModal from './SpotifySearchModal.svelte'
 import FilterList from './FilterList.svelte'
-import AlbumList from './AlbumList.svelte'
-import ArtistList from './ArtistList.svelte'
-import TrackList from './TrackList.svelte'
 import FilterPlaceholder from './FilterPlaceholder.svelte'
 import ImportPlaylistModal from './ImportPlaylistModal.svelte'
 import ImportM3UFileModal from './ImportM3UFileModal.svelte'
@@ -20,6 +17,7 @@ import Post from './Post.svelte'
 import FilterImg from './FilterImg.svelte'
 import RegisterModal from './RegisterModal.svelte'
 import ConsentModal from './ConsentModal.svelte'
+import Filter from './Filter.svelte'
 
 export {
     Navigation,
@@ -32,9 +30,6 @@ export {
     OkModal,
     SpotifySearchModal,
     FilterList,
-    AlbumList,
-    ArtistList,
-    TrackList,
     FilterPlaceholder,
     ImportPlaylistModal,
     ImportM3UFileModal,
@@ -44,4 +39,5 @@ export {
     FilterImg,
     RegisterModal,
     ConsentModal,
+    Filter,
 }

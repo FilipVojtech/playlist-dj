@@ -15,6 +15,8 @@
     --main: #5e2ebf;
     --spotify-green: #1db956;
     --warning: #d34747;
+    --text-main: white;
+    --text-darker: #bfbfbf;
     --text-accept: #baffc1;
     --text-reject: #ffcaca;
 }
@@ -83,6 +85,10 @@ a {
     flex-direction: column;
 }
 
+.item--row {
+    flex-direction: row;
+}
+
 .item--slim {
     padding: 5px;
     margin: 0 0 5px;
@@ -132,23 +138,12 @@ a {
     cursor: default;
 }
 
-.filter {
-    display: flex;
-    margin: 5px 0;
-    user-select: none;
-    cursor: pointer;
-}
-
 .filter__img {
     border-radius: 20px;
     margin-right: 10px;
     width: 56px;
     height: 56px;
-}
-
-.filter__info {
-    overflow: hidden;
-    text-overflow: ellipsis;
+    align-self: flex-start;
 }
 
 .form {

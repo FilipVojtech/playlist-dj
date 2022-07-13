@@ -1,20 +1,27 @@
 <script lang="ts">
+    import type { PDJ, FilterType } from '@playlist-dj/types'
     import { FilterList, Header, Modal, SpotifySearchModal } from '../components'
     import { onDestroy, onMount } from 'svelte'
     import { searchResult, showNav, user } from '../utility/stores'
     import { _ } from 'svelte-i18n'
-    import { ChevronLeftIcon, ListIcon, LoaderIcon, MoreHorizontalIcon, PlusIcon } from 'svelte-feather-icons'
+    import {
+        ChevronLeftIcon,
+        ListIcon,
+        LoaderIcon,
+        MoreHorizontalIcon,
+        PlusIcon,
+        TrashIcon,
+    } from 'svelte-feather-icons'
     import aport from '../utility/Aport'
     import LoginWidget from '../components/widgets/LoginWidget.svelte'
     import { closeModal, closeModals, openModal } from 'svelte-modals'
     import { push } from 'svelte-spa-router'
     import NotFound from './NotFound.svelte'
     import { copyToClipboard, ModalAction } from '../utility'
-    import type { PDJ } from '@playlist-dj/types'
 
     export let params = { id: '' }
-    export let previousPage = '/playlists'
     export let isEditing: boolean = false
+    export let previousPage = isEditing ? `/playlist/${params.id}` : '/playlists'
 
     let data: Promise<{}> = new Promise(() => {
         return {}
@@ -42,30 +49,36 @@
     }
 
     async function actions() {
-        // noinspection TypeScriptUnresolvedVariable
         openModal(Modal, {
             title: $_('app.actions'),
             message: '',
             actions: [
-                new ModalAction($_('page.playlist.more.delete'), handleDelete),
+                new ModalAction($_('page.playlist.more.delete'), () => {
+                    closeModals()
+                    openModal(Modal, {
+                        title: $_('modal.deleteConfirm.title'),
+                        message: $_('modal.deleteConfirm.message'),
+                        actions: [
+                            new ModalAction($_('app.yes'), () => {
+                                closeModals()
+                                aport(`/api/playlist/${params.id}`, { method: 'DELETE' })
+                            }),
+                            new ModalAction($_('app.cancel'), closeModals),
+                        ],
+                    })
+                }),
                 new ModalAction($_('app.cancel'), closeModal),
             ],
         })
     }
 
-    function handleDelete() {
-        closeModals()
-        openModal(Modal, {
-            title: $_('modal.deleteConfirm.title'),
-            message: $_('modal.deleteConfirm.message'),
-            actions: [
-                new ModalAction($_('app.yes'), () => {
-                    closeModals()
-                    aport(`/api/playlist/${params.id}`, { method: 'DELETE' })
-                }),
-                new ModalAction($_('app.cancel'), closeModals),
-            ],
+    async function removeFilter(id: { id: string; type: FilterType }) {
+        await aport(`/api/playlist/${params.id}/filter`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify([id]),
         })
+        getFilters()
     }
 
     onMount(() => {
@@ -81,6 +94,7 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify([$searchResult]),
         })
+        // noinspection TypeScriptValidateTypes
         $searchResult = undefined
         getFilters()
     }
@@ -88,7 +102,7 @@
 
 <svelte:head>
     {#if isEditing}
-        <title>Editing {$_('page.playlist.title')}</title>
+        <title>{$_('page.playlist.editTitle')}</title>
     {:else}
         <title>{$_('page.playlist.title')}</title>
     {/if}
@@ -203,7 +217,7 @@
                 </div>
             {:then data}
                 <div class="playlist__filters">
-                    <FilterList {data} />
+                    <FilterList {data} actions={isEditing ? [{ icon: TrashIcon, onClick: removeFilter }] : []} />
                 </div>
             {/await}
         </div>
