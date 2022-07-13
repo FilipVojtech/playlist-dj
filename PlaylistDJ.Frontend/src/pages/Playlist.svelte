@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type { PDJ, FilterType } from '@playlist-dj/types'
     import { FilterList, Header, Modal, SpotifySearchModal } from '../components'
     import { onDestroy, onMount } from 'svelte'
     import { searchResult, showNav, user } from '../utility/stores'
@@ -17,7 +18,6 @@
     import { push } from 'svelte-spa-router'
     import NotFound from './NotFound.svelte'
     import { copyToClipboard, ModalAction } from '../utility'
-    import type { PDJ } from '@playlist-dj/types'
 
     export let params = { id: '' }
     export let isEditing: boolean = false
@@ -53,32 +53,32 @@
             title: $_('app.actions'),
             message: '',
             actions: [
-                new ModalAction($_('page.playlist.more.delete'), handleDelete),
+                new ModalAction($_('page.playlist.more.delete'), () => {
+                    closeModals()
+                    openModal(Modal, {
+                        title: $_('modal.deleteConfirm.title'),
+                        message: $_('modal.deleteConfirm.message'),
+                        actions: [
+                            new ModalAction($_('app.yes'), () => {
+                                closeModals()
+                                aport(`/api/playlist/${params.id}`, { method: 'DELETE' })
+                            }),
+                            new ModalAction($_('app.cancel'), closeModals),
+                        ],
+                    })
+                }),
                 new ModalAction($_('app.cancel'), closeModal),
             ],
         })
     }
 
-    function handleDelete() {
-        closeModals()
-        openModal(Modal, {
-            title: $_('modal.deleteConfirm.title'),
-            message: $_('modal.deleteConfirm.message'),
-            actions: [
-                new ModalAction($_('app.yes'), () => {
-                    closeModals()
-                    aport(`/api/playlist/${params.id}`, { method: 'DELETE' })
-                }),
-                new ModalAction($_('app.cancel'), closeModals),
-            ],
-        })
-    }
-
-    async function removeFilter(id: string) {
+    async function removeFilter(id: { id: string; type: FilterType }) {
         await aport(`/api/playlist/${params.id}/filter`, {
             method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify([id]),
         })
+        getFilters()
     }
 
     onMount(() => {

@@ -1,11 +1,13 @@
 <script lang="ts">
+    import type { Spotify, FilterType } from '@playlist-dj/types'
     import FilterImg from './FilterImg.svelte'
     import { UserIcon } from 'svelte-feather-icons'
-    import type { Spotify } from '@playlist-dj/types'
     import { slide } from 'svelte/transition'
 
     export let name: string
     export let images: Spotify.Images = []
+    export let type: FilterType
+    export let id: string
     export let actions: { icon; onClick: Function }[] = []
 
     const interactive = actions.length > 0
@@ -32,7 +34,7 @@
     {#if interactive && showActions}
         <div class="filter__actions" transition:slide|local={{ duration: 300 }}>
             {#each actions as { icon, onClick }}
-                <div class="filter__actions__action" on:click={onClick}>
+                <div class="filter__actions__action" on:click={() => onClick({ id, type })}>
                     <svelte:component this={icon} />
                 </div>
             {/each}

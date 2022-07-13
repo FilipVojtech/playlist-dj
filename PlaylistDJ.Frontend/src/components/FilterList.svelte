@@ -37,7 +37,7 @@
     <div class="list">
         {#each data.artists.items as { name, images, id }}
             <div class="filter-wrapper item--half" on:click={() => onItemClick({ id, type: FilterType.Artist })}>
-                <Filter {name} {images} {actions} />
+                <Filter {name} {images} {id} type={FilterType.Artist} {actions} />
             </div>
         {/each}
     </div>
@@ -52,7 +52,7 @@
     <div class="list">
         {#each data.albums.items as { name, images, artists, id }}
             <div class="filter-wrapper item--half" on:click={() => onItemClick({ id, type: FilterType.Album })}>
-                <Filter {name} {images} {actions}>
+                <Filter {name} {images} {id} type={FilterType.Album} {actions}>
                     <svelte:fragment slot="artists">
                         {artistListFromArray(artists)}
                     </svelte:fragment>
@@ -71,7 +71,7 @@
     <div class="list">
         {#each data.tracks.items as { album, artists, name, id }}
             <div class="filter-wrapper item--half" on:click={() => onItemClick({ id, type: FilterType.Track })}>
-                <Filter {name} images={album.images} {actions}>
+                <Filter {name} images={album.images} {id} type={FilterType.Track} {actions}>
                     <svelte:fragment slot="artists">
                         {artistListFromArray(artists)} - {album.name}
                     </svelte:fragment>
