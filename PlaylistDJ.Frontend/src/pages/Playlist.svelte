@@ -3,7 +3,14 @@
     import { onDestroy, onMount } from 'svelte'
     import { searchResult, showNav, user } from '../utility/stores'
     import { _ } from 'svelte-i18n'
-    import { ChevronLeftIcon, ListIcon, LoaderIcon, MoreHorizontalIcon, PlusIcon } from 'svelte-feather-icons'
+    import {
+        ChevronLeftIcon,
+        ListIcon,
+        LoaderIcon,
+        MoreHorizontalIcon,
+        PlusIcon,
+        TrashIcon,
+    } from 'svelte-feather-icons'
     import aport from '../utility/Aport'
     import LoginWidget from '../components/widgets/LoginWidget.svelte'
     import { closeModal, closeModals, openModal } from 'svelte-modals'
@@ -65,6 +72,13 @@
                 }),
                 new ModalAction($_('app.cancel'), closeModals),
             ],
+        })
+    }
+
+    async function removeFilter(id: string) {
+        await aport(`/api/playlist/${params.id}/filter`, {
+            method: 'DELETE',
+            body: JSON.stringify([id]),
         })
     }
 
@@ -203,7 +217,7 @@
                 </div>
             {:then data}
                 <div class="playlist__filters">
-                    <FilterList {data} />
+                    <FilterList {data} actions={isEditing ? [{ icon: TrashIcon, onClick: removeFilter }] : []} />
                 </div>
             {/await}
         </div>
