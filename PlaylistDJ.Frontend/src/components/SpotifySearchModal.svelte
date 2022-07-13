@@ -2,9 +2,11 @@
     import { LoaderIcon, XIcon } from 'svelte-feather-icons'
     import { fade } from 'svelte/transition'
     import { closeModal } from 'svelte-modals'
-    import { Spotify } from '@playlist-dj/types'
+    import { SearchFilter, Spotify } from '@playlist-dj/types'
     import aport from '../utility/Aport'
     import FilterList from './FilterList.svelte'
+    import { _ } from 'svelte-i18n'
+    import { searchResult } from '../utility/stores'
 
     export let isOpen: boolean
     export let type: 'artist' | 'album' | 'track' | string = 'artist,album,track'
@@ -37,8 +39,13 @@
                     waiting = false
                     return response.json()
                 })
-            }, 1250)
+            }, 1250) as number
         )
+    }
+
+    function handleResultClick(id: SearchFilter) {
+        $searchResult = id
+        closeModal()
     }
 </script>
 
@@ -48,7 +55,7 @@
             <div class="search-row">
                 <input
                     class="search"
-                    placeholder="Search on Spotify"
+                    placeholder={$_('modal.search.placeholder')}
                     type="search"
                     autofocus
                     on:keydown={handleKeyDown}
@@ -64,7 +71,7 @@
                         </span>
                     {/if}
                 {:then data}
-                    <FilterList {data} />
+                    <FilterList {data} onItemClick={handleResultClick} />
                 {:catch e}
                     {@debug e}
                     Error
@@ -80,6 +87,7 @@
         right: 0;
         transform: none;
         overflow-y: initial !important;
+        max-width: 100vw;
     }
 
     .modal__search {
@@ -119,6 +127,7 @@
         width: 35px;
         height: 35px;
         margin-left: 10px;
+        cursor: pointer;
     }
 
     .search__results {

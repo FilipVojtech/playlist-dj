@@ -35,7 +35,7 @@
 {#if data.artists}
     <div class="list__section">{$_('component.filterList.artists')}</div>
     {#each data.artists.items as { name, images, id }}
-        <div on:click={() => onItemClick({ id, type: FilterType.Artist })}>
+        <div class="filter-wrapper" on:click={() => onItemClick({ id, type: FilterType.Artist })}>
             <Filter {name} {images} {actions} />
         </div>
     {/each}
@@ -48,7 +48,7 @@
 {#if data.albums}
     <div class="list__section">{$_('component.filterList.albums')}</div>
     {#each data.albums.items as { name, images, artists, id }}
-        <div on:click={() => onItemClick({ id, type: FilterType.Album })}>
+        <div class="filter-wrapper" on:click={() => onItemClick({ id, type: FilterType.Album })}>
             <Filter {name} {images} {actions}>
                 <svelte:fragment slot="artists">
                     {artistListFromArray(artists)}
@@ -65,7 +65,7 @@
 {#if data.tracks}
     <div class="list__section">{$_('component.filterList.tracks')}</div>
     {#each data.tracks.items as { album, artists, name, id }}
-        <div on:click={() => onItemClick({ id, type: FilterType.Track })}>
+        <div class="filter-wrapper" on:click={() => onItemClick({ id, type: FilterType.Track })}>
             <Filter {name} images={album.images} {actions}>
                 <svelte:fragment slot="artists">
                     {artistListFromArray(artists)} - {album.name}
@@ -88,6 +88,15 @@
         text-align: center;
         padding-bottom: 5px;
         margin-bottom: 5px;
+        margin-top: 20px;
+    }
+
+    .list__section:first-child {
+        margin-top: initial;
+    }
+
+    .filter-wrapper {
+        width: 100%;
     }
 
     .list__more {
@@ -95,6 +104,5 @@
         padding: 5px;
         border: none;
         border-radius: 5px;
-        margin-bottom: 20px;
     }
 </style>
