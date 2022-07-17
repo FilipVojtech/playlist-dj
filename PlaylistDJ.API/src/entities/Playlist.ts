@@ -35,9 +35,6 @@ export class Playlist extends BaseEntity {
     spotifyId: string = ''
 
     @Property()
-    fromPlaylistID: string = ''
-
-    @Property()
     canView: User[] = []
 
     @Property()
