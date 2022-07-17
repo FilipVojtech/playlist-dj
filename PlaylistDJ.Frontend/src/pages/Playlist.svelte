@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type { PDJ, FilterType } from '@playlist-dj/types'
+    import type { FilterType, PDJ } from '@playlist-dj/types'
     import { FilterList, Header } from '../components'
-    import { EditPlaylistDetailsModal, EditPlaylistPictureModal, Modal, SpotifySearchModal } from '../components/modals'
+    import { EditPlaylistDetailsModal, Modal, SpotifySearchModal } from '../components/modals'
     import { onDestroy, onMount } from 'svelte'
-    import { searchResult, showNav, user } from '../utility/stores'
+    import { modalEvent, searchResult, showNav, user } from '../utility/stores'
     import { _ } from 'svelte-i18n'
     import {
         ChevronLeftIcon,
@@ -99,6 +99,11 @@
         $searchResult = undefined
         getFilters()
     }
+
+    $: if ($modalEvent === 'detailsChange') {
+        $modalEvent = ''
+        getPlaylist()
+    }
 </script>
 
 <svelte:head>
@@ -173,17 +178,18 @@
                             {$_('page.playlist.addFilter')}
                         </div>
                         <div
-                            on:click={() => openModal(EditPlaylistDetailsModal)}
+                            on:click={() => openModal(EditPlaylistDetailsModal, { id: params.id, name, description })}
                             class="actions__action item--interactive"
                         >
                             {$_('page.playlist.editDetails')}
                         </div>
-                        <div
-                            on:click={() => openModal(EditPlaylistPictureModal)}
-                            class="actions__action item--interactive"
-                        >
-                            {$_('page.playlist.editPhoto')}
-                        </div>
+                        <!--todo: Allow user to change picture-->
+                        <!--<div-->
+                        <!--    on:click={() => openModal(EditPlaylistPictureModal)}-->
+                        <!--    class="actions__action item&#45;&#45;interactive"-->
+                        <!-- >-->
+                        <!--    {$_('page.playlist.editPhoto')}-->
+                        <!--</div>-->
                     {/if}
                     {#if !isEditing && $user}
                         <div
@@ -197,7 +203,7 @@
                         <div
                             class="actions__action item--interactive"
                             on:click={async () => {
-                                await aport(`/api/playlist/${params.id}`, { method: 'PATCH' })
+                                await aport(`/api/playlist/${params.id}`, { method: 'SUBSCRIBE' })
                                 getPlaylist()
                             }}
                         >
