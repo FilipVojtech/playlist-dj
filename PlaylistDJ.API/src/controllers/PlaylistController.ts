@@ -120,8 +120,8 @@ router.route('/')
     // const spotifyPlaylist = await endpoint(req.session.user!.token.value).playlistInfo(req.body.id)
     //
     // if (req.body.id) {
-    //     playlist.spotifyID = req.body.id
-    //     playlist.fromPlaylistID = req.body.id
+    //     playlist.spotifyId = req.body.id
+    //     playlist.fromPlaylistId = req.body.id
     // }
     // if (spotifyPlaylist) {
     //     playlist.name = spotifyPlaylist.name
@@ -136,9 +136,10 @@ router.route('/')
     // const filters = await filtersFromPlaylistTracks(req.session.user!, req.body.id)
     // })
     //</editor-fold>
-    .post(async (req: Request, res: Response) => {
+    .post(renewToken, async (req: Request, res: Response) => {
         const playlist = DI.playlistRepository.create(new Playlist(req.session.user!, req.body.name ?? 'New playlist'))
 
+        playlist.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(playlist)
         await DI.playlistRepository.persistAndFlush(playlist)
 
         const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit`, importing: '' })
