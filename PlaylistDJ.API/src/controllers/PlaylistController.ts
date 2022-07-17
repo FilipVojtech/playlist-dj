@@ -149,12 +149,36 @@ router.route('/')
 // prettier-ignore
 router.route('/:id')
     .all(getPlaylist, userIsOwner)
-    .patch(async (req: Request, res: Response) => {
+    /**
+     * Edit playlist details
+     */
+    .patch(renewToken, async (req: Request, res: Response) => {
+        const name: string = req.body.name ?? null
+        const description: string = req.body.description ?? null
+
+        if (!name || name.length > 100 || !description || description.length > 300) {
+            res.sendStatus(400)
+            return
+        }
+        req.playlist!.name = name
+        req.playlist!.description = description
+        await DI.playlistRepository.flush()
+        await endpoint(req.session.user!.token.value).playlistEdit(req.playlist!.spotifyId, name, description)
+        res.sendStatus(200)
+    })
+
+    /**
+     * Pin or unpin playlist
+     */
+    .subscribe(async (req: Request, res: Response) => {
         req.playlist!.isPinned = !req.playlist!.isPinned
         await DI.playlistRepository.flush()
         res.sendStatus(200)
     })
-    // Delete playlist
+
+    /**
+     * Delete playlist
+     */
     .delete(async (req: Request, res: Response) => {
         await DI.playlistRepository.removeAndFlush(req.playlist!)
         const query = new URLSearchParams({ url: '/#/playlists' })
