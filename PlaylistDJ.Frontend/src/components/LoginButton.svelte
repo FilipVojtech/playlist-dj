@@ -2,8 +2,7 @@
     import { _ } from 'svelte-i18n'
     import { closeModals, openModal } from 'svelte-modals'
     import { ModalAction } from '../utility'
-    import Modal from './Modal.svelte'
-    import RegisterModal from './RegisterModal.svelte'
+    import { Modal, RegisterModal } from './modals'
 
     export let text: string = $_('app.login.long')
 

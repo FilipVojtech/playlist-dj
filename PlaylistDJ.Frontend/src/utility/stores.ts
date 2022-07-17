@@ -13,3 +13,8 @@ export const searchResult: Writable<SearchFilter> | {} = writable({})
  * Can user close modal by clicking on the backdrop
  */
 export const canCloseModal: Writable<boolean> = writable(true)
+
+/**
+ * Invoke modal events
+ */
+export const modalEvent: Writable<string> = writable('')

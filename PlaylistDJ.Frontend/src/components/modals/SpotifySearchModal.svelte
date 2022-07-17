@@ -3,10 +3,10 @@
     import { fade } from 'svelte/transition'
     import { closeModal } from 'svelte-modals'
     import { SearchFilter, Spotify } from '@playlist-dj/types'
-    import aport from '../utility/Aport'
-    import FilterList from './FilterList.svelte'
+    import aport from '../../utility/Aport'
+    import FilterList from '../FilterList.svelte'
     import { _ } from 'svelte-i18n'
-    import { searchResult } from '../utility/stores'
+    import { searchResult } from '../../utility/stores'
 
     export let isOpen: boolean
     export let type: 'artist' | 'album' | 'track' | string = 'artist,album,track'

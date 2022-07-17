@@ -15,6 +15,7 @@
     "name": "Playlist DJ",
     "no": "No",
     "ok": "Ok",
+    "save": "Save",
     "upload": "Upload",
     "welcome": "Welcome to Playlist DJ",
     "yes": "Yes"
@@ -53,6 +54,14 @@
       "message": "This action cannot be undone",
       "title": "Are you sure?"
     },
+    "editPlaylistDetails": {
+      "playlistDescription": "Playlist description",
+      "playlistName": "Playlist name",
+      "title": "Edit details"
+    },
+    "editPlaylistPicture": {
+      "title": "Edit picture"
+    },
     "importPlaylist": {
       "title": "Choose a playlist..."
     },
@@ -88,6 +97,8 @@
     "playlist": {
       "addFilter": "Add fitler",
       "edit": "Edit",
+      "editDetails": "",
+      "editPhoto": "Change picture",
       "editTitle": "Editing playlist",
       "more": {
         "addUser": "Invite users to collaborate",

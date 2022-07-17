@@ -23,7 +23,7 @@ export class Playlist extends BaseEntity {
     filters: SearchFilter[] = []
 
     @Property()
-    isPublic: boolean = true
+    isPublic: boolean = false
 
     @ManyToOne(() => User)
     owner!: User
@@ -33,9 +33,6 @@ export class Playlist extends BaseEntity {
 
     @Property()
     spotifyId: string = ''
-
-    @Property()
-    fromPlaylistID: string = ''
 
     @Property()
     canView: User[] = []

@@ -56,13 +56,12 @@
                 on:keyup={cancelHandle}
             />
             <div class="item__actions">
-                <button
+                <input
+                    type="submit"
                     class="item__actions__action text--accept"
                     class:item__actions__action--disabled={playlistName.length < 1}
-                    on:click={createPlaylist}
-                >
-                    {$_('app.create')}
-                </button>
+                    value={$_('app.create')}
+                />
                 <button class="item__actions__action text--reject" on:click={cancelHandle}>{$_('app.cancel')}</button>
             </div>
         </form>

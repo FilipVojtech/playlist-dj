@@ -15,6 +15,7 @@
     "name": "Playlist DJ",
     "no": "Ne",
     "ok": "Ok",
+    "save": "Uložit",
     "upload": "Nahrát",
     "welcome": "Playlist DJ vás vítá",
     "yes": "Ano"
@@ -53,6 +54,14 @@
       "message": "Tuto akci nelze vzít zpět",
       "title": "Jste si jisti?"
     },
+    "editPlaylistDetails": {
+      "playlistDescription": "Popis playlistu",
+      "playlistName": "Název playlistu",
+      "title": "Upravit detaily"
+    },
+    "editPlaylistPicture": {
+      "title": "Změnit obrázek"
+    },
     "importPlaylist": {
       "title": "Vyberte playlist..."
     },
@@ -88,6 +97,8 @@
     "playlist": {
       "addFilter": "Přidat filtr",
       "edit": "Upravit",
+      "editDetails": "Upravit detaily",
+      "editPhoto": "Změnit obrázek",
       "editTitle": "Upravování playlistu",
       "more": {
         "addUser": "Pozvat uživatele ke kolaboraci",

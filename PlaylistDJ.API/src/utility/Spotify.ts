@@ -1,9 +1,9 @@
 import got from 'got'
 import { DI } from '../app'
-import { Profile, Token, User } from '../entities'
+import { Playlist, Profile, Token, User } from '../entities'
 import type { PDJ, SearchFilter, Spotify } from '@playlist-dj/types'
 import { artistsFromSpotifyArtists, snakeToCamelCase } from './index'
-import { Artist, Album, Track } from '../Classes'
+import { Album, Artist, Track } from '../Classes'
 
 const apiUrl = 'https://api.spotify.com/v1'
 const accUrl = 'https://accounts.spotify.com'
@@ -351,6 +351,42 @@ export function endpoint(token: string) {
                     return songs as any
                 })
                 .catch(e => console.error(e))
+        },
+
+        /**
+         * Create a new playlist
+         * @returns New playlist Spotify ID
+         */
+        async playlistCreate(playlist: Playlist): Promise<string> {
+            const response = await got(`${apiUrl}/users/${playlist.owner.profile.spotifyId}/playlists`, {
+                headers,
+                method: 'POST',
+                body: JSON.stringify({
+                    name: playlist.name,
+                    description: playlist.description,
+                    public: playlist.isPublic,
+                }),
+            })
+                .then(res => snakeToCamelCase(JSON.parse(res.body)) as Spotify.Playlist)
+                .catch(e => {
+                    console.error(e)
+                    return e
+                })
+            return response.id
+        },
+
+        /**
+         * Change a playlist's name and public/private state. (The user must, of course, own the playlist.)
+         * @param playlistId - Spotify ID of the playlist
+         * @param name - New name value
+         * @param description - New description value
+         */
+        async playlistEdit(playlistId: string, name: string, description: string) {
+            await got(`${apiUrl}/playlists/${playlistId}`, {
+                headers,
+                method: 'PUT',
+                body: JSON.stringify({ name, description }),
+            }).catch(e => console.error(e))
         },
 
         async filtersToFilterList(filters: SearchFilter[]): Promise<PDJ.FilterList> {
