@@ -353,6 +353,28 @@ export function endpoint(token: string) {
                 .catch(e => console.error(e))
         },
 
+        /**
+         * Create a new playlist
+         * @returns New playlist Spotify ID
+         */
+        async playlistCreate(playlist: Playlist): Promise<string> {
+            const response = await got(`${apiUrl}/users/${playlist.owner.profile.spotifyId}/playlists`, {
+                headers,
+                method: 'POST',
+                body: JSON.stringify({
+                    name: playlist.name,
+                    description: playlist.description,
+                    public: playlist.isPublic,
+                }),
+            })
+                .then(res => snakeToCamelCase(JSON.parse(res.body)) as Spotify.Playlist)
+                .catch(e => {
+                    console.error(e)
+                    return e
+                })
+            return response.id
+        },
+
         async filtersToFilterList(filters: SearchFilter[]): Promise<PDJ.FilterList> {
             let result = {
                 artists: { items: [] },
