@@ -1,9 +1,9 @@
 import got from 'got'
 import { DI } from '../app'
-import { Profile, Token, User } from '../entities'
+import { Playlist, Profile, Token, User } from '../entities'
 import type { PDJ, SearchFilter, Spotify } from '@playlist-dj/types'
 import { artistsFromSpotifyArtists, snakeToCamelCase } from './index'
-import { Artist, Album, Track } from '../Classes'
+import { Album, Artist, Track } from '../Classes'
 
 const apiUrl = 'https://api.spotify.com/v1'
 const accUrl = 'https://accounts.spotify.com'
@@ -373,6 +373,20 @@ export function endpoint(token: string) {
                     return e
                 })
             return response.id
+        },
+
+        /**
+         * Change a playlist's name and public/private state. (The user must, of course, own the playlist.)
+         * @param playlistId - Spotify ID of the playlist
+         * @param name - New name value
+         * @param description - New description value
+         */
+        async playlistEdit(playlistId: string, name: string, description: string) {
+            await got(`${apiUrl}/playlists/${playlistId}`, {
+                headers,
+                method: 'PUT',
+                body: JSON.stringify({ name, description }),
+            }).catch(e => console.error(e))
         },
 
         async filtersToFilterList(filters: SearchFilter[]): Promise<PDJ.FilterList> {
