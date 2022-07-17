@@ -23,7 +23,7 @@ export class Playlist extends BaseEntity {
     filters: SearchFilter[] = []
 
     @Property()
-    isPublic: boolean = true
+    isPublic: boolean = false
 
     @ManyToOne(() => User)
     owner!: User
