@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { PDJ, FilterType } from '@playlist-dj/types'
-    import { FilterList, Header, Modal, SpotifySearchModal } from '../components'
+    import { FilterList, Header } from '../components'
+    import { EditPlaylistDetailsModal, EditPlaylistPictureModal, Modal, SpotifySearchModal } from '../components/modals'
     import { onDestroy, onMount } from 'svelte'
     import { searchResult, showNav, user } from '../utility/stores'
     import { _ } from 'svelte-i18n'
@@ -170,6 +171,18 @@
                         >
                             <span class="action__icon action__icon--left"><PlusIcon /></span>
                             {$_('page.playlist.addFilter')}
+                        </div>
+                        <div
+                            on:click={() => openModal(EditPlaylistDetailsModal)}
+                            class="actions__action item--interactive"
+                        >
+                            {$_('page.playlist.editDetails')}
+                        </div>
+                        <div
+                            on:click={() => openModal(EditPlaylistPictureModal)}
+                            class="actions__action item--interactive"
+                        >
+                            {$_('page.playlist.editPhoto')}
                         </div>
                     {/if}
                     {#if !isEditing && $user}

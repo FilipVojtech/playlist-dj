@@ -1,9 +1,9 @@
 <script lang="ts">
     import { fade } from 'svelte/transition'
     import { _, locale } from 'svelte-i18n'
-    import aport from '../utility/Aport'
+    import aport from '../../utility/Aport'
     import { onDestroy, onMount } from 'svelte'
-    import { canCloseModal } from '../utility/stores'
+    import { canCloseModal } from '../../utility/stores'
 
     export let isOpen: boolean
     let checked: boolean = false

@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { ConsentModal, Navigation } from './components'
+    import { Navigation } from './components'
+    import { ConsentModal } from './components/modals'
     import { About, Home, NotFound, Playlist, PlaylistList, Social } from './pages'
     import Settings, { Account, Communication, Legal, Profile } from './pages/Settings'
     import Router, { replace } from 'svelte-spa-router'

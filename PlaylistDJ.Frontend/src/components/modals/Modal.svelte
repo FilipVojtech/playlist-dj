@@ -1,7 +1,7 @@
 <!--Generic modal that can be configured with multiple buttons-->
 <script lang="ts">
     import { fade } from 'svelte/transition'
-    import { ModalAction } from '../utility'
+    import { ModalAction } from '../../utility'
 
     export let isOpen: boolean
     export let title: string = ''

@@ -4,19 +4,11 @@ import Navigation from './Navigation.svelte'
 import PinIcon from './PinIcon.svelte'
 import Header from './Header.svelte'
 import ListItem from './ListItem.svelte'
-import Modal from './Modal.svelte'
-import OkModal from './OkModal.svelte'
-import SpotifySearchModal from './SpotifySearchModal.svelte'
 import FilterList from './FilterList.svelte'
 import FilterPlaceholder from './FilterPlaceholder.svelte'
-import ImportPlaylistModal from './ImportPlaylistModal.svelte'
-import ImportM3UFileModal from './ImportM3UFileModal.svelte'
 import PlaylistList from './PlaylistList.svelte'
-import CreatePostModal from './CreatePostModal.svelte'
 import Post from './Post.svelte'
 import FilterImg from './FilterImg.svelte'
-import RegisterModal from './RegisterModal.svelte'
-import ConsentModal from './ConsentModal.svelte'
 import Filter from './Filter.svelte'
 
 export {
@@ -26,18 +18,10 @@ export {
     Header,
     PinIcon,
     ListItem,
-    Modal,
-    OkModal,
-    SpotifySearchModal,
     FilterList,
     FilterPlaceholder,
-    ImportPlaylistModal,
-    ImportM3UFileModal,
     PlaylistList,
-    CreatePostModal,
     Post,
     FilterImg,
-    RegisterModal,
-    ConsentModal,
     Filter,
 }

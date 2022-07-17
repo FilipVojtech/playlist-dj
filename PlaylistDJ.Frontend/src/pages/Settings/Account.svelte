@@ -1,6 +1,7 @@
 <script lang="ts">
     import { _ } from 'svelte-i18n'
-    import { Header, Modal, OkModal } from '../../components'
+    import { Header } from '../../components'
+    import { Modal, OkModal } from '../../components/modals'
     import { ChevronLeftIcon, TrashIcon } from 'svelte-feather-icons'
     import { push } from 'svelte-spa-router'
     import { closeModals, openModal } from 'svelte-modals'
