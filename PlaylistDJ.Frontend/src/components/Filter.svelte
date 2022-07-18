@@ -72,10 +72,10 @@
 
     .filter__actions {
         display: flex;
-        margin-top: 5px;
+        margin-top: 10px;
         width: 100%;
-        overflow: scroll;
         border-radius: 10px;
+        justify-content: center;
     }
 
     .filter__actions__action {

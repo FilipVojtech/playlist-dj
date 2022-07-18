@@ -303,9 +303,8 @@
         width: 100vw;
 
         margin-top: 15px;
-        /*padding: 5px 5px 7px 5px;*/
         padding-bottom: 7px;
-        overflow-y: scroll;
+        overflow-y: auto;
         transform: translateX(-10px);
         /*noinspection CssUnknownProperty*/
         scrollbar-width: thin;
