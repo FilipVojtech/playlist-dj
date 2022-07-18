@@ -170,7 +170,7 @@ router.route('/:id')
     /**
      * Pin or unpin playlist
      */
-    .subscribe(async (req: Request, res: Response) => {
+    .subscribe(userIsOwner, async (req: Request, res: Response) => {
         req.playlist!.isPinned = !req.playlist!.isPinned
         await DI.playlistRepository.flush()
         res.sendStatus(200)
