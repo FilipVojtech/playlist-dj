@@ -94,10 +94,11 @@
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify([$searchResult]),
+        }).then(() => {
+            // noinspection TypeScriptValidateTypes
+            $searchResult = undefined
+            getFilters()
         })
-        // noinspection TypeScriptValidateTypes
-        $searchResult = undefined
-        getFilters()
     }
 
     $: if ($modalEvent === 'detailsChange') {
