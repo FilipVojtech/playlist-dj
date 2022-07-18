@@ -35,9 +35,54 @@ export namespace PDJ {
         type: FilterType
     }
 
+    export interface Playlist {
+        name: string
+        description: string
+        images: Spotify.Images
+        notes: string
+        filters: SearchFilter[]
+        isPublic: boolean
+        owner: User
+        isPinned: boolean
+        spotifyId: string
+        canView: User[]
+        canEdit: User[]
+    }
+
     export interface FilterList {
         artists?: { items: Artist[] }
         albums?: { items: Album[] }
         tracks?: { items: Track[] }
+    }
+
+    export interface Profile {
+        country: string
+        displayName: string
+        email: string
+        explicitContent: { enabled: boolean; locked: boolean }
+        externalUrls: {}
+        href: string
+        spotifyId: string
+        images: Spotify.Images
+        product: Spotify.Product
+        uri: string
+    }
+
+    export interface User {
+        schemaVersion: string
+        code: string
+        consent: Date
+        token: Spotify.Token
+        profile: Profile
+        communication: {
+            sendMarketing: boolean
+        }
+    }
+
+    export interface Post {
+        author: User
+        description: string
+        playlist: Playlist
+        stars: User[]
     }
 }
