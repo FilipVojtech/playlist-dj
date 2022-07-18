@@ -13,7 +13,7 @@ export class User extends BaseEntity {
     consent: Date = new Date(0)
 
     @Property()
-    token: Token = {
+    token: Spotify.Token = {
         value: '',
         expiration: new Date(0),
         refreshToken: '',
@@ -45,10 +45,4 @@ export class User extends BaseEntity {
         super()
         this.code = code
     }
-}
-
-export interface Token {
-    value: string
-    refreshToken: string
-    expiration: Date
 }

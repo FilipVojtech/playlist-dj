@@ -1,9 +1,9 @@
 import got from 'got'
 import { DI } from '../app'
-import { Playlist, Profile, Token, User } from '../entities'
+import { Playlist, Profile, User } from '../entities'
 import type { PDJ, SearchFilter, Spotify } from '@playlist-dj/types'
 import { artistsFromSpotifyArtists, snakeToCamelCase } from './index'
-import { Album, Artist, Track } from '../Classes'
+import { Album, Artist, Token, Track } from '../Classes'
 
 const apiUrl = 'https://api.spotify.com/v1'
 const accUrl = 'https://accounts.spotify.com'
@@ -13,12 +13,8 @@ let clientCredentialsToken = { access_token: '', validity: new Date(0) }
  * Exchange the authorization code for an Access Token.
  * @param code Authorization code
  */
-export async function requestToken(code: string): Promise<Token> {
-    const token: Token = {
-        value: '',
-        refreshToken: '',
-        expiration: new Date(0),
-    }
+export async function requestToken(code: string): Promise<Spotify.Token> {
+    const token: Spotify.Token = new Token()
 
     await got(`${accUrl}/api/token`, {
         method: 'post',
@@ -49,7 +45,7 @@ export async function requestToken(code: string): Promise<Token> {
 /**
  * Request refreshed token
  */
-export async function renewToken(user: User): Promise<Token> {
+export async function renewToken(user: User): Promise<Spotify.Token> {
     if (user.token.expiration.valueOf() > new Date().valueOf()) return user.token
     user = (await DI.userRepository.findOne({ profile: { spotifyId: user.profile.spotifyId } })) as User
 

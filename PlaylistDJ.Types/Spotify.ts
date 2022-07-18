@@ -138,5 +138,12 @@ export declare namespace Spotify {
         height: number
         url: string
     }
-    type Images = [0] | [Image] | [Image, Image, Image]
+
+    type Images = [] | [Image] | [Image, Image, Image]
+
+    interface Token {
+        value: string
+        refreshToken: string
+        expiration: Date
+    }
 }
