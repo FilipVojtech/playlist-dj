@@ -1,8 +1,9 @@
+import type { PDJ, Spotify } from '@playlist-dj/types'
 import { BaseEntity, Profile } from './'
 import { Embedded, Entity, Property } from '@mikro-orm/core'
 
 @Entity()
-export class User extends BaseEntity {
+export class User extends BaseEntity implements PDJ.User {
     @Property()
     schemaVersion: string = '1'
 
