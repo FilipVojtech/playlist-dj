@@ -53,6 +53,7 @@
     <div role="dialog" class="modal" transition:fade>
         <div class="modal__search">
             <div class="search-row">
+                <!-- svelte-ignore a11y-autofocus -->
                 <input
                     class="search"
                     placeholder={$_('modal.search.placeholder')}

@@ -45,6 +45,7 @@
             <label for="playlistName" class="form__label">
                 {$_('widget.createPlaylist.playlistName')}
             </label>
+            <!-- svelte-ignore a11y-autofocus -->
             <input
                 type="text"
                 id="playlistName"

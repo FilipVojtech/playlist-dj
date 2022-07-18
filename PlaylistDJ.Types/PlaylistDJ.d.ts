@@ -1,4 +1,4 @@
-import * as Express from 'express';
+import type * as Express from 'express';
 import type { FilterType, Spotify } from './index';
 export interface SearchFilter {
     id: string;

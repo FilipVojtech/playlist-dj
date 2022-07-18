@@ -1,4 +1,4 @@
-import { FilterType } from './index';
+import type { FilterType } from './index';
 export declare namespace Spotify {
     interface UserMinimal {
         externalUrls: {
