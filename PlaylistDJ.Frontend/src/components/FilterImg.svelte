@@ -1,8 +1,9 @@
 <script lang="ts">
     import FilterPlaceholder from './FilterPlaceholder.svelte'
     import { SvelteComponent } from 'svelte'
+    import { Spotify } from '@playlist-dj/types'
 
-    export let images: []
+    export let images: Spotify.Images
     export let name = ''
     export let alt = `${name} cover art`
     export let placeholderIcon: SvelteComponent

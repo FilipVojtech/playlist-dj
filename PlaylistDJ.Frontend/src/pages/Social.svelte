@@ -1,5 +1,6 @@
 <script>
-    import { CreatePostModal, Header, Post } from '../components'
+    import { Header, Post } from '../components'
+    import { CreatePostModal } from '../components/modals'
     import { _ } from 'svelte-i18n'
     import { PlusSquareIcon, LoaderIcon } from 'svelte-feather-icons'
     import { openModal } from 'svelte-modals'
@@ -9,23 +10,21 @@
     let data = []
 
     onMount(() => {
-        data = aport('/social')
-            .then(data => data.json())
+        data = aport('/social').then(data => data.json())
     })
 </script>
 
 <svelte:head>
     <title>{$_('page.social.title')}</title>
 </svelte:head>
-<Header text={$_('page.social.title')} iconAfter='{PlusSquareIcon}' onClickAfter='{() => openModal(CreatePostModal)}' />
+<Header text={$_('page.social.title')} iconAfter={PlusSquareIcon} onClickAfter={() => openModal(CreatePostModal)} />
 
 {#await data}
-    <div class='loader'>
+    <div class="loader">
         <LoaderIcon />
     </div>
 {:then posts}
     {#each posts as post}
         <Post {...post} />
     {/each}
-{:catch e}
 {/await}

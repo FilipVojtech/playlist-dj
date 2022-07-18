@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Header, ImportM3UFileModal, Modal, PlaylistList } from '../components'
+    import { Header, PlaylistList } from '../components'
+    import { ImportM3UFileModal, Modal } from '../components/modals'
     import { _ } from 'svelte-i18n'
     import aport from '../utility/Aport'
     import { onMount } from 'svelte'

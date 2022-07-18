@@ -8,6 +8,7 @@ export interface Request extends Express.Request {
 }
 
 interface Session extends ExpressSession.Session {
+    [key: string]: any
     spotifyState?: string
     user?: User
 }

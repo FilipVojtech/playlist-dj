@@ -1,15 +1,18 @@
 <script lang="ts">
-    import { Navigation } from './components'
+    import { LoginButton, Navigation } from './components'
+    import { ConsentModal } from './components/modals'
     import { About, Home, NotFound, Playlist, PlaylistList, Social } from './pages'
-    import Settings, { Account, Communication, Profile } from './pages/Settings'
+    import Settings, { Account, Communication, Legal, Profile } from './pages/Settings'
     import Router, { replace } from 'svelte-spa-router'
-    import { showNav, user } from './utility/stores'
+    import { canCloseModal, showNav, user } from './utility/stores'
     import './utility/i18n'
-    import { isLoading } from 'svelte-i18n'
-    import { closeAllModals, Modals } from 'svelte-modals'
+    import { _, isLoading } from 'svelte-i18n'
+    import { closeAllModals, Modals, openModal } from 'svelte-modals'
     import { fade, fly } from 'svelte/transition'
     import { LoaderIcon } from 'svelte-feather-icons'
     import wrap from 'svelte-spa-router/wrap'
+    import { onMount } from 'svelte'
+    import aport from './utility/Aport'
 
     const routes = {
         '/': wrap({ component: Home, conditions: [authorize], userData: $user }),
@@ -22,6 +25,7 @@
         '/settings/account': wrap({ component: Account, conditions: [authorize] }),
         '/settings/notifications': wrap({ component: Communication, conditions: [authorize] }),
         '/settings/profile': wrap({ component: Profile, conditions: [authorize] }),
+        '/settings/legal': wrap({ component: Legal, conditions: [authorize] }),
         '*': NotFound,
     }
 
@@ -39,11 +43,40 @@
             replace('/about')
         }
     }
+
+    onMount(async () => {
+        const nullDate = new Date(0)
+        if ($user) {
+            const consentDate: Date = await aport('/api/user/consent')
+                .then(res => {
+                    if (res.ok) return res.json()
+                    else return null
+                })
+                .then(value => {
+                    if (value !== null) return new Date(value['consent'])
+                    else return nullDate
+                })
+                .catch(e => {
+                    console.log(e)
+                    return nullDate
+                })
+            if (consentDate.toString() === nullDate.toString()) openModal(ConsentModal)
+        }
+    })
 </script>
 
 <div class="page">
     {#if !$isLoading}
         <main class="main-content">
+            {#if !$user}
+                <header class="header">
+                    <div class="header__row">
+                        <img alt="Playlist DJ icon" class="logo__img" src="/images/logo.png" />
+                        <h1 class="logo__text">{$_('app.name')}</h1>
+                    </div>
+                    <LoginButton text={$_('app.login.short')} />
+                </header>
+            {/if}
             <Router {routes} restoreScrollState={true} on:conditionsFailed={conditionsFailedHandler} />
         </main>
         <div class:nav-space={$showNav} />
@@ -53,7 +86,7 @@
             </div>
         {/if}
         <Modals>
-            <div class="backdrop" on:click={closeAllModals} slot="backdrop" transition:fade />
+            <div class="backdrop" on:click={$canCloseModal ? closeAllModals : null} slot="backdrop" transition:fade />
         </Modals>
     {:else}
         <div class="loader">
@@ -68,6 +101,29 @@
         flex-flow: column nowrap;
         width: 100%;
         min-height: 100vh;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        max-width: 100vw;
+    }
+
+    .header__row {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+    }
+
+    .logo__img {
+        margin-right: 10px;
+        height: 40px;
+    }
+
+    .logo__text {
+        font-family: 'saffran', sans-serif;
     }
 
     .main-content {

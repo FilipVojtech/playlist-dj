@@ -14,6 +14,8 @@ const spotifyAuthUrl = 'http://accounts.spotify.com/authorize'
 router.get('/', (req: Request, res: Response) => {
     req.session.spotifyState = generateRandomString(16)
 
+    if (req.query.gdpr) req.session.gdpr = true
+
     const query = new URLSearchParams({
         response_type: 'code',
         client_id: process.env.PDJ_CLIENT_ID as string,
@@ -35,14 +37,17 @@ router.get('/callback', async (req: Request, res: Response) => {
             const user = new User(code)
 
             user.token = await requestToken(code)
-            user.profile = await endpoint(user).me() as Profile
+            user.profile = (await endpoint(user.token.value).me()) as Profile
 
             let userFromDb = await DI.userRepository.findOne({ profile: { spotifyId: user.profile.spotifyId } })
+
+            if (req.session.gdpr) user.consent = new Date()
 
             if (!userFromDb) {
                 await DI.userRepository.persistAndFlush(user)
                 req.session.user = user
             } else {
+                user.consent = userFromDb.consent
                 DI.userRepository.assign(userFromDb, user)
                 await DI.userRepository.flush()
                 req.session.user = userFromDb

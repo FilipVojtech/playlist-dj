@@ -15,8 +15,33 @@
     --main: #5e2ebf;
     --spotify-green: #1db956;
     --warning: #d34747;
+    --text-main: white;
+    --text-darker: #bfbfbf;
     --text-accept: #baffc1;
     --text-reject: #ffcaca;
+}
+
+/* Chromium-based browser scrollbars */
+/* Width */
+::-webkit-scrollbar {
+    height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 20px;
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 body {
@@ -30,6 +55,10 @@ h1 {
 
 a {
     text-decoration: none;
+}
+
+.link {
+    text-decoration: underline;
 }
 
 .text--accept {
@@ -77,6 +106,10 @@ a {
 
 .item--column {
     flex-direction: column;
+}
+
+.item--row {
+    flex-direction: row;
 }
 
 .item--slim {
@@ -128,23 +161,12 @@ a {
     cursor: default;
 }
 
-.filter {
-    display: flex;
-    margin: 5px 0;
-    user-select: none;
-    cursor: pointer;
-}
-
 .filter__img {
     border-radius: 20px;
     margin-right: 10px;
     width: 56px;
     height: 56px;
-}
-
-.filter__info {
-    overflow: hidden;
-    text-overflow: ellipsis;
+    align-self: flex-start;
 }
 
 .form {
@@ -188,6 +210,16 @@ a {
     padding: 0;
     margin: 5px;
     width: calc(100% - 10px);
+}
+
+.textarea {
+    resize: vertical;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.textarea--no-resize {
+    resize: none;
 }
 
 .form__label {

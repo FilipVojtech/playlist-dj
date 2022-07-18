@@ -1,8 +1,10 @@
 {
   "app": {
     "actions": "Actions",
+    "add": "Add",
     "back": "Back",
     "cancel": "Cancel",
+    "continue": "Continue",
     "create": "Create",
     "description": "Manage your Spotify playlists with ease",
     "login": {
@@ -13,11 +15,18 @@
     "name": "Playlist DJ",
     "no": "No",
     "ok": "Ok",
+    "save": "Save",
     "upload": "Upload",
     "welcome": "Welcome to Playlist DJ",
     "yes": "Yes"
   },
   "component": {
+    "filterList": {
+      "albums": "Albums",
+      "artists": "Artists",
+      "loadMore": "Load more",
+      "tracks": "Tracks"
+    },
     "navigation": {
       "home": "Home",
       "pinnedPlaylists": "Pinned playlists",
@@ -31,8 +40,48 @@
     "en": "English"
   },
   "modal": {
+    "consent": {
+      "agree": {
+        "1": "Agree to",
+        "2": "and"
+      },
+      "message": "To continue using the Playlist DJ service you will have to",
+      "privacyPolicy": "Privacy policy",
+      "title": "Consent renewal",
+      "tos": "Terms of Service"
+    },
+    "deleteConfirm": {
+      "message": "This action cannot be undone",
+      "title": "Are you sure?"
+    },
+    "editPlaylistDetails": {
+      "playlistDescription": "Playlist description",
+      "playlistName": "Playlist name",
+      "title": "Edit details"
+    },
+    "editPlaylistPicture": {
+      "title": "Edit picture"
+    },
     "importPlaylist": {
       "title": "Choose a playlist..."
+    },
+    "login": {
+      "logIn": "Log in",
+      "register": "Register",
+      "title": "Login"
+    },
+    "register": {
+      "consent": {
+        "1": "Agree with",
+        "2": "and"
+      },
+      "message": "You will need to login using your Spotify account in the next step.",
+      "privacyPolicy": "Privacy policy",
+      "title": "Register",
+      "tos": "Terms of Service"
+    },
+    "search": {
+      "placeholder": "Search on Spotify"
     }
   },
   "page": {
@@ -46,7 +95,22 @@
       "returnHome": "Return to playlists page"
     },
     "playlist": {
-      "title": "Playlist"
+      "addFilter": "Add fitler",
+      "edit": "Edit",
+      "editDetails": "Edit details",
+      "editPhoto": "Change picture",
+      "editTitle": "Editing playlist",
+      "more": {
+        "addUser": "Invite users to collaborate",
+        "delete": "Delete playlist"
+      },
+      "pin": "Pin",
+      "privatePlaylist": "This playlist is private",
+      "share": "Copy link",
+      "taste": "Taste the playlist",
+      "title": "Playlist",
+      "tryLogIn": "You can try logging in",
+      "unpin": "Unpin"
     },
     "playlistList": {
       "error": "Name cannot be empty",
@@ -86,6 +150,11 @@
           "monthly": "Monthly",
           "weekly": "Weekly"
         }
+      },
+      "legal": {
+        "privacyPolicy": "Privacy policy",
+        "title": "Legal",
+        "tos": "Terms of service"
       },
       "profile": {
         "title": "Profile"

@@ -2,9 +2,11 @@
     import { LoaderIcon, XIcon } from 'svelte-feather-icons'
     import { fade } from 'svelte/transition'
     import { closeModal } from 'svelte-modals'
-    import { Spotify } from '@playlist-dj/types'
-    import aport from '../utility/Aport'
-    import FilterList from './FilterList.svelte'
+    import { SearchFilter, Spotify } from '@playlist-dj/types'
+    import aport from '../../utility/Aport'
+    import FilterList from '../FilterList.svelte'
+    import { _ } from 'svelte-i18n'
+    import { searchResult } from '../../utility/stores'
 
     export let isOpen: boolean
     export let type: 'artist' | 'album' | 'track' | string = 'artist,album,track'
@@ -37,8 +39,13 @@
                     waiting = false
                     return response.json()
                 })
-            }, 1250)
+            }, 1250) as number
         )
+    }
+
+    function handleResultClick(id: SearchFilter) {
+        $searchResult = id
+        closeModal()
     }
 </script>
 
@@ -46,9 +53,10 @@
     <div role="dialog" class="modal" transition:fade>
         <div class="modal__search">
             <div class="search-row">
+                <!-- svelte-ignore a11y-autofocus -->
                 <input
                     class="search"
-                    placeholder="Search on Spotify"
+                    placeholder={$_('modal.search.placeholder')}
                     type="search"
                     autofocus
                     on:keydown={handleKeyDown}
@@ -64,7 +72,7 @@
                         </span>
                     {/if}
                 {:then data}
-                    <FilterList {data} />
+                    <FilterList {data} onItemClick={handleResultClick} />
                 {:catch e}
                     {@debug e}
                     Error
@@ -80,6 +88,7 @@
         right: 0;
         transform: none;
         overflow-y: initial !important;
+        width: 100vw;
     }
 
     .modal__search {
@@ -119,11 +128,20 @@
         width: 35px;
         height: 35px;
         margin-left: 10px;
+        cursor: pointer;
     }
 
     .search__results {
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+
+    @media (min-width: 640px) {
+        .modal {
+            right: 50%;
+            transform: translateX(50%);
+            width: 50vw;
+        }
     }
 </style>

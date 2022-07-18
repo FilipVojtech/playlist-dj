@@ -13,6 +13,7 @@ import { CookieTypes } from './utility'
 import { Request } from './global'
 // @ts-ignore
 import connect_mongodb_session from 'connect-mongodb-session'
+import { existsSync } from 'node:fs'
 
 // Import environment variables
 dotenv.config()
@@ -53,8 +54,9 @@ export const DI = {} as {
             cookie: {
                 secure: process.env.PRODUCITON === '1',
                 maxAge: 1000 * 60 * 60 * 24,
+                sameSite: 'lax',
             },
-        }),
+        })
     )
     app.use((req: Request, res: Response, next) => RequestContext.create(DI.orm.em, next))
 
@@ -67,11 +69,33 @@ export const DI = {} as {
     app.use('/api', apiController)
     app.use('/login', loginController)
     app.use('/logout', (req: Request, res: Response) =>
-        req.session.destroy(() => res.clearCookie(CookieTypes.Session).clearCookie(CookieTypes.User).redirect(`/`)),
+        req.session.destroy(() => res.clearCookie(CookieTypes.Session).clearCookie(CookieTypes.User).redirect(`/`))
     )
+    app.use('/tos/:lang?', (req, res) => {
+        const defaultFile = path.resolve(__dirname, 'public', 'tos.pdf')
+        let lang = ''
+
+        if (req.params.lang) lang = `-${req.params.lang}`
+
+        const translatedFile = path.resolve(__dirname, 'public', `tos${lang}.pdf`)
+
+        if (existsSync(translatedFile)) res.sendFile(translatedFile)
+        else res.sendFile(defaultFile)
+    })
+    app.use('/privacy/:lang?', (req, res) => {
+        const defaultFile = path.resolve(__dirname, 'public', 'privacypolicy.pdf')
+        let lang = ''
+
+        if (req.params.lang) lang = `-${req.params.lang}`
+
+        const translatedFile = path.resolve(__dirname, 'public', `privacypolicy${lang}.pdf`)
+
+        if (existsSync(translatedFile)) res.sendFile(translatedFile)
+        else res.sendFile(defaultFile)
+    })
     app.use(express.static(`${__dirname}/../../PlaylistDJ.Frontend/public`))
     app.get('*', (req: Request, res: Response) =>
-        res.sendFile(path.resolve(__dirname, '..', '..', 'PlaylistDJ.Frontend', 'public', 'index.html')),
+        res.sendFile(path.resolve(__dirname, '..', '..', 'PlaylistDJ.Frontend', 'public', 'index.html'))
     )
 })()
 
