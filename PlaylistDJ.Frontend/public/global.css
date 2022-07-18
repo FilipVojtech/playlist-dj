@@ -21,6 +21,29 @@
     --text-reject: #ffcaca;
 }
 
+/* Chromium-based browser scrollbars */
+/* Width */
+::-webkit-scrollbar {
+    height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 20px;
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 body {
     background-color: var(--main-bg);
     color: white;

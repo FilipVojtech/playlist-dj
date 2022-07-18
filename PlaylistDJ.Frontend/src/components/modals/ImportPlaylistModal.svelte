@@ -8,7 +8,6 @@
     import { _ } from 'svelte-i18n'
 
     export let isOpen: boolean
-    export let playlistID: string
     let data: Promise<[]> = new Promise<[]>(() => [])
 
     async function submit(e) {

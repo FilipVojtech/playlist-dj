@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { Navigation } from './components'
+    import { LoginButton, Navigation } from './components'
     import { ConsentModal } from './components/modals'
     import { About, Home, NotFound, Playlist, PlaylistList, Social } from './pages'
     import Settings, { Account, Communication, Legal, Profile } from './pages/Settings'
     import Router, { replace } from 'svelte-spa-router'
     import { canCloseModal, showNav, user } from './utility/stores'
     import './utility/i18n'
-    import { isLoading } from 'svelte-i18n'
+    import { _, isLoading } from 'svelte-i18n'
     import { closeAllModals, Modals, openModal } from 'svelte-modals'
     import { fade, fly } from 'svelte/transition'
     import { LoaderIcon } from 'svelte-feather-icons'
@@ -68,6 +68,15 @@
 <div class="page">
     {#if !$isLoading}
         <main class="main-content">
+            {#if !$user}
+                <header class="header">
+                    <div class="header__row">
+                        <img alt="Playlist DJ icon" class="logo__img" src="/images/logo.png" />
+                        <h1 class="logo__text">{$_('app.name')}</h1>
+                    </div>
+                    <LoginButton text={$_('app.login.short')} />
+                </header>
+            {/if}
             <Router {routes} restoreScrollState={true} on:conditionsFailed={conditionsFailedHandler} />
         </main>
         <div class:nav-space={$showNav} />
@@ -92,6 +101,29 @@
         flex-flow: column nowrap;
         width: 100%;
         min-height: 100vh;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        max-width: 100vw;
+    }
+
+    .header__row {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+    }
+
+    .logo__img {
+        margin-right: 10px;
+        height: 40px;
+    }
+
+    .logo__text {
+        font-family: 'saffran', sans-serif;
     }
 
     .main-content {

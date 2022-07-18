@@ -2,7 +2,7 @@
     import type { FilterType, PDJ } from '@playlist-dj/types'
     import { FilterList, Header } from '../components'
     import { EditPlaylistDetailsModal, Modal, SpotifySearchModal } from '../components/modals'
-    import { onDestroy, onMount } from 'svelte'
+    import { afterUpdate, onDestroy, onMount } from 'svelte'
     import { modalEvent, searchResult, showNav, user } from '../utility/stores'
     import { _ } from 'svelte-i18n'
     import {
@@ -16,7 +16,7 @@
     import aport from '../utility/Aport'
     import LoginWidget from '../components/widgets/LoginWidget.svelte'
     import { closeModal, closeModals, openModal } from 'svelte-modals'
-    import { push } from 'svelte-spa-router'
+    import { push, replace } from 'svelte-spa-router'
     import NotFound from './NotFound.svelte'
     import { copyToClipboard, ModalAction } from '../utility'
 
@@ -87,6 +87,13 @@
         getPlaylist()
         getFilters()
     })
+    afterUpdate(async () => {
+        const playlist: any = await data
+        // noinspection TypeScriptUnresolvedVariable
+        if (isEditing && $user.spotifyId !== playlist.owner.profile.spotifyId) {
+            await replace(`/playlist/${params.id}`)
+        }
+    })
     onDestroy(() => ($showNav = true))
 
     $: if ($searchResult && $searchResult!.id) {
@@ -94,10 +101,11 @@
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify([$searchResult]),
+        }).then(() => {
+            // noinspection TypeScriptValidateTypes
+            $searchResult = undefined
+            getFilters()
         })
-        // noinspection TypeScriptValidateTypes
-        $searchResult = undefined
-        getFilters()
     }
 
     $: if ($modalEvent === 'detailsChange') {
@@ -118,7 +126,7 @@
     <div class="loader">
         <LoaderIcon size="100" />
     </div>
-{:then { status, images, name, description, isPinned }}
+{:then { status, images, name, description, isPinned, owner }}
     {#if status && status === 404}
         <NotFound />
     {:else if status === 403}
@@ -191,15 +199,13 @@
                         <!--    {$_('page.playlist.editPhoto')}-->
                         <!--</div>-->
                     {/if}
-                    {#if !isEditing && $user}
+                    {#if !isEditing && $user && $user.spotifyId === owner.profile.spotifyId}
                         <div
                             on:click={() => push(`/playlist/${params.id}/edit`)}
                             class="actions__action item--interactive"
                         >
                             {$_('page.playlist.edit')}
                         </div>
-                    {/if}
-                    {#if !isEditing}
                         <div
                             class="actions__action item--interactive"
                             on:click={async () => {
@@ -213,6 +219,8 @@
                                 {$_('page.playlist.pin')}
                             {/if}
                         </div>
+                    {/if}
+                    {#if !isEditing}
                         <div
                             class="actions__action item--interactive"
                             on:click={() => copyToClipboard(window.location.href)}
@@ -303,9 +311,8 @@
         width: 100vw;
 
         margin-top: 15px;
-        /*padding: 5px 5px 7px 5px;*/
         padding-bottom: 7px;
-        overflow-y: scroll;
+        overflow-y: auto;
         transform: translateX(-10px);
         /*noinspection CssUnknownProperty*/
         scrollbar-width: thin;
