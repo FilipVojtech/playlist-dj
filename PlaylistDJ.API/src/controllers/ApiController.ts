@@ -37,11 +37,11 @@ router.get('/', (req: Request, res: Response) => {
 
 router.use('/playlist', playlistController)
 
+router.use('/social', socialController)
+
 router.use(authentication)
 
 router.use('/user', userController)
-
-router.use('/social', socialController)
 
 /**
  * Search endpoint
