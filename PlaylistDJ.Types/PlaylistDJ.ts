@@ -33,6 +33,7 @@ export namespace PDJ {
         album: Album
         artists: Artist[]
         type: FilterType
+        uri: string
     }
 
     export interface Playlist {
