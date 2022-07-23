@@ -1,6 +1,6 @@
 import { Entity, ManyToOne, Property } from '@mikro-orm/core'
 import { BaseEntity, User } from './'
-import type { SearchFilter, PDJ, Spotify } from '@playlist-dj/types'
+import type { PDJ, SearchFilter, Spotify } from '@playlist-dj/types'
 
 @Entity()
 export class Playlist extends BaseEntity implements PDJ.Playlist {

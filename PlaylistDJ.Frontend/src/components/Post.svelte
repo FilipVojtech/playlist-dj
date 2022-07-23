@@ -65,7 +65,7 @@
         </div>
         <div class="post__actions">
             <div class="actions__action">
-                <div class="action__icon" on:click={starPost} class:post__star--active={starred}>
+                <div class="action__icon" class:post__star--active={starred} on:click={starPost}>
                     <StarIcon />
                 </div>
                 {#key stars}

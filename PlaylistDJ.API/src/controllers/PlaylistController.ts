@@ -107,8 +107,7 @@ router.route('/')
                 })
             )
         } else {
-            const playlists = await DI.playlistRepository.find({ owner: req.session.user!._id.toString() })
-            res.json(playlists)
+            res.json(await DI.playlistRepository.find({ owner: req.session.user!._id.toString() }))
         }
     })
     //<editor-fold desc="Import playlist with analysis and Filters | On hold for now">
