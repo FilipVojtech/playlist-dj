@@ -72,7 +72,7 @@
                         </span>
                     {/if}
                 {:then data}
-                    <FilterList interactive {data} onItemClick={handleResultClick} />
+                    <FilterList half interactive {data} onItemClick={handleResultClick} />
                 {:catch e}
                     {@debug e}
                     Error
