@@ -10,6 +10,7 @@ import PlaylistList from './PlaylistList.svelte'
 import Post from './Post.svelte'
 import FilterImg from './FilterImg.svelte'
 import Filter from './Filter.svelte'
+import External from './External.svelte'
 
 export {
     Navigation,
@@ -24,4 +25,5 @@ export {
     Post,
     FilterImg,
     Filter,
+    External,
 }
