@@ -179,6 +179,11 @@ router.route('/:id')
      * Delete playlist
      */
     .delete(async (req: Request, res: Response) => {
+        // Remove posts with this playlist
+        const posts = await DI.postRepository.find({ playlist: req.playlist! })
+        posts.forEach(value => DI.postRepository.remove(value))
+        await DI.postRepository.flush()
+        // Remove playlist
         await DI.playlistRepository.removeAndFlush(req.playlist!)
         const query = new URLSearchParams({ url: '/#/playlists' })
         res.redirect(`/?${query}`)
