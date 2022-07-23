@@ -22,9 +22,14 @@
   },
   "component": {
     "filterList": {
+      "album": "album",
       "albums": "Alba",
+      "artist": "Umělec",
       "artists": "Umělci",
       "loadMore": "Načíst další",
+      "playlist": "Playlist",
+      "playlists": "Playlisty",
+      "track": "Skladba",
       "tracks": "Skladby"
     },
     "navigation": {
@@ -33,6 +38,12 @@
       "playlists": "Playlisty",
       "settings": "Nastavení",
       "social": "Síť"
+    },
+    "post": {
+      "by": "Autor",
+      "collapsePlaylist": "Sbalit playlist",
+      "delete": "Odstranit příspěvek",
+      "showPlaylist": "Ukázat playlist"
     }
   },
   "locales": {
@@ -49,6 +60,14 @@
       "privacyPolicy": "Zásadami ochrany osobních údajů",
       "title": "Obnovení souhlasu",
       "tos": "Podmínkami poskytování služeb"
+    },
+    "createPost": {
+      "cantLoad": "Nelze načíst playlisty",
+      "nothingFound": "Nebyly nalezeny žádné playlisty",
+      "playlist": "Playlist",
+      "post": "Zveřejnit",
+      "title": "Vytvořit příspěvek",
+      "whatsUp": "Jak to jde?"
     },
     "deleteConfirm": {
       "message": "Tuto akci nelze vzít zpět",
@@ -162,13 +181,7 @@
       "title": "Nastavení"
     },
     "social": {
-      "create": {
-        "cantLoad": "Nelze načíst playlisty",
-        "nothingFound": "Nebyly nalezeny žádné playlisty",
-        "post": "Zveřejnit",
-        "title": "Vytvořit příspěvek",
-        "whatsUp": "Jak to jde?"
-      },
+      "noPost": "Žádné příspěvky (zatím)",
       "title": "Síť"
     }
   },

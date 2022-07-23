@@ -1,9 +1,9 @@
 import { Entity, ManyToOne, Property } from '@mikro-orm/core'
 import { BaseEntity, User } from './'
-import type { SearchFilter } from '@playlist-dj/types'
+import type { PDJ, SearchFilter, Spotify } from '@playlist-dj/types'
 
 @Entity()
-export class Playlist extends BaseEntity {
+export class Playlist extends BaseEntity implements PDJ.Playlist {
     @Property()
     schemaVersion = '1'
 
@@ -14,7 +14,7 @@ export class Playlist extends BaseEntity {
     description: string = ''
 
     @Property()
-    images: { src: string; height: string }[] = []
+    images: Spotify.Images = []
 
     @Property()
     notes: string = ''

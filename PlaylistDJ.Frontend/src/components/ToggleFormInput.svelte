@@ -5,7 +5,7 @@
 </script>
 
 <label class="switch form__input">
-    <input type="checkbox" {name} {id} on:click on:change bind:checked />
+    <input bind:checked {id} {name} on:change on:click type="checkbox" />
     <span class="slider round" />
 </label>
 

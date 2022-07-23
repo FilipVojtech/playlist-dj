@@ -1,11 +1,11 @@
-<script lang='ts'>
+<script lang="ts">
     import { SvelteComponent } from 'svelte'
 
     export let icon: SvelteComponent
 </script>
 
-<div class='filter__img placeholder'>
-    <svelte:component size='32' this='{icon}' />
+<div class="filter__img placeholder">
+    <svelte:component this={icon} size="32" />
 </div>
 
 <style>

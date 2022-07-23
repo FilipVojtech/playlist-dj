@@ -1,13 +1,12 @@
-<script lang='ts'>
+<script lang="ts">
     import LoginButton from '../LoginButton.svelte'
     import { _ } from 'svelte-i18n'
 
     export let message: string = $_('widget.login.message')
 </script>
 
-
-<div class='widget'>
-    <p class='widget__text'>{message}</p>
+<div class="widget">
+    <p class="widget__text">{message}</p>
     <LoginButton text={$_('app.login.long')} />
 </div>
 

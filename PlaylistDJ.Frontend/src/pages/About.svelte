@@ -1,5 +1,4 @@
 <script>
-    import { LoginButton } from '../components'
     import { LoginWidget } from '../components/widgets'
     import { _ } from 'svelte-i18n'
 </script>

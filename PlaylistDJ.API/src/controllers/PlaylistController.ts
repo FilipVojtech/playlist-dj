@@ -99,7 +99,7 @@ router.route('/')
     .get(renewToken, async (req: Request, res: Response) => {
         if (req.query.src && req.query.src === 'spotify') {
             res.json(await endpoint(req.session.user!.token.value).ownedPlaylists(req.session.user!.profile.spotifyId))
-        } else if (req.query.pinned) {
+        } else if (req.query.src && req.query.src === 'pinned') {
             res.json(
                 await DI.playlistRepository.find({
                     owner: req.session.user!._id.toString(),
@@ -107,8 +107,7 @@ router.route('/')
                 })
             )
         } else {
-            const playlists = await DI.playlistRepository.find({ owner: req.session.user!._id.toString() })
-            res.json(playlists)
+            res.json(await DI.playlistRepository.find({ owner: req.session.user!._id.toString() }))
         }
     })
     //<editor-fold desc="Import playlist with analysis and Filters | On hold for now">
@@ -180,6 +179,11 @@ router.route('/:id')
      * Delete playlist
      */
     .delete(async (req: Request, res: Response) => {
+        // Remove posts with this playlist
+        const posts = await DI.postRepository.find({ playlist: req.playlist! })
+        posts.forEach(value => DI.postRepository.remove(value))
+        await DI.postRepository.flush()
+        // Remove playlist
         await DI.playlistRepository.removeAndFlush(req.playlist!)
         const query = new URLSearchParams({ url: '/#/playlists' })
         res.redirect(`/?${query}`)
@@ -230,5 +234,9 @@ router.route('/:id/filter')
         await DI.playlistRepository.flush()
         res.sendStatus(200)
     })
+
+router.get('/:id/share', getPlaylist, userIsOwner, (req: Request, res: Response) => {
+    res.sendStatus(501)
+})
 
 export default router

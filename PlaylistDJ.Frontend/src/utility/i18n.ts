@@ -11,10 +11,8 @@ const initialLocale = () => {
     if (forceLang) {
         console.error('Forcing language: ', forceLang)
         return forceLang
-    } else if (cookies.locale)
-        return cookies.locale as string
-    else
-        return getLocaleFromNavigator()
+    } else if (cookies.locale) return cookies.locale as string
+    else return getLocaleFromNavigator()
 }
 
 init({

@@ -1,26 +1,27 @@
 <script lang="ts">
-    import type { Spotify, FilterType } from '@playlist-dj/types'
+    import type { FilterType, Spotify } from '@playlist-dj/types'
     import FilterImg from './FilterImg.svelte'
-    import { UserIcon } from 'svelte-feather-icons'
     import { slide } from 'svelte/transition'
 
     export let name: string
     export let images: Spotify.Images = []
+    export let altSubject: ''
+    export let placeholderIcon
     export let type: FilterType
     export let id: string
     export let actions: { icon; onClick: Function }[] = []
+    export let slim: boolean = false
+    export let half: boolean = false
+    export let onClick = () => (showActions = !showActions)
 
-    const interactive = actions.length > 0
+    export let interactive: boolean
+
     let showActions = false
-
-    function handleClick() {
-        showActions = !showActions
-    }
 </script>
 
-<div class="item filter" class:item--interactive={interactive}>
-    <div class="filter__main-details" on:click={handleClick}>
-        <FilterImg {images} {name} alt="{name} artist picture" placeholderIcon={UserIcon} />
+<div class="item filter" class:item--half={half} class:item--interactive={interactive} class:item--slim={slim}>
+    <div class="filter__main-details" on:click={onClick}>
+        <FilterImg alt="{name} {altSubject}" {images} {name} {placeholderIcon} />
         <div>
             <div class="main-details__name">{name}</div>
             <div class="main-details__artists">
@@ -28,11 +29,17 @@
             </div>
         </div>
     </div>
-    <div class="filter__minor-details" on:click={handleClick}>
+    <div class="filter__minor-details" on:click={onClick}>
         <slot />
     </div>
-    {#if interactive && showActions}
-        <div class="filter__actions" transition:slide|local={{ duration: 300 }}>
+    {#if interactive && showActions && actions.length > 0}
+        <div
+            class="filter__actions"
+            transition:slide|local={{ duration: 300 }}
+            on:introend={e => {
+                if (showActions) e.target.scrollIntoView(false)
+            }}
+        >
             {#each actions as { icon, onClick }}
                 <div class="filter__actions__action" on:click={() => onClick({ id, type })}>
                     <svelte:component this={icon} />
@@ -45,7 +52,6 @@
 <style>
     .filter {
         display: flex;
-        margin: 5px 0;
         user-select: none;
         flex-direction: column;
     }

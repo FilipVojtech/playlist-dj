@@ -1,9 +1,9 @@
 import got from 'got'
 import { DI } from '../app'
-import { Playlist, Profile, Token, User } from '../entities'
+import { Playlist, Profile, User } from '../entities'
 import type { PDJ, SearchFilter, Spotify } from '@playlist-dj/types'
 import { artistsFromSpotifyArtists, snakeToCamelCase } from './index'
-import { Album, Artist, Track } from '../Classes'
+import { Album, Artist, Token, Track } from '../Classes'
 
 const apiUrl = 'https://api.spotify.com/v1'
 const accUrl = 'https://accounts.spotify.com'
@@ -13,12 +13,8 @@ let clientCredentialsToken = { access_token: '', validity: new Date(0) }
  * Exchange the authorization code for an Access Token.
  * @param code Authorization code
  */
-export async function requestToken(code: string): Promise<Token> {
-    const token: Token = {
-        value: '',
-        refreshToken: '',
-        expiration: new Date(0),
-    }
+export async function requestToken(code: string): Promise<Spotify.Token> {
+    const token: Spotify.Token = new Token()
 
     await got(`${accUrl}/api/token`, {
         method: 'post',
@@ -49,7 +45,7 @@ export async function requestToken(code: string): Promise<Token> {
 /**
  * Request refreshed token
  */
-export async function renewToken(user: User): Promise<Token> {
+export async function renewToken(user: User): Promise<Spotify.Token> {
     if (user.token.expiration.valueOf() > new Date().valueOf()) return user.token
     user = (await DI.userRepository.findOne({ profile: { spotifyId: user.profile.spotifyId } })) as User
 
@@ -239,6 +235,24 @@ export function endpoint(token: string) {
         },
 
         /**
+         * Get Artist's Albums
+         * @param artistId
+         * @param nextUrl
+         */
+        async artistAlbums(artistId: string, nextUrl: string | null = null): Promise<PDJ.Album[]> {
+            const url = `${apiUrl}/artists/${artistId}/albums`
+            return await got(nextUrl ?? url, { headers })
+                .then(res => snakeToCamelCase(JSON.parse(res.body)) as any)
+                .then(async value => {
+                    let albums = []
+                    albums.push(...value.items)
+                    if (value.next) albums.push(...(await this.artistAlbums(artistId, value.next)))
+                    return albums as any
+                })
+                .catch(e => console.error(e))
+        },
+
+        /**
          * Information about an album
          * @param id - Album ID
          */
@@ -279,13 +293,31 @@ export function endpoint(token: string) {
         },
 
         /**
+         * Get Album Tracks
+         * @param albumId
+         * @param nextUrl
+         */
+        async albumTracks(albumId: string, nextUrl: string | null = null): Promise<PDJ.Track[]> {
+            const url = `${apiUrl}/albums/${albumId}/tracks`
+            return await got(nextUrl ?? url, { headers })
+                .then(res => snakeToCamelCase(JSON.parse(res.body)) as any)
+                .then(async value => {
+                    let tracks = []
+                    tracks.push(...value.items)
+                    if (value.next) tracks.push(...(await this.albumTracks(albumId, value.next)))
+                    return tracks as any
+                })
+                .catch(e => console.error(e))
+        },
+
+        /**
          * Track details
          * @param id - Track ID
          */
         async track(id: string): Promise<PDJ.Track | null> {
             return await got(`${apiUrl}/artists/${id}/albums`, { headers })
                 .then(data => {
-                    const { id, name, artists, album: trackAlbum }: Spotify.Track = JSON.parse(data.body)
+                    const { id, name, artists, album: trackAlbum, uri }: Spotify.Track = JSON.parse(data.body)
                     let album: PDJ.Album = new Album(
                         id,
                         name,
@@ -293,7 +325,7 @@ export function endpoint(token: string) {
                         trackAlbum.images
                     )
 
-                    return { id, name, artists: artistsFromSpotifyArtists(artists), album } as PDJ.Track
+                    return new Track(id, name, album, artistsFromSpotifyArtists(artists), uri)
                 })
                 .catch(e => {
                     console.error(e)
@@ -313,8 +345,8 @@ export function endpoint(token: string) {
             let result = await got(`${apiUrl}/tracks?ids=${reqIds}`, { headers })
                 .then(data => {
                     let value: PDJ.Track[] = []
-                    for (const { id, name, album, artists } of JSON.parse(data.body).tracks as Spotify.Track[])
-                        value.push(new Track(id, name, album, artistsFromSpotifyArtists(artists)))
+                    for (const { id, name, album, artists, uri } of JSON.parse(data.body).tracks as Spotify.Track[])
+                        value.push(new Track(id, name, album, artistsFromSpotifyArtists(artists), uri))
                     return value
                 })
                 .catch(e => {
@@ -389,11 +421,98 @@ export function endpoint(token: string) {
             }).catch(e => console.error(e))
         },
 
+        /**
+         * Add Items to Playlist
+         * @param playlistId
+         * @param uris Array of Spotify URIs to add to playlist
+         */
+        async playlistAddItems(playlistId: string, uris: string[]) {
+            const spotifyUrisLimit = 100
+            let reqUris = uris.slice(0, spotifyUrisLimit - 1)
+            uris.splice(0, spotifyUrisLimit - 1)
+            const queryParams = new URLSearchParams({ uris: reqUris.toString() })
+            await got(`${apiUrl}/playlists/${playlistId}/tracks?${queryParams}`, {
+                headers,
+                method: 'POST',
+            }).catch(e => {
+                console.log(e)
+            })
+            if (uris.length > 0) await this.playlistAddItems(playlistId, uris)
+        },
+
+        /**
+         * Remove Playlist Items
+         * @param playlistId
+         * @param uris Array of Spotify URIs to remove from playlist
+         */
+        async playlistRemoveItems(playlistId: string, uris: string[]) {
+            const spotifyUrisLimit = 100
+            let reqUris = uris.slice(0, spotifyUrisLimit - 1)
+            uris.splice(0, spotifyUrisLimit - 1)
+            // @ts-ignore
+            reqUris.forEach(value => (value = { uri: value }))
+
+            await got(`${apiUrl}/playlists/${playlistId}/tracks`, {
+                headers,
+                method: 'DELETE',
+                body: JSON.stringify({ tracks: reqUris }),
+            }).catch(e => {
+                console.log(e)
+            })
+            if (uris.length > 0) await this.playlistRemoveItems(playlistId, uris)
+        },
+
+        /**
+         * Follow playlist
+         * @param playlistId
+         */
+        async playlistFollow(playlistId: string) {
+            return await got(`${apiUrl}/playlists/${playlistId}/followers`, {
+                headers,
+                method: 'PUT',
+            }).catch(e => console.error(e))
+        },
+
+        /**
+         * Unfollow playlist
+         * @param playlistId
+         */
+        async playlistUnfollow(playlistId: string) {
+            return await got(`${apiUrl}/playlists/${playlistId}/followers`, {
+                headers,
+                method: 'DELETE',
+            }).catch(e => console.error(e))
+        },
+
+        /**
+         * Check if Users Follow Playlist
+         * @param playlistId
+         * @param userIds Array of Spotify User IDs. The IDs of the users that you want to check to see if they follow the playlist.
+         */
+        async playlistIsFollowed(playlistId: string, userIds: string[]): Promise<boolean[] | []> {
+            const spotifyUserIdsLimit = 5
+            let reqUserIds = userIds.slice(0, spotifyUserIdsLimit - 1).toString()
+            userIds.splice(0, spotifyUserIdsLimit - 1)
+            let result = await got(`${apiUrl}/playlists/${playlistId}/followers/contains?ids=${reqUserIds}`, {
+                headers,
+            })
+                .then(data => {
+                    return JSON.parse(data.body) as boolean[]
+                })
+                .catch(e => {
+                    console.log(e)
+                    return []
+                })
+            if (userIds.length > 0) result = [...result, ...(await this.playlistIsFollowed(playlistId, userIds))]
+            return result
+        },
+
         async filtersToFilterList(filters: SearchFilter[]): Promise<PDJ.FilterList> {
             let result = {
                 artists: { items: [] },
                 albums: { items: [] },
                 tracks: { items: [] },
+                length: 0,
             } as PDJ.FilterList
             let artists: string[] = []
             let albums: string[] = []
@@ -411,6 +530,7 @@ export function endpoint(token: string) {
                         tracks.push(id)
                         break
                 }
+                result.length++
             }
             if (artists.length > 0) result.artists!.items = await this.artists(artists)
             if (albums.length > 0) result.albums!.items = await this.albums(albums)

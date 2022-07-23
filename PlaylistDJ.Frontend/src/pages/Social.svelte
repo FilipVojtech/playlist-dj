@@ -1,30 +1,51 @@
-<script>
+<script lang="ts">
+    import type { PDJ } from '@playlist-dj/types'
     import { Header, Post } from '../components'
     import { CreatePostModal } from '../components/modals'
     import { _ } from 'svelte-i18n'
-    import { PlusSquareIcon, LoaderIcon } from 'svelte-feather-icons'
+    import { LoaderIcon, PlusSquareIcon } from 'svelte-feather-icons'
     import { openModal } from 'svelte-modals'
     import { onMount } from 'svelte'
     import aport from '../utility/Aport'
 
-    let data = []
+    let data: Promise<PDJ.Post[]> = new Promise(() => [])
 
-    onMount(() => {
-        data = aport('/social').then(data => data.json())
-    })
+    function loadPosts() {
+        data = aport('/api/social')
+            .then(data => {
+                if (data.ok) return data.json() as PDJ.Post[]
+                else return []
+            })
+            .catch(e => {
+                console.error(e)
+                return []
+            })
+    }
+
+    onMount(loadPosts)
 </script>
 
 <svelte:head>
     <title>{$_('page.social.title')}</title>
 </svelte:head>
-<Header text={$_('page.social.title')} iconAfter={PlusSquareIcon} onClickAfter={() => openModal(CreatePostModal)} />
+<Header
+    iconAfter={PlusSquareIcon}
+    onClickAfter={() => openModal(CreatePostModal, { onCreate: loadPosts })}
+    text={$_('page.social.title')}
+/>
 
 {#await data}
     <div class="loader">
-        <LoaderIcon />
+        <LoaderIcon size="35" />
     </div>
 {:then posts}
-    {#each posts as post}
-        <Post {...post} />
-    {/each}
+    {#if posts.length > 0}
+        <div class="list">
+            {#each posts as post (post.id)}
+                <Post {...post} on:postDelete={loadPosts} />
+            {/each}
+        </div>
+    {:else}
+        <p>{$_('page.social.noPost')}</p>
+    {/if}
 {/await}

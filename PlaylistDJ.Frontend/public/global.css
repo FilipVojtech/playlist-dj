@@ -287,6 +287,12 @@ a {
     color: grey;
 }
 
+/*Post stared*/
+.post__star--active * {
+    color: var(--main);
+    fill: var(--main);
+}
+
 @media (min-width: 640px) {
     .modal__contents {
         width: 60vw;
