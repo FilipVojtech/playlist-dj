@@ -6,11 +6,9 @@
     export { customClass as class }
 </script>
 
-<a {href} target="_blank">
+<a {href} target="_blank" class={customClass}>
     <slot />
-    <sup class="ext-icon">
-        <ExternalLinkIcon />
-    </sup>
+    <sup class="ext-icon"><ExternalLinkIcon /></sup>
 </a>
 
 <style>
