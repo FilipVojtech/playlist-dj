@@ -40,7 +40,7 @@
     </div>
 {:then posts}
     {#if posts.length > 0}
-        <div class="posts">
+        <div class="list">
             {#each posts as post (post.id)}
                 <Post {...post} on:postDelete={loadPosts} />
             {/each}
@@ -49,10 +49,3 @@
         <p>{$_('page.social.noPost')}</p>
     {/if}
 {/await}
-
-<style>
-    .posts {
-        display: flex;
-        flex-flow: column nowrap;
-    }
-</style>
