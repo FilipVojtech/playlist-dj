@@ -21,7 +21,7 @@
 <div class="item filter" class:item--interactive={interactive} class:item--slim={slim}>
     <!--class:item--slim={slim} class:item--half={half}-->
     <div class="filter__main-details" on:click={onClick}>
-        <FilterImg {images} {name} alt="{name} {altSubject}" {placeholderIcon} />
+        <FilterImg alt="{name} {altSubject}" {images} {name} {placeholderIcon} />
         <div>
             <div class="main-details__name">{name}</div>
             <div class="main-details__artists">

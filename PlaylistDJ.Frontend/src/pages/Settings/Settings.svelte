@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Header, LanguagePicker, ListItem } from '../../components'
     import { BellIcon, LogOutIcon, PaperclipIcon, UserIcon } from 'svelte-feather-icons'
-    import { _, locale } from 'svelte-i18n'
+    import { _ } from 'svelte-i18n'
 </script>
 
 <svelte:head>

@@ -4,5 +4,6 @@ export enum FilterType {
     Album = 'album',
     Track = 'track',
 }
+
 export * from './Spotify'
 export * from './PlaylistDJ'

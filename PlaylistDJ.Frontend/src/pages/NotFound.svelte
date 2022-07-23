@@ -1,15 +1,15 @@
-<script lang='ts'>
+<script lang="ts">
     import { _ } from 'svelte-i18n'
     import { link, pop } from 'svelte-spa-router'
 </script>
 
-<div class='not-found'>
-    <div class='info-text'>
+<div class="not-found">
+    <div class="info-text">
         404<br />
         > {$_('page.notFound.notFound')}
     </div>
-    <div on:click={() => pop()} class='item item--interactive back-btn'>{$_('page.notFound.goBack')}</div>
-    <a href='/playlists' use:link class='item item--interactive back-btn'>{$_('page.notFound.returnHome')}</a>
+    <div class="item item--interactive back-btn" on:click={() => pop()}>{$_('page.notFound.goBack')}</div>
+    <a class="item item--interactive back-btn" href="/playlists" use:link>{$_('page.notFound.returnHome')}</a>
 </div>
 
 <style>

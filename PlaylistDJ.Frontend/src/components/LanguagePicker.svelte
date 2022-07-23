@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
     import { _, locale, locales } from 'svelte-i18n'
     import { GlobeIcon } from 'svelte-feather-icons'
 
@@ -11,15 +11,15 @@
     }
 </script>
 
-<div class='item item--with-input'>
-    <span class='item__icon'>
-        <GlobeIcon size='25' />
+<div class="item item--with-input">
+    <span class="item__icon">
+        <GlobeIcon size="25" />
     </span>
     <select
         bind:value={$locale}
-        class='form__input form__input--lang-picker'
-        id='language-select'
-        name='language'
+        class="form__input form__input--lang-picker"
+        id="language-select"
+        name="language"
         on:change={setLocaleCookie}
     >
         {#each $locales as loc}
@@ -37,5 +37,4 @@
     .item--with-input {
         padding: 10px;
     }
-
 </style>

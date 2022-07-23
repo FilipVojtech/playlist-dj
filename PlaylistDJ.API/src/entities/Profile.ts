@@ -37,6 +37,30 @@ export class Profile implements PDJ.Profile {
     @Property()
     uri: string
 
+    constructor(
+        country: string,
+        displayName: string,
+        email: string,
+        explicitContent: { enabled: boolean; locked: boolean },
+        externalUrls: {},
+        href: string,
+        spotifyId: string,
+        images: Spotify.Images,
+        product: Spotify.Product,
+        uri: string
+    ) {
+        this.country = country
+        this.displayName = displayName
+        this.email = email
+        this.explicitContent = explicitContent
+        this.externalUrls = externalUrls
+        this.href = href
+        this.spotifyId = spotifyId
+        this.images = images
+        this.product = product
+        this.uri = uri
+    }
+
     /**
      * Create a profile from spotify response body
      * @param body
@@ -71,28 +95,4 @@ export class Profile implements PDJ.Profile {
             body.product,
             body.uri
         )
-
-    constructor(
-        country: string,
-        displayName: string,
-        email: string,
-        explicitContent: { enabled: boolean; locked: boolean },
-        externalUrls: {},
-        href: string,
-        spotifyId: string,
-        images: Spotify.Images,
-        product: Spotify.Product,
-        uri: string
-    ) {
-        this.country = country
-        this.displayName = displayName
-        this.email = email
-        this.explicitContent = explicitContent
-        this.externalUrls = externalUrls
-        this.href = href
-        this.spotifyId = spotifyId
-        this.images = images
-        this.product = product
-        this.uri = uri
-    }
 }

@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
     import { onMount } from 'svelte'
     import { _ } from 'svelte-i18n'
     import { Header } from '../../components'
@@ -9,8 +9,7 @@
     let communicationSettings
 
     onMount(async () => {
-        communicationSettings = await aport('/api/user/communication')
-            .then(value => value.json())
+        communicationSettings = await aport('/api/user/communication').then(value => value.json())
     })
 
     const onSubmit = () =>
@@ -23,10 +22,13 @@
             .catch(reason => console.error(reason))
 </script>
 
-<Header iconBefore={ChevronLeftIcon} onClickBefore={() => push('/settings')}
-        text={$_('page.settings.communication.title')} />
+<Header
+    iconBefore={ChevronLeftIcon}
+    onClickBefore={() => push('/settings')}
+    text={$_('page.settings.communication.title')}
+/>
 {#if communicationSettings}
-    <form class='form' method='post' on:submit|preventDefault on:change|preventDefault={onSubmit}>
+    <form class="form" method="post" on:submit|preventDefault on:change|preventDefault={onSubmit}>
         <!--Update emails won't be in the first release
             <select bind:value={updateFrequency} class='form__input' name='updateFrequency'>
             <option value='Disabled'>{$_('page.settings.communication.updateFrequency.disabled')}</option>
@@ -39,13 +41,17 @@
         {#if updateFrequency === 'Custom'}
             <input class='form__input' name='customFrequency' type='number' min='1' max='365' />
         {/if}-->
-        <label class='form__input'>
-            <input type='checkbox' checked disabled>
+        <label class="form__input">
+            <input type="checkbox" checked disabled />
             {$_('page.settings.communication.subscribeTo.important')}
         </label>
-        <label class='form__input' for='sendMarketing'>
-            <input bind:checked={communicationSettings.sendMarketing} id='sendMarketing' name='sendMarketing'
-                   type='checkbox'>
+        <label class="form__input" for="sendMarketing">
+            <input
+                bind:checked={communicationSettings.sendMarketing}
+                id="sendMarketing"
+                name="sendMarketing"
+                type="checkbox"
+            />
             {$_('page.settings.communication.subscribeTo.product')}
         </label>
     </form>

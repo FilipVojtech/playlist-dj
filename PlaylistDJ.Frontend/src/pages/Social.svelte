@@ -29,9 +29,9 @@
     <title>{$_('page.social.title')}</title>
 </svelte:head>
 <Header
-    text={$_('page.social.title')}
     iconAfter={PlusSquareIcon}
     onClickAfter={() => openModal(CreatePostModal, { onCreate: loadPosts })}
+    text={$_('page.social.title')}
 />
 
 {#await data}
