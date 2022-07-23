@@ -1,25 +1,27 @@
 import type { PDJ } from '@playlist-dj/types'
 import { BaseEntity } from './BaseEntity'
-import { Entity, Property } from '@mikro-orm/core'
+import { Entity, ManyToOne, Property } from '@mikro-orm/core'
+import { Playlist } from './Playlist'
+import { User } from './User'
 
 @Entity()
 export class Post extends BaseEntity implements PDJ.Post {
-    @Property()
-    author: PDJ.User
+    @ManyToOne(() => User)
+    author: User
 
     @Property()
-    description: string = ''
+    message: string
 
     @Property()
-    stars: PDJ.User[] = []
+    stars: string[] = []
 
-    @Property()
+    @ManyToOne(() => Playlist)
     playlist: PDJ.Playlist
 
-    constructor(author: PDJ.User, playlist: PDJ.Playlist, description: string = '') {
+    constructor(author: User, playlist: Playlist, description: string = '') {
         super()
         this.author = author
         this.playlist = playlist
-        this.description = description
+        this.message = description
     }
 }
