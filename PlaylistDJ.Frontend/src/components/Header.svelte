@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
     import type { SvelteComponentTyped } from 'svelte'
     import { ChevronLeftIcon } from 'svelte-feather-icons'
     import { pop } from 'svelte-spa-router'
@@ -11,21 +11,24 @@
     export let text: string = ''
 </script>
 
-
-<div class='head'>
+<div class="head">
     {#if !iconBefore && text === ''}
-        <div class='head__before head--clickable' on:click={pop}>
-            <ChevronLeftIcon size='35' />
+        <div class="head__before head--clickable" on:click={pop}>
+            <ChevronLeftIcon size="35" />
             <h1>{$_('app.back')}</h1>
         </div>
     {:else}
-        <div class='head__before' class:head--clickable={onClickBefore} on:click={onClickBefore ? onClickBefore : null}>
-            <svelte:component size='35' this={iconBefore} />
+        <div
+            class="head__before head--clickable"
+            class:head--clickable={onClickBefore}
+            on:click={onClickBefore ? onClickBefore : null}
+        >
+            <svelte:component this={iconBefore} size="35" />
             <h1>{text}</h1>
         </div>
         {#if iconAfter}
-            <span class='icon head--clickable' on:click={onClickAfter}>
-                <svelte:component size='35' this={iconAfter} />
+            <span class="icon head--clickable" on:click={onClickAfter}>
+                <svelte:component this={iconAfter} size="35" />
             </span>
         {/if}
     {/if}
@@ -43,7 +46,7 @@
         align-items: center;
     }
 
-    .head--clickable:hover {
+    .head--clickable {
         cursor: pointer;
     }
 </style>
