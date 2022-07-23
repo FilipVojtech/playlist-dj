@@ -5,17 +5,24 @@
     import Filter from './Filter.svelte'
     import { artistListFromArray } from '../utility'
     import { _ } from 'svelte-i18n'
-    import { AlignJustifyIcon, DiscIcon, UserIcon } from 'svelte-feather-icons'
+    import { AlignJustifyIcon, DiscIcon, ListIcon, UserIcon } from 'svelte-feather-icons'
 
     export let data: Spotify.SearchResults
     export let actions: { icon; onClick: Function }[] = []
     export let onItemClick: Function = () => {}
     export let slim: boolean = false
+    export let interactive: boolean = false
 
     async function loadMore(link) {
-        let results: Spotify.SearchResults = await aport(
-            `/api/search?${new URLSearchParams({ url: link }).toString()}`
-        ).then(value => value.json())
+        let results: Spotify.SearchResults = await aport(`/api/search?${new URLSearchParams({ url: link }).toString()}`)
+            .then(value => {
+                if (value.ok) return value.json()
+                else return {}
+            })
+            .catch(e => {
+                console.error(e)
+                return {}
+            })
 
         if (results.artists) {
             data.artists.items = [...data.artists.items, ...results.artists.items]
@@ -34,6 +41,26 @@
     }
 </script>
 
+{#if data.playlists && data.playlists.items.length > 0}
+    <div class="list__section">{$_('component.filterList.playlists')}</div>
+    <div class="list">
+        {#each data.playlists.items as { name, images, id }}
+            <div class="filter-wrapper item--half" on:click={() => onItemClick({ id, type: FilterType.Playlist })}>
+                <Filter
+                    {name}
+                    {images}
+                    {id}
+                    type={FilterType.Playlist}
+                    {actions}
+                    altSubject={$_('component.filterList.playlist').toLowerCase()}
+                    placeholderIcon={ListIcon}
+                    {slim}
+                    interactive={interactive || actions.length > 0}
+                />
+            </div>
+        {/each}
+    </div>
+{/if}
 {#if data.artists && data.artists.items.length > 0}
     <div class="list__section">{$_('component.filterList.artists')}</div>
     <div class="list">
@@ -48,6 +75,7 @@
                     altSubject={$_('component.filterList.artist').toLowerCase()}
                     placeholderIcon={UserIcon}
                     {slim}
+                    interactive={interactive || actions.length > 0}
                 />
             </div>
         {/each}
@@ -72,6 +100,7 @@
                     altSubject={$_('component.filterList.album').toLowerCase()}
                     placeholderIcon={AlignJustifyIcon}
                     {slim}
+                    interactive={interactive || actions.length > 0}
                 >
                     <svelte:fragment slot="artists">
                         {artistListFromArray(artists)}
@@ -100,6 +129,7 @@
                     altSubject={$_('component.filterList.track').toLowerCase()}
                     placeholderIcon={DiscIcon}
                     {slim}
+                    interactive={interactive || actions.length > 0}
                 >
                     <svelte:fragment slot="artists">
                         {artistListFromArray(artists)} - {album.name}

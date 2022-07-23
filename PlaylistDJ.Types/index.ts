@@ -1,5 +1,6 @@
 export enum FilterType {
     None = '',
+    Playlist = 'playlist',
     Artist = 'artist',
     Album = 'album',
     Track = 'track',

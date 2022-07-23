@@ -82,6 +82,15 @@ export declare namespace Spotify {
     }
 
     interface SearchResults {
+        playlists?: {
+            href: string
+            items: Playlist[]
+            limit: number
+            next: string | null
+            offset: number
+            previous: string | null
+            total: number
+        }
         albums?: {
             href: string
             items: Album[]

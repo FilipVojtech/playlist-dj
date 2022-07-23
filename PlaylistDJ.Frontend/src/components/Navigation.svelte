@@ -18,7 +18,19 @@
         { href: '/settings', name: 'settings', icon: SettingsIcon },
     ]
 
-    onMount(async () => (pinnedPlaylists = await aport('/api/playlist?pinned=true').then(value => value.json())))
+    async function getPinnedPlaylists() {
+        pinnedPlaylists = await aport('/api/playlist?src=pinned')
+            .then(value => {
+                if (value.ok) return value.json()
+                else return []
+            })
+            .catch(e => {
+                console.error(e)
+                return []
+            })
+    }
+
+    onMount(getPinnedPlaylists)
 
     // This is for a future endeavour to implement swipe to open navigation
     // todo: Implement swipe to open navigation

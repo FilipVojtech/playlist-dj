@@ -99,7 +99,7 @@ router.route('/')
     .get(renewToken, async (req: Request, res: Response) => {
         if (req.query.src && req.query.src === 'spotify') {
             res.json(await endpoint(req.session.user!.token.value).ownedPlaylists(req.session.user!.profile.spotifyId))
-        } else if (req.query.pinned) {
+        } else if (req.query.src && req.query.src === 'pinned') {
             res.json(
                 await DI.playlistRepository.find({
                     owner: req.session.user!._id.toString(),

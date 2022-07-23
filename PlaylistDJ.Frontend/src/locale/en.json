@@ -27,6 +27,8 @@
       "artist": "Artist",
       "artists": "Artists",
       "loadMore": "Load more",
+      "playlist": "Playlist",
+      "playlists": "Playlists",
       "track": "Track",
       "tracks": "Tracks"
     },
