@@ -153,7 +153,7 @@ router.route('/:id')
      */
     .patch(renewToken, async (req: Request, res: Response) => {
         const name: string = req.body.name ?? null
-        const description: string = req.body.message ?? null
+        const description: string = req.body.description ?? null
 
         if (!name || name.length > 100 || !description || description.length > 300) {
             res.sendStatus(400)
