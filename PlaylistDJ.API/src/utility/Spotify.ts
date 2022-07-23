@@ -390,6 +390,7 @@ export function endpoint(token: string) {
                 artists: { items: [] },
                 albums: { items: [] },
                 tracks: { items: [] },
+                length: 0,
             } as PDJ.FilterList
             let artists: string[] = []
             let albums: string[] = []
@@ -407,6 +408,7 @@ export function endpoint(token: string) {
                         tracks.push(id)
                         break
                 }
+                result.length++
             }
             if (artists.length > 0) result.artists!.items = await this.artists(artists)
             if (albums.length > 0) result.albums!.items = await this.albums(albums)
