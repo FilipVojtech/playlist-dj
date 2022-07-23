@@ -19,7 +19,11 @@ router.route('/account')
         res.sendStatus(200)
         // Remove user content
         for (let playlist of await DI.playlistRepository.find({ owner: req.session.user!._id.toString() }))
-            await DI.playlistRepository.removeAndFlush(playlist)
+            await DI.playlistRepository.remove(playlist)
+        // Remove posts
+        for (const post of await DI.postRepository.find({ author: req.session.user!._id.toString() })) {
+            await DI.postRepository.remove(post)
+        }
         //Lastly, remove user
         await DI.userRepository.nativeDelete({ _id: req.session.user!._id })
         await DI.userRepository.flush()
