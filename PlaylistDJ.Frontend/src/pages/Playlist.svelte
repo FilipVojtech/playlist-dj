@@ -244,7 +244,7 @@
                 </div>
             {:then data}
                 <div class="playlist__filters">
-                    <FilterList {data} actions={isEditing ? [{ icon: TrashIcon, onClick: removeFilter }] : []} />
+                    <FilterList half {data} actions={isEditing ? [{ icon: TrashIcon, onClick: removeFilter }] : []} />
                 </div>
             {/await}
         </div>

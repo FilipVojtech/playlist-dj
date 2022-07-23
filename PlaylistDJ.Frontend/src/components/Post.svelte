@@ -47,7 +47,7 @@
     onDestroy(() => clearInterval(interval))
 </script>
 
-<div class="post" {id}>
+<div class="post item--half" {id}>
     <div class="post__details">
         <div class="post__text">
             <div class="post__title">{playlist.name}</div>
