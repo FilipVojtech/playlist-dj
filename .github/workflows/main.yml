@@ -16,6 +16,11 @@ jobs:
         uses: actions/checkout@v2
       - name: Install dependencies
         run: yarn install
+      - name: Build types
+        run: |
+          cd PlaylistDJ.Types
+          yarn build
+          cd ..
       - name: Build Frontend
         run: |
           cd PlaylistDJ.Frontend
