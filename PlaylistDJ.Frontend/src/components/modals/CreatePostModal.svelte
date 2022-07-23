@@ -1,78 +1,87 @@
 <script lang="ts">
+    import type { PDJ } from '@playlist-dj/types'
     import { fade } from 'svelte/transition'
     import { closeModal } from 'svelte-modals'
     import aport from '../../utility/Aport'
     import { ListIcon, LoaderIcon, XOctagonIcon } from 'svelte-feather-icons'
     import { onMount } from 'svelte'
     import { _ } from 'svelte-i18n'
-    import FilterPlaceholder from '../FilterPlaceholder.svelte'
+    import Filter from '../Filter.svelte'
 
     export let isOpen: boolean
+    export let onCreate: Function
 
     let value: string = ''
     let playlistId: string
-    let data = new Promise<[]>(() => [])
+    let data: Promise<PDJ.Playlist[]> = new Promise(() => [])
 
-    function sendPost() {
-        console.log('Message', value)
-        console.log('PL', playlistId)
-        aport('/api/social', {
+    async function createPost() {
+        await aport('/api/social', {
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: value, playlist: playlistId }),
             method: 'POST',
+            body: JSON.stringify({ message: value, playlist: playlistId }),
         })
+        onCreate()
         closeModal()
     }
 
-    onMount(() => {
-        data = aport('/api/playlist').then(value => value.json())
-    })
+    function loadPlaylists() {
+        data = aport('/api/playlist')
+            .then(value => {
+                if (value.ok) return value.json() as PDJ.Playlist[]
+                else return []
+            })
+            .catch(e => {
+                console.error(e)
+                return []
+            })
+    }
+
+    onMount(loadPlaylists)
 </script>
 
 {#if isOpen}
     <div role="dialog" class="modal" transition:fade>
         <div class="modal__contents">
-            <div class="modal__title">{$_('page.social.create.title')}</div>
-            <form class="form" on:submit|preventDefault>
+            <div class="modal__title">{$_('modal.createPost.title')}</div>
+            <form class="form" on:submit|preventDefault={createPost}>
+                <!--suppress CheckEmptyScriptTag -->
                 <textarea
                     bind:value
                     class="textarea form__input"
-                    rows="10"
-                    maxlength="256"
-                    placeholder="What's poppin'?"
+                    rows="7"
+                    maxlength="512"
+                    placeholder={$_('modal.createPost.whatsUp')}
+                    name="description"
+                    id="description"
                 />
                 {#await data}
-                    <span class="loader"><LoaderIcon /></span>
+                    <span class="loader"><LoaderIcon size="35" /></span>
                 {:then playlists}
-                    {@debug playlists}
-                    {#if playlists}
-                        <select bind:value={playlistId} class="form__input">
+                    {#if playlists.length > 0}
+                        <label for="playlist">{$_('modal.createPost.playlist')}</label>
+                        <select bind:value={playlistId} name="playlist" id="playlist" class="form__input">
                             {#each playlists as { id, name }}
                                 <option value={id}>{name}</option>
                             {/each}
                         </select>
                     {:else}
-                        <div class="item filter">
-                            <FilterPlaceholder icon={ListIcon} />
-                            <div class="filter__info">{$_('page.social.create.nothingFound')}</div>
-                        </div>
+                        <Filter name={$_('modal.createPost.nothingFound')} placeholderIcon={ListIcon} />
                     {/if}
                 {:catch e}
-                    <div class="item filter">
-                        <FilterPlaceholder icon={XOctagonIcon} />
-                        <div class="filter__info">{$_('page.social.create.cantLoad')}</div>
-                    </div>
+                    <Filter name={$_('modal.createPost.cantLoad')} placeholderIcon={XOctagonIcon} />
                 {/await}
+                <div class="modal__actions">
+                    <input
+                        type="submit"
+                        value={$_('modal.createPost.post')}
+                        class="actions__button"
+                        class:actions__button--inactive={!playlistId}
+                        disabled={!playlistId}
+                    />
+                    <button class="actions__button" on:click={closeModal}>{$_('app.cancel')}</button>
+                </div>
             </form>
-            <div class="modal__actions">
-                <button
-                    class="actions__button"
-                    class:actions__button--inactive={!playlistId}
-                    disabled={!playlistId}
-                    on:click={sendPost}>{$_('page.social.create.post')}</button
-                >
-                <button class="actions__button" on:click={closeModal}>{$_('app.cancel')}</button>
-            </div>
         </div>
     </div>
 {/if}

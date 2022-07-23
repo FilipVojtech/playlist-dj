@@ -154,7 +154,7 @@ router.route('/:id')
      */
     .patch(renewToken, async (req: Request, res: Response) => {
         const name: string = req.body.name ?? null
-        const description: string = req.body.description ?? null
+        const description: string = req.body.message ?? null
 
         if (!name || name.length > 100 || !description || description.length > 300) {
             res.sendStatus(400)
@@ -230,5 +230,9 @@ router.route('/:id/filter')
         await DI.playlistRepository.flush()
         res.sendStatus(200)
     })
+
+router.get('/:id/share', getPlaylist, userIsOwner, (req: Request, res: Response) => {
+    res.sendStatus(501)
+})
 
 export default router

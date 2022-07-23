@@ -1,7 +1,8 @@
 export * from './BaseEntity'
 export * from './Playlist'
-export * from './User'
+export * from './Post'
 export * from './Profile'
+export * from './User'
 
 // export enum UpdateFrequency {
 //     Disabled = 0,

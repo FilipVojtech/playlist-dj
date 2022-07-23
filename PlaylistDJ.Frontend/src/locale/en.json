@@ -22,9 +22,12 @@
   },
   "component": {
     "filterList": {
+      "album": "album",
       "albums": "Albums",
+      "artist": "Artist",
       "artists": "Artists",
       "loadMore": "Load more",
+      "track": "Track",
       "tracks": "Tracks"
     },
     "navigation": {
@@ -33,6 +36,12 @@
       "playlists": "Playlists",
       "settings": "Settings",
       "social": "Social"
+    },
+    "post": {
+      "by": "By",
+      "collapsePlaylist": "Collapse playlist",
+      "delete": "Delete post",
+      "showPlaylist": "Show playlist"
     }
   },
   "locales": {
@@ -49,6 +58,14 @@
       "privacyPolicy": "Privacy policy",
       "title": "Consent renewal",
       "tos": "Terms of Service"
+    },
+    "createPost": {
+      "cantLoad": "Couldn't fetch playlists",
+      "nothingFound": "No playlists found",
+      "playlist": "Playlist",
+      "post": "Post",
+      "title": "Create a post",
+      "whatsUp": "What's poppin'?"
     },
     "deleteConfirm": {
       "message": "This action cannot be undone",
@@ -162,13 +179,7 @@
       "title": "Settings"
     },
     "social": {
-      "create": {
-        "cantLoad": "Couldn't fetch playlists",
-        "nothingFound": "No playlists found",
-        "post": "Post",
-        "title": "Create a post",
-        "whatsUp": "What's poppin'?"
-      },
+      "noPost": "No posts (yet)",
       "title": "Social"
     }
   },

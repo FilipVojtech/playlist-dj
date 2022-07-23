@@ -5,10 +5,12 @@
     import Filter from './Filter.svelte'
     import { artistListFromArray } from '../utility'
     import { _ } from 'svelte-i18n'
+    import { AlignJustifyIcon, DiscIcon, UserIcon } from 'svelte-feather-icons'
 
     export let data: Spotify.SearchResults
     export let actions: { icon; onClick: Function }[] = []
     export let onItemClick: Function = () => {}
+    export let slim: boolean = false
 
     async function loadMore(link) {
         let results: Spotify.SearchResults = await aport(
@@ -32,12 +34,21 @@
     }
 </script>
 
-{#if data.artists}
+{#if data.artists && data.artists.items.length > 0}
     <div class="list__section">{$_('component.filterList.artists')}</div>
     <div class="list">
         {#each data.artists.items as { name, images, id }}
             <div class="filter-wrapper item--half" on:click={() => onItemClick({ id, type: FilterType.Artist })}>
-                <Filter {name} {images} {id} type={FilterType.Artist} {actions} />
+                <Filter
+                    {name}
+                    {images}
+                    {id}
+                    type={FilterType.Artist}
+                    {actions}
+                    altSubject={$_('component.filterList.artist').toLowerCase()}
+                    placeholderIcon={UserIcon}
+                    {slim}
+                />
             </div>
         {/each}
     </div>
@@ -47,12 +58,21 @@
         </button>
     {/if}
 {/if}
-{#if data.albums}
+{#if data.albums && data.albums.items.length > 0}
     <div class="list__section">{$_('component.filterList.albums')}</div>
     <div class="list">
         {#each data.albums.items as { name, images, artists, id }}
             <div class="filter-wrapper item--half" on:click={() => onItemClick({ id, type: FilterType.Album })}>
-                <Filter {name} {images} {id} type={FilterType.Album} {actions}>
+                <Filter
+                    {name}
+                    {images}
+                    {id}
+                    type={FilterType.Album}
+                    {actions}
+                    altSubject={$_('component.filterList.album').toLowerCase()}
+                    placeholderIcon={AlignJustifyIcon}
+                    {slim}
+                >
                     <svelte:fragment slot="artists">
                         {artistListFromArray(artists)}
                     </svelte:fragment>
@@ -66,12 +86,21 @@
         </button>
     {/if}
 {/if}
-{#if data.tracks}
+{#if data.tracks && data.tracks.items.length > 0}
     <div class="list__section">{$_('component.filterList.tracks')}</div>
     <div class="list">
         {#each data.tracks.items as { album, artists, name, id }}
             <div class="filter-wrapper item--half" on:click={() => onItemClick({ id, type: FilterType.Track })}>
-                <Filter {name} images={album.images} {id} type={FilterType.Track} {actions}>
+                <Filter
+                    {name}
+                    images={album.images}
+                    {id}
+                    type={FilterType.Track}
+                    {actions}
+                    altSubject={$_('component.filterList.track').toLowerCase()}
+                    placeholderIcon={DiscIcon}
+                    {slim}
+                >
                     <svelte:fragment slot="artists">
                         {artistListFromArray(artists)} - {album.name}
                     </svelte:fragment>

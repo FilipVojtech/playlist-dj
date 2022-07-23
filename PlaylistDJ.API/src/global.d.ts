@@ -1,10 +1,11 @@
 import * as Express from 'express'
 import * as ExpressSession from 'express-session'
-import { Playlist, User } from './entities'
+import { Playlist, Post, User } from './entities'
 
 export interface Request extends Express.Request {
     session: Session
     playlist?: Playlist
+    post?: Post
 }
 
 interface Session extends ExpressSession.Session {
