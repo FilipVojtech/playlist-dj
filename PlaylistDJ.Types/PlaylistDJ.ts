@@ -53,6 +53,7 @@ export namespace PDJ {
         artists?: { items: Artist[] }
         albums?: { items: Album[] }
         tracks?: { items: Track[] }
+        length: number
     }
 
     export interface Profile {
@@ -81,8 +82,8 @@ export namespace PDJ {
 
     export interface Post {
         author: User
-        description: string
+        message: string
         playlist: Playlist
-        stars: User[]
+        stars: string[] | number
     }
 }
