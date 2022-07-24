@@ -111,7 +111,8 @@
     "notFound": {
       "goBack": "Jít o stránku zpět",
       "notFound": "Nenalezeno",
-      "returnHome": "Vrátit se na playlisty"
+      "returnHome": "Vrátit se na hlavní stránku",
+      "returnToPlaylists": "Vrátit se na playlisty"
     },
     "playlist": {
       "addFilter": "Přidat filtr",

@@ -1,6 +1,7 @@
 <script lang="ts">
     import { _ } from 'svelte-i18n'
     import { link, pop } from 'svelte-spa-router'
+    import { user } from '../utility/stores'
 </script>
 
 <div class="not-found">
@@ -9,7 +10,13 @@
         > {$_('page.notFound.notFound')}
     </div>
     <div class="item item--interactive back-btn" on:click={() => pop()}>{$_('page.notFound.goBack')}</div>
-    <a class="item item--interactive back-btn" href="/playlists" use:link>{$_('page.notFound.returnHome')}</a>
+    {#if $user}
+        <a class="item item--interactive back-btn" href="/playlists" use:link>
+            {$_('page.notFound.returnToPlaylists')}
+        </a>
+    {:else}
+        <a class="item item--interactive back-btn" href="/about" use:link>{$_('page.notFound.returnHome')}</a>
+    {/if}
 </div>
 
 <style>

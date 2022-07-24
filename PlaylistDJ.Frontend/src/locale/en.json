@@ -111,7 +111,8 @@
     "notFound": {
       "goBack": "Go back",
       "notFound": "Not Found",
-      "returnHome": "Return to playlists page"
+      "returnHome": "Return to the main page",
+      "returnToPlaylists": "Return to playlists page"
     },
     "playlist": {
       "addFilter": "Add fitler",
