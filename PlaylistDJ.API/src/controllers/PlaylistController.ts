@@ -235,13 +235,17 @@ router.route('/:id/filter')
         res.sendStatus(200)
     })
 
+/**
+ * Get share code for playlist
+ */
 router.get('/:id/share', getPlaylist, userIsOwner, async (req: Request, res: Response) => {
     const share = await DI.shareRepository.findOne({ user: req.session.user, playlist: req.playlist })
     // 1. check if the sharing code for the current playlist and the current user is already in the DB
     let code = share?.code
     if (!code) {
-        // 2. generate random code to share playlist for current user
-        code = generateRandomString(6)
+        // 2. generate random unique code to share playlist for current user
+        do code = generateRandomString(6)
+        while ((await DI.shareRepository.count({ code })) > 0)
         // 3. save the code to the DB
         await DI.shareRepository.persistAndFlush(new Share(req.session.user!, req.playlist!, code))
     }
