@@ -71,6 +71,11 @@ export const DI = {} as {
     DI.userRepository = DI.orm.em.getRepository(User) as EntityRepository<User>
 
     app.use('/api', apiController)
+    app.use('/pl/:code', async (req: Request, res: Response) => {
+        const share = await DI.shareRepository.findOne({ code: req.params.code })
+        if (share) res.redirect(`#/playlist/${share.playlist.id}`)
+        else res.redirect(`/#/unknown`)
+    })
     app.use('/login', loginController)
     app.use('/logout', (req: Request, res: Response) =>
         req.session.destroy(() => res.clearCookie(CookieTypes.Session).clearCookie(CookieTypes.User).redirect(`/`))
