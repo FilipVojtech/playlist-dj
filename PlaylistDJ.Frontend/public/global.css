@@ -57,6 +57,10 @@ a {
     text-decoration: none;
 }
 
+.font--darker {
+    color: var(--text-darker);
+}
+
 .link {
     text-decoration: underline;
 }
