@@ -7,7 +7,7 @@ import { MikroORM, RequestContext } from '@mikro-orm/core'
 import { EntityManager, EntityRepository } from '@mikro-orm/mongodb'
 import dotenv from 'dotenv'
 import { apiController, loginController } from './controllers'
-import { Playlist, Post, Profile, User } from './entities'
+import { Playlist, Post, Profile, Share, User } from './entities'
 import config from './mikro-orm.config'
 import { CookieTypes } from './utility'
 import { Request } from './global'
@@ -36,6 +36,7 @@ export const DI = {} as {
     playlistRepository: EntityRepository<Playlist>
     postRepository: EntityRepository<Post>
     profileRepository: EntityRepository<Profile>
+    shareRepository: EntityRepository<Share>
     userRepository: EntityRepository<User>
 }
 
@@ -66,6 +67,7 @@ export const DI = {} as {
     DI.playlistRepository = DI.orm.em.getRepository(Playlist) as EntityRepository<Playlist>
     DI.postRepository = DI.orm.em.getRepository(Post) as EntityRepository<Post>
     DI.profileRepository = DI.orm.em.getRepository(Profile) as EntityRepository<Profile>
+    DI.shareRepository = DI.orm.em.getRepository(Share) as EntityRepository<Share>
     DI.userRepository = DI.orm.em.getRepository(User) as EntityRepository<User>
 
     app.use('/api', apiController)
