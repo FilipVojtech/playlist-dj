@@ -1,8 +1,8 @@
 import { NextFunction, Response, Router } from 'express'
 import { Request } from '../global'
 import { DI } from '../app'
-import { endpoint, getClientToken } from '../utility'
-import { Playlist } from '../entities'
+import { endpoint, generateRandomString, getClientToken } from '../utility'
+import { Playlist, Share } from '../entities'
 import { authentication, renewToken } from '../utility/Middleware'
 import type { FilterRequest } from '@playlist-dj/types'
 
@@ -235,8 +235,19 @@ router.route('/:id/filter')
         res.sendStatus(200)
     })
 
-router.get('/:id/share', getPlaylist, userIsOwner, (req: Request, res: Response) => {
-    res.sendStatus(501)
+router.get('/:id/share', getPlaylist, userIsOwner, async (req: Request, res: Response) => {
+    const share = await DI.shareRepository.findOne({ user: req.session.user, playlist: req.playlist })
+    // 1. check if the sharing code for the current playlist and the current user is already in the DB
+    let code = share?.code
+    if (!code) {
+        // 2. generate random code to share playlist for current user
+        code = generateRandomString(6)
+        // 3. save the code to the DB
+        await DI.shareRepository.persistAndFlush(new Share(req.session.user!, req.playlist!, code))
+    }
+
+    // 4. return the URL for the shared playlist
+    res.json(`${process.env.REDIRECT_URI}/pl/${code}`)
 })
 
 export default router
