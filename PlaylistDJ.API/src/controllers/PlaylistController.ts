@@ -235,8 +235,26 @@ router.route('/:id/filter')
         res.sendStatus(200)
     })
 
-router.get('/:id/share', getPlaylist, userIsOwner, (req: Request, res: Response) => {
-    res.sendStatus(501)
-})
+// prettier-ignore
+router.route('/:id/link')
+    /**
+     * Link two or more playlists
+     * @param body.playlists { string[] } - Array of playlist IDs
+     */
+    .post((req: Request, res: Response) => {
+        res.sendStatus(501)
+    })
+    /**
+     * Unlink playlists
+     */
+    .patch((req: Request, res: Response) => {
+        res.sendStatus(501)
+    })
+    /**
+     * Restore playlist
+     */
+    .unlock((req: Request, res: Response) => {
+        res.sendStatus(501)
+    })
 
 export default router
