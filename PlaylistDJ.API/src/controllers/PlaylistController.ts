@@ -262,6 +262,7 @@ router
 
         do code = generateRandomString(6)
         while ((await DI.shareRepository.count({ code })) > 0)
+        share!.code = code
         await DI.shareRepository.flush()
         res.json(`${process.env.REDIRECT_URI}/p/${code}`)
     })
