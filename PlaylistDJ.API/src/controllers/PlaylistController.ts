@@ -335,8 +335,36 @@ router.route('/:id/link')
     /**
      * Restore playlist
      */
-    .unlock((req: Request, res: Response) => {
-        res.sendStatus(501)
+    .unlock(userIsOwner, async (req: Request, res: Response) => {
+        // try to find a non-merged playlist with the same owner and spotify ID - only one restore is possible
+        let unmergedPlaylist = await DI.playlistRepository.findOne({
+            spotifyId: req.playlist!.spotifyId,
+            owner: req.session.user!._id.toString(),
+            isMerged: false,
+        })
+
+        if (!unmergedPlaylist) {
+            // make a copy of the playlist
+            const newPlaylist = DI.playlistRepository.create(
+                new Playlist(req.session.user!, req.playlist!.name ?? 'New playlist'),
+            )
+            newPlaylist.spotifyId = req.playlist!.spotifyId
+            newPlaylist.filters = req.playlist!.filters
+            newPlaylist.description = req.playlist!.description
+            unmergedPlaylist = newPlaylist
+            await DI.playlistRepository.persistAndFlush(newPlaylist)
+        }
+
+        // if playlist doesn't exist on spotify, create it
+        const spotifyPlaylist = await endpoint(req.session.user!.token.value).playlist(req.playlist!.spotifyId)
+        if (!spotifyPlaylist) {
+            unmergedPlaylist.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(unmergedPlaylist)
+            // update spotifyId on merged playlist too
+            req.playlist!.spotifyId = unmergedPlaylist.spotifyId
+            await DI.playlistRepository.flush()
+        }
+
+        res.sendStatus(200)
     })
 
 export default router
