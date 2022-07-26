@@ -1,10 +1,11 @@
+import type { FilterRequest } from '@playlist-dj/types'
+import { FilterType } from '@playlist-dj/types'
 import { NextFunction, Response, Router } from 'express'
 import { Request } from '../global'
 import { DI } from '../app'
 import { endpoint, getClientToken } from '../utility'
 import { Playlist } from '../entities'
 import { authentication, renewToken } from '../utility/Middleware'
-import type { FilterRequest } from '@playlist-dj/types'
 
 const router = Router()
 
@@ -237,13 +238,66 @@ router.route('/:id/filter')
 
 // prettier-ignore
 router.route('/:id/link')
+    .all(getPlaylist)
     /**
      * Link two or more playlists
-     * @param body.playlists { string[] } - Array of playlist IDs
+     * @param body.playlists { {id: string, filterType: FilterType}[] } Array of playlist ID and FilterType
      */
-    .post((req: Request, res: Response) => {
-        res.sendStatus(501)
+    .post(async (req: Request, res: Response) => {
+        if (!req.body) {
+            res.sendStatus(400)
+            return
+        }
+
+        const playlists: { id: string; filterType: FilterType }[] = req.body.playlists ?? null
+        if (!playlists || playlists.length < 2) {
+            res.sendStatus(400)
+            return
+        }
+
+        for (const item of playlists) {
+            if (item.filterType != FilterType.Playlist) {
+                res.sendStatus(400)
+                break
+            }
+            // Only user-owned playlists and unmerged playlists can be merged
+            const playlist = await DI.playlistRepository.findOne({
+                id: item.id,
+                owner: req.session.user!._id.toString(),
+            })
+            if (!playlist) {
+                res.sendStatus(400)
+                break
+            }
+        }
+
+        const playlist = DI.playlistRepository.create(new Playlist(req.session.user!, req.body.name ?? 'New playlist'))
+        playlist.filters.push(...req.body.playlists)
+        // Create a new spotify playlist
+        playlist.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(playlist)
+        await DI.playlistRepository.persistAndFlush(playlist)
+
+        // Set isMerged for all merged playlists and collect the spotify ids to remove (unfollow)
+        let spotifyPlaylistIDs: string[] = []
+        for (const item of playlists) {
+            let playlist = await DI.playlistRepository.findOne({ id: item.id })
+            if (playlist) {
+                playlist.isMerged = true
+                spotifyPlaylistIDs.push(playlist.spotifyId)
+            }
+        }
+        await DI.playlistRepository.flush()
+
+        // Remove (unfollow) spotify playlist
+        if (spotifyPlaylistIDs.length > 0) {
+            for (const id of spotifyPlaylistIDs) {
+                await endpoint(req.session.user!.token.value).playlistUnfollow(id)
+            }
+        }
+
+        res.sendStatus(200)
     })
+
     /**
      * Unlink playlists
      */
