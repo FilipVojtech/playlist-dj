@@ -54,8 +54,8 @@ export const DI = {} as {
             resave: true,
             secret: process.env.PDJ_SESSION_SECRET as string,
             cookie: {
-                secure: process.env.PRODUCITON === '1',
-                maxAge: 1000 * 60 * 60 * 24,
+                secure: false,
+                maxAge: 1000 * 60 * 60 * 24 * 7,
                 sameSite: 'lax',
             },
         })
