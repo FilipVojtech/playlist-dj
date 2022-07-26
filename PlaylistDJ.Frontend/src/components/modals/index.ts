@@ -8,6 +8,7 @@ import Modal from './Modal.svelte'
 import OkModal from './OkModal.svelte'
 import RegisterModal from './RegisterModal.svelte'
 import SpotifySearchModal from './SpotifySearchModal.svelte'
+import ShareModal from './ShareModal.svelte'
 
 export {
     ConsentModal,
@@ -20,4 +21,5 @@ export {
     OkModal,
     RegisterModal,
     SpotifySearchModal,
+    ShareModal,
 }
