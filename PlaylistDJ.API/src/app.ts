@@ -71,10 +71,12 @@ export const DI = {} as {
     DI.userRepository = DI.orm.em.getRepository(User) as EntityRepository<User>
 
     app.use('/api', apiController)
-    app.use('/pl/:code', async (req: Request, res: Response) => {
+    app.use('/p/:code([\\w\\d]{6})', async (req: Request, res: Response) => {
         const share = await DI.shareRepository.findOne({ code: req.params.code })
-        if (share) res.redirect(`#/playlist/${share.playlist.id}`)
-        else res.redirect(`/#/unknown`)
+        if (share) {
+            req.session.quickpl = { playlist: true, filters: true }
+            res.redirect(`/#/playlist/${share.playlist.id}`)
+        } else res.redirect('/#/unknown')
     })
     app.use('/login', loginController)
     app.use('/logout', (req: Request, res: Response) =>
@@ -103,9 +105,7 @@ export const DI = {} as {
         else res.sendFile(defaultFile)
     })
     app.use(express.static(`${__dirname}/../../PlaylistDJ.Frontend/public`))
-    app.get('*', (req: Request, res: Response) =>
-        res.sendFile(path.resolve(__dirname, '..', '..', 'PlaylistDJ.Frontend', 'public', 'index.html'))
-    )
+    app.get('*', (req: Request, res: Response) => res.redirect('/#/unknown'))
 })()
 
 export default app
