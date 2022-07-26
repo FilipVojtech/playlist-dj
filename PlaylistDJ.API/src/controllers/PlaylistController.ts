@@ -301,9 +301,37 @@ router.route('/:id/link')
     /**
      * Unlink playlists
      */
-    .patch((req: Request, res: Response) => {
-        res.sendStatus(501)
+    .patch(userIsOwner, async (req: Request, res: Response) => {
+        const playlists: string[] = req.body?.playlists ?? null
+        if (!playlists || playlists.length < 1 || req.playlist!.isMerged) {
+            res.sendStatus(400)
+            return
+        }
+
+        // Set isMerged to false for unmerged playlists and set follow for spotify playlists
+        for (const id of playlists) {
+            let playlist = await DI.playlistRepository.findOne({ id: id })
+            if (playlist) {
+                playlist.isMerged = false
+                await endpoint(req.session.user!.token.value).playlistFollow(playlist.spotifyId)
+            }
+            // Remove element from array by its index
+            let index = playlist!.filters.findIndex(d => d.id === id)
+            if (index > -1) {
+                req.playlist!.filters.splice(index, 1)
+            }
+        }
+        await DI.playlistRepository.flush()
+
+        if (req.playlist!.filters.length === 0) {
+            // Unfollow on spotify and delete empty merged playlist from DB
+            await endpoint(req.session.user!.token.value).playlistUnfollow(req.playlist!.spotifyId)
+            await DI.playlistRepository.removeAndFlush(req.playlist!)
+        }
+
+        res.sendStatus(200)
     })
+
     /**
      * Restore playlist
      */
