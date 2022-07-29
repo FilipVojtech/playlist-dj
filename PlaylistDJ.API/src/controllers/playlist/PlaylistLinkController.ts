@@ -80,7 +80,8 @@ router
             await DI.playlistRepository.flush()
         }
 
-        res.sendStatus(200)
+        const params = new URLSearchParams({ url: '/#/playlists' })
+        res.redirect(`/?${params}`)
     })
 
 /**
