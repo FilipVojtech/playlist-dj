@@ -67,7 +67,7 @@ router.get('/:id', getPlaylist, (req: Request, res: Response) => {
 /**
  * Get playlist filters
  */
-router.get('/:id/filter', getPlaylist, async (req: Request, res: Response) => {
+router.get('/:id/filter', getPlaylist, renewToken, async (req: Request, res: Response) => {
     if (!req.playlist) {
         res.sendStatus(404)
         return
