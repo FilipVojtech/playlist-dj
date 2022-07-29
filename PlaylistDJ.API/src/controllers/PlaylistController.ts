@@ -240,65 +240,6 @@ router.route('/:id/filter')
 router.route('/:id/link')
     .all(getPlaylist)
     /**
-     * Link two or more playlists
-     * @param body.playlists { {id: string, filterType: FilterType}[] } Array of playlist ID and FilterType
-     */
-    .post(async (req: Request, res: Response) => {
-        if (!req.body) {
-            res.sendStatus(400)
-            return
-        }
-
-        const playlists: { id: string; filterType: FilterType }[] = req.body.playlists ?? null
-        if (!playlists || playlists.length < 2) {
-            res.sendStatus(400)
-            return
-        }
-
-        for (const item of playlists) {
-            if (item.filterType != FilterType.Playlist) {
-                res.sendStatus(400)
-                break
-            }
-            // Only user-owned playlists and unmerged playlists can be merged
-            const playlist = await DI.playlistRepository.findOne({
-                id: item.id,
-                owner: req.session.user!._id.toString(),
-            })
-            if (!playlist) {
-                res.sendStatus(400)
-                break
-            }
-        }
-
-        const playlist = DI.playlistRepository.create(new Playlist(req.session.user!, req.body.name ?? 'New playlist'))
-        playlist.filters.push(...req.body.playlists)
-        // Create a new spotify playlist
-        playlist.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(playlist)
-        await DI.playlistRepository.persistAndFlush(playlist)
-
-        // Set isMerged for all merged playlists and collect the spotify ids to remove (unfollow)
-        let spotifyPlaylistIDs: string[] = []
-        for (const item of playlists) {
-            let playlist = await DI.playlistRepository.findOne({ id: item.id })
-            if (playlist) {
-                playlist.isMerged = true
-                spotifyPlaylistIDs.push(playlist.spotifyId)
-            }
-        }
-        await DI.playlistRepository.flush()
-
-        // Remove (unfollow) spotify playlist
-        if (spotifyPlaylistIDs.length > 0) {
-            for (const id of spotifyPlaylistIDs) {
-                await endpoint(req.session.user!.token.value).playlistUnfollow(id)
-            }
-        }
-
-        res.sendStatus(200)
-    })
-
-    /**
      * Unlink playlists
      */
     .patch(userIsOwner, async (req: Request, res: Response) => {
@@ -310,13 +251,13 @@ router.route('/:id/link')
 
         // Set isMerged to false for unmerged playlists and set follow for spotify playlists
         for (const id of playlists) {
-            let playlist = await DI.playlistRepository.findOne({ id: id })
+            let playlist = await DI.playlistRepository.findOne({ id })
             if (playlist) {
                 playlist.isMerged = false
                 await endpoint(req.session.user!.token.value).playlistFollow(playlist.spotifyId)
             }
             // Remove element from array by its index
-            let index = playlist!.filters.findIndex(d => d.id === id)
+            let index = req.playlist!.filters.findIndex(d => d.id === id)
             if (index > -1) {
                 req.playlist!.filters.splice(index, 1)
             }
@@ -327,6 +268,10 @@ router.route('/:id/link')
             // Unfollow on spotify and delete empty merged playlist from DB
             await endpoint(req.session.user!.token.value).playlistUnfollow(req.playlist!.spotifyId)
             await DI.playlistRepository.removeAndFlush(req.playlist!)
+
+            const params = new URLSearchParams({ url: '/#/playlists' })
+            res.redirect(`/?${params}`)
+            return
         }
 
         res.sendStatus(200)
@@ -346,7 +291,7 @@ router.route('/:id/link')
         if (!unmergedPlaylist) {
             // make a copy of the playlist
             const newPlaylist = DI.playlistRepository.create(
-                new Playlist(req.session.user!, req.playlist!.name ?? 'New playlist'),
+                new Playlist(req.session.user!, req.playlist!.name ?? 'New playlist')
             )
             newPlaylist.spotifyId = req.playlist!.spotifyId
             newPlaylist.filters = req.playlist!.filters
@@ -366,5 +311,59 @@ router.route('/:id/link')
 
         res.sendStatus(200)
     })
+
+/**
+ * Link two or more playlists
+ * @param body.playlists { {id: string, filterType: FilterType}[] } Array of playlist ID and FilterType
+ */
+router.post('/link', renewToken, async (req: Request, res: Response) => {
+    const playlists: SearchFilter[] = req.body.playlists ?? null
+    if (!playlists || playlists.length < 2) {
+        res.sendStatus(400)
+        return
+    }
+
+    for (const item of playlists) {
+        if (item.type !== FilterType.Playlist) {
+            res.sendStatus(400)
+            break
+        }
+        // Only user-owned playlists and unmerged playlists can be merged
+        const playlist = await DI.playlistRepository.findOne({
+            id: item.id,
+            // owner: req.session.user,
+        })
+        if (!playlist) {
+            res.sendStatus(400)
+            break
+        }
+    }
+
+    const playlist = DI.playlistRepository.create(new Playlist(req.session.user!, req.body.name ?? 'New playlist'))
+    playlist.filters.push(...req.body.playlists)
+    // Create a new spotify playlist
+    playlist.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(playlist)
+    await DI.playlistRepository.persistAndFlush(playlist)
+
+    // Set isMerged for all merged playlists and collect the spotify ids to remove (unfollow)
+    let spotifyPlaylistIDs: string[] = []
+    for (const item of playlists) {
+        let playlist = await DI.playlistRepository.findOne({ id: item.id })
+        if (playlist) {
+            playlist.isMerged = true
+            spotifyPlaylistIDs.push(playlist.spotifyId)
+        }
+    }
+    await DI.playlistRepository.flush()
+
+    // Remove (unfollow) spotify playlist
+    if (spotifyPlaylistIDs.length > 0) {
+        for (const id of spotifyPlaylistIDs) {
+            await endpoint(req.session.user!.token.value).playlistUnfollow(id)
+        }
+    }
+
+    res.sendStatus(200)
+})
 
 export default router
