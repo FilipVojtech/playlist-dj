@@ -101,17 +101,40 @@ router.use(authentication)
 // prettier-ignore
 router.route('/')
     .get(renewToken, async (req: Request, res: Response) => {
-        if (req.query.src && req.query.src === 'spotify') {
-            res.json(await endpoint(req.session.user!.token.value).ownedPlaylists(req.session.user!.profile.spotifyId))
-        } else if (req.query.src && req.query.src === 'pinned') {
-            res.json(
-                await DI.playlistRepository.find({
+        switch (req.query.src) {
+            case 'spotify':
+                res.json(
+                    await endpoint(req.session.user!.token.value).ownedPlaylists(req.session.user!.profile.spotifyId),
+                )
+                break
+            case 'pinned':
+                res.json(
+                    await DI.playlistRepository.find({
+                        owner: req.session.user!._id.toString(),
+                        isPinned: true,
+                        isMerged: false,
+                    }),
+                )
+                break
+            case 'link':
+                let playlists = await DI.playlistRepository.find({
                     owner: req.session.user!._id.toString(),
-                    isPinned: true,
+                    isMerged: false,
                 })
-            )
-        } else {
-            res.json(await DI.playlistRepository.find({ owner: req.session.user!._id.toString() }))
+                res.json(
+                    playlists.filter(
+                        value => value.filters.findIndex(value1 => value1.type === FilterType.Playlist) === -1,
+                    ),
+                )
+                break
+            default:
+                res.json(
+                    await DI.playlistRepository.find({
+                        owner: req.session.user!._id.toString(),
+                        isMerged: false,
+                    }),
+                )
+                break
         }
     })
     //<editor-fold desc="Import playlist with analysis and Filters | On hold for now">
