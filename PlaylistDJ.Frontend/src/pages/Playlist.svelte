@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { FilterType, PDJ } from '@playlist-dj/types'
-    import { FilterList, Header } from '../components'
+    import { FilterList, Header, Option } from '../components'
     import { EditPlaylistDetailsModal, Modal, OkModal, ShareModal, SpotifySearchModal } from '../components/modals'
     import { afterUpdate, onDestroy, onMount } from 'svelte'
     import { modalEvent, searchResult, showNav, user } from '../utility/stores'
@@ -193,44 +193,34 @@
                     <div class="title__description">{description}</div>
                 </div>
             </div>
-            <div class="playlist__actions__wrapper">
-                <div class="playlist__actions scroll-shadows">
+            <div class="menu-bar__wrapper">
+                <div class="menu-bar">
                     {#if isEditing}
                         {#await filtersData then { playlists }}
-                            <div
-                                on:click={() =>
+                            <Option
+                                main
+                                iconLeft={PlusIcon}
+                                title={$_('page.playlist.addFilter')}
+                                on:click={() => {
                                     playlists.items.length === 0
                                         ? openModal(SpotifySearchModal)
-                                        : openModal(OkModal, { message: $_('page.playlist.addFilterToLinked') })}
-                                class="actions__action actions__action--main item--interactive"
-                            >
-                                <span class="action__icon action__icon--left"><PlusIcon /></span>
-                                {$_('page.playlist.addFilter')}
-                            </div>
+                                        : openModal(OkModal, { message: $_('page.playlist.addFilterToLinked') })
+                                }}
+                            />
                         {/await}
-                        <div
+                        <Option
+                            title={$_('page.playlist.editDetails')}
                             on:click={() => openModal(EditPlaylistDetailsModal, { id: params.id, name, description })}
-                            class="actions__action item--interactive"
-                        >
-                            {$_('page.playlist.editDetails')}
-                        </div>
+                        />
                         <!--todo: Allow user to change picture-->
-                        <!--<div-->
+                        <!--<PlaylistAction-->
                         <!--    on:click={() => openModal(EditPlaylistPictureModal)}-->
-                        <!--    class="actions__action item&#45;&#45;interactive"-->
-                        <!-- >-->
-                        <!--    {$_('page.playlist.editPhoto')}-->
-                        <!--</div>-->
+                        <!--    title={$_('page.playlist.editPhoto')}-->
+                        <!--/>-->
                     {/if}
                     {#if !isEditing && $user && $user.spotifyId === owner.profile.spotifyId}
-                        <div
-                            on:click={() => push(`/playlist/${params.id}/edit`)}
-                            class="actions__action item--interactive"
-                        >
-                            {$_('page.playlist.edit')}
-                        </div>
-                        <div
-                            class="actions__action item--interactive"
+                        <Option title={$_('page.playlist.edit')} on:click={() => push(`/playlist/${params.id}/edit`)} />
+                        <Option
                             on:click={async () => {
                                 await aport(`/api/playlist/${params.id}`, { method: 'SUBSCRIBE' })
                                 getPlaylist()
@@ -241,31 +231,19 @@
                             {:else}
                                 {$_('page.playlist.pin')}
                             {/if}
-                        </div>
-                        <div
-                            class="actions__action item--interactive"
-                            on:click={() => openModal(ShareModal, { playlistId: params.id })}
-                        >
+                        </Option>
+                        <Option on:click={() => openModal(ShareModal, { playlistId: params.id })}>
                             {$_('page.playlist.share')}
-                        </div>
+                        </Option>
                     {/if}
                     {#if !isEditing}
                         {#if isPublic}
-                            <div
-                                class="actions__action item--interactive"
-                                on:click={() => copyToClipboard(window.location.href)}
-                            >
+                            <Option on:click={() => copyToClipboard(window.location.href)}>
                                 {$_('page.playlist.copyLink')}
-                            </div>
+                            </Option>
                         {/if}
-                        <!--&lt;!&ndash;<editor-fold desc="Playlist taste | On hold">&ndash;&gt;-->
-                        <!--<div class="actions__action item&#45;&#45;interactive">-->
-                        <!--    {$_('page.playlist.taste')}-->
-                        <!--    <span class="action__icon action__icon&#45;&#45;right">-->
-                        <!--        <PlayIcon />-->
-                        <!--    </span>-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash;</editor-fold>&ndash;&gt;-->
+                        <!--todo: Playlist taste-->
+                        <!--<Option iconRight={PlayIcon} title={$_('page.playlist.taste')} />-->
                     {/if}
                 </div>
             </div>
@@ -337,7 +315,7 @@
         font-size: 20px;
     }
 
-    .playlist__actions__wrapper {
+    .menu-bar__wrapper {
         display: flex;
         flex-flow: row nowrap;
         white-space: nowrap;
@@ -355,7 +333,7 @@
         scrollbar-width: thin;
     }
 
-    .playlist__actions {
+    .menu-bar {
         display: flex;
         flex-flow: row nowrap;
         white-space: nowrap;
@@ -364,64 +342,11 @@
         padding: 5px;
     }
 
-    .playlist__actions > * {
-        margin-right: 5px;
-    }
-
-    .playlist__actions > *:last-child {
-        margin-right: 0;
-    }
-
-    .actions__action {
-        display: flex;
-        flex-flow: row nowrap;
-        white-space: nowrap;
-
-        padding: 3px 7px;
-        border-radius: 20px;
-        font-size: 18px;
-        background-color: var(--lighter-bg);
-        margin-right: 5px;
-    }
-
-    .actions__action:last-child {
-        margin-right: 0;
-    }
-
-    .actions__action--main {
-        background-color: var(--main);
-    }
-
-    .action__icon {
-        width: 1em;
-        aspect-ratio: 1 / 1;
-    }
-
-    /*noinspection CssUnusedSymbol*/
-    .action__icon--left {
-        margin-right: 5px;
-    }
-
-    /*noinspection CssUnusedSymbol*/
-    .action__icon--right {
-        margin-left: 5px;
-    }
-
     @media screen and (min-width: 640px) {
-        .playlist__actions__wrapper {
+        .menu-bar__wrapper {
             top: 5px;
             width: 100%;
             transform: none;
-        }
-
-        .playlist__actions {
-            /*border-left: 2px solid white;*/
-            /*border-right: 2px solid white;*/
-            /*border: 5px solid var(--main-bg);*/
-        }
-
-        .actions__action {
-            font-size: 22px;
         }
     }
 
