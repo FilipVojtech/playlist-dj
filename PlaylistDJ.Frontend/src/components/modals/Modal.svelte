@@ -5,7 +5,7 @@
 
     export let isOpen: boolean
     export let title: string = ''
-    export let message: string
+    export let message: string = ''
     export let actions: ModalAction[] = []
 </script>
 
