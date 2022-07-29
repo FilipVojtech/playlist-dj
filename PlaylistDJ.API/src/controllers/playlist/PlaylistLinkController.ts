@@ -52,11 +52,10 @@ router
     /**
      * Restore playlist
      */
-    .unlock(userIsOwner, async (req: Request, res: Response) => {
+    .unlock(userIsOwner, renewToken, async (req: Request, res: Response) => {
         // try to find a non-merged playlist with the same owner and spotify ID - only one restore is possible
         let unmergedPlaylist = await DI.playlistRepository.findOne({
             spotifyId: req.playlist!.spotifyId,
-            owner: req.session.user!._id.toString(),
             isMerged: false,
         })
 
@@ -124,6 +123,7 @@ router.post('/link', renewToken, async (req: Request, res: Response) => {
         if (playlist) {
             playlist.isMerged = true
             spotifyPlaylistIDs.push(playlist.spotifyId)
+            playlist.spotifyId = ''
         }
     }
     await DI.playlistRepository.flush()
