@@ -153,6 +153,7 @@ a {
     cursor: pointer;
     flex-grow: 1;
     font-size: 16px;
+    -webkit-appearance: none;
 }
 
 .item__actions__action:first-child {
@@ -284,6 +285,7 @@ a {
     border: none;
     font-size: 16px;
     cursor: pointer;
+    -webkit-appearance: none;
 }
 
 .actions__button--inactive {
