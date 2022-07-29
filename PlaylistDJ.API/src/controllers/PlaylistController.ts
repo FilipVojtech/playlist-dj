@@ -206,6 +206,13 @@ router.route('/:id')
      * Delete playlist
      */
     .delete(async (req: Request, res: Response) => {
+        // Remove the playlists from linked playlists
+        const linked = await DI.playlistRepository.findOne({ filters: { $elemMatch: { id: req.playlist!.id } } as any })
+        linked?.filters.splice(
+            linked.filters.findIndex(value => value.id === req.playlist!.id),
+            1,
+        )
+        if (linked?.filters.length === 0) DI.playlistRepository.remove(linked)
         // Remove posts with this playlist
         const posts = await DI.postRepository.find({ playlist: req.playlist! })
         posts.forEach(value => DI.postRepository.remove(value))
