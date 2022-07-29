@@ -51,6 +51,7 @@ export namespace PDJ {
     }
 
     export interface FilterList {
+        playlists?: { items: Playlist[] }
         artists?: { items: Artist[] }
         albums?: { items: Album[] }
         tracks?: { items: Track[] }
