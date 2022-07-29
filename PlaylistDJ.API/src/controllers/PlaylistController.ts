@@ -7,7 +7,6 @@ import { authentication, getPlaylist, renewToken, userIsOwner } from '../utility
 import { PlaylistLinkController } from './playlist'
 import { endpoint, generateRandomString, getClientToken } from '../utility'
 import { Playlist, Share } from '../entities'
-import type { FilterRequest } from '@playlist-dj/types'
 
 const router = Router()
 
@@ -260,7 +259,7 @@ router.route('/:id/filter')
 /**
  * Get share code for playlist
  */
- // prettier-ignore
+// prettier-ignore
 router.route('/:id/share')
     .all(getPlaylist, userIsOwner)
     .get(async (req: Request, res: Response) => {
