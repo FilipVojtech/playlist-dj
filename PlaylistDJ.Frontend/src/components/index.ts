@@ -11,6 +11,7 @@ import Post from './Post.svelte'
 import FilterImg from './FilterImg.svelte'
 import Filter from './Filter.svelte'
 import External from './External.svelte'
+import Option from './Option.svelte'
 
 export {
     Navigation,
@@ -26,4 +27,5 @@ export {
     FilterImg,
     Filter,
     External,
+    Option,
 }
