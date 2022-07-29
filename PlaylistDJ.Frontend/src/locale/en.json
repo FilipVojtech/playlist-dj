@@ -1,6 +1,6 @@
 {
   "app": {
-    "actions": "Actions",
+    "actions": "Options",
     "add": "Add",
     "back": "Back",
     "cancel": "Cancel",
@@ -90,6 +90,16 @@
       "register": "Register",
       "title": "Login"
     },
+    "merge": {
+      "choosePlaylist": "Choose a playlist",
+      "noPlaylists": "No playlists found",
+      "selectedPlaylists": "Selected playlists",
+      "playlists": "Playlists",
+      "title": "Merge playlists",
+      "merge": "Merge",
+      "playlistName": "Playlist name",
+      "newPlaylistName": "New playlist name"
+    },
     "register": {
       "consent": {
         "1": "Agree with",
@@ -126,7 +136,8 @@
       "returnToPlaylists": "Return to playlists page"
     },
     "playlist": {
-      "addFilter": "Add fitler",
+      "addFilter": "Add filter",
+      "addFilterToLinked": "Filters cannot be added to linked playlist",
       "copyLink": "Copy link",
       "edit": "Edit",
       "editDetails": "Edit details",
@@ -134,7 +145,8 @@
       "editTitle": "Editing playlist",
       "more": {
         "addUser": "Invite users to collaborate",
-        "delete": "Delete playlist"
+        "delete": "Delete playlist",
+        "unlink": "Unlink playlists"
       },
       "pin": "Pin",
       "privatePlaylist": "This playlist is private",
@@ -148,7 +160,8 @@
       "error": "Name cannot be empty",
       "more": {
         "importM3U": "Import m3u file",
-        "importPlaylist": "Import Spotify playlist"
+        "importPlaylist": "Import Spotify playlist",
+        "mergePlaylists": "Merge playlists"
       },
       "newPlaylist": "New playlist",
       "title": "Playlists"

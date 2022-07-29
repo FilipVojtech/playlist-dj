@@ -5,7 +5,9 @@
     import Filter from './Filter.svelte'
     import { artistListFromArray } from '../utility'
     import { _ } from 'svelte-i18n'
-    import { AlignJustifyIcon, DiscIcon, ListIcon, UserIcon } from 'svelte-feather-icons'
+    import { AlignJustifyIcon, CopyIcon, DiscIcon, ListIcon, Maximize2Icon, UserIcon } from 'svelte-feather-icons'
+    import { push } from 'svelte-spa-router'
+    import { createEventDispatcher } from 'svelte'
 
     export let data: Spotify.SearchResults
     export let actions: { icon; onClick: Function }[] = []
@@ -13,6 +15,9 @@
     export let slim: boolean = false
     export let half: boolean = false
     export let interactive: boolean = false
+    export let forPlaylistId: string = ''
+
+    const dispatch = createEventDispatcher()
 
     async function loadMore(link) {
         let results: Spotify.SearchResults = await aport(`/api/search?${new URLSearchParams({ url: link }).toString()}`)
@@ -49,18 +54,36 @@
             <div
                 class="filter-wrapper"
                 class:item--half={half}
-                on:click={() => onItemClick({ id, type: FilterType.Playlist })}
+                on:click={actions.length > 0 ? onItemClick : () => push(`/playlist/${id}`)}
             >
                 <Filter
                     {name}
                     {images}
                     {id}
                     type={FilterType.Playlist}
-                    {actions}
+                    actions={actions.length > 0
+                        ? [
+                              {
+                                  icon: Maximize2Icon,
+                                  onClick: async () => {
+                                      await aport(`/api/playlist/${forPlaylistId}/link`, {
+                                          method: 'PATCH',
+                                          headers: { 'Content-Type': 'application/json' },
+                                          body: JSON.stringify({ playlists: [id] }),
+                                      })
+                                      dispatch('unlink')
+                                  },
+                              }, // Unlink
+                              {
+                                  icon: CopyIcon,
+                                  onClick: async () => await aport(`/api/playlist/${id}/link`, { method: 'UNLOCK' }),
+                              }, // Restore
+                          ]
+                        : []}
                     altSubject={$_('component.filterList.playlist').toLowerCase()}
                     placeholderIcon={ListIcon}
                     {slim}
-                    interactive={interactive || actions.length > 0}
+                    interactive
                 />
             </div>
         {/each}

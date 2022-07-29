@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { FilterType, PDJ } from '@playlist-dj/types'
     import { FilterList, Header } from '../components'
-    import { EditPlaylistDetailsModal, Modal, ShareModal, SpotifySearchModal } from '../components/modals'
+    import { EditPlaylistDetailsModal, Modal, OkModal, ShareModal, SpotifySearchModal } from '../components/modals'
     import { afterUpdate, onDestroy, onMount } from 'svelte'
     import { modalEvent, searchResult, showNav, user } from '../utility/stores'
     import { _ } from 'svelte-i18n'
@@ -50,10 +50,24 @@
     }
 
     async function actions() {
+        const playlistItems = (await filtersData)?.playlists.items.map(value => value.id) as PDJ.Playlist[]
         openModal(Modal, {
             title: $_('app.actions'),
             message: '',
             actions: [
+                new ModalAction(
+                    $_('page.playlist.more.unlink'),
+                    async () => {
+                        await aport(`/api/playlist/${params.id}/link`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ playlists: playlistItems }),
+                        })
+                        closeModals()
+                        await push('/playlists')
+                    },
+                    playlistItems.length > 0
+                ),
                 new ModalAction($_('page.playlist.more.delete'), () => {
                     closeModals()
                     openModal(Modal, {
@@ -84,8 +98,6 @@
 
     onMount(() => {
         $showNav = false
-        getPlaylist()
-        getFilters()
     })
     afterUpdate(async () => {
         const playlist: any = await data
@@ -111,6 +123,12 @@
     $: if ($modalEvent === 'detailsChange') {
         $modalEvent = ''
         getPlaylist()
+    }
+
+    // Reload playlist whenever ID changes
+    $: if (params.id) {
+        getPlaylist()
+        getFilters()
     }
 </script>
 
@@ -178,13 +196,18 @@
             <div class="playlist__actions__wrapper">
                 <div class="playlist__actions scroll-shadows">
                     {#if isEditing}
-                        <div
-                            on:click={() => openModal(SpotifySearchModal)}
-                            class="actions__action actions__action--main item--interactive"
-                        >
-                            <span class="action__icon action__icon--left"><PlusIcon /></span>
-                            {$_('page.playlist.addFilter')}
-                        </div>
+                        {#await filtersData then { playlists }}
+                            <div
+                                on:click={() =>
+                                    playlists.items.length === 0
+                                        ? openModal(SpotifySearchModal)
+                                        : openModal(OkModal, { message: $_('page.playlist.addFilterToLinked') })}
+                                class="actions__action actions__action--main item--interactive"
+                            >
+                                <span class="action__icon action__icon--left"><PlusIcon /></span>
+                                {$_('page.playlist.addFilter')}
+                            </div>
+                        {/await}
                         <div
                             on:click={() => openModal(EditPlaylistDetailsModal, { id: params.id, name, description })}
                             class="actions__action item--interactive"
@@ -252,7 +275,13 @@
                 </div>
             {:then data}
                 <div class="playlist__filters">
-                    <FilterList half {data} actions={isEditing ? [{ icon: TrashIcon, onClick: removeFilter }] : []} />
+                    <FilterList
+                        forPlaylistId={params.id}
+                        half
+                        {data}
+                        actions={isEditing ? [{ icon: TrashIcon, onClick: removeFilter }] : []}
+                        on:unlink={getFilters}
+                    />
                 </div>
             {/await}
         </div>
@@ -352,6 +381,11 @@
         border-radius: 20px;
         font-size: 18px;
         background-color: var(--lighter-bg);
+        margin-right: 5px;
+    }
+
+    .actions__action:last-child {
+        margin-right: 0;
     }
 
     .actions__action--main {

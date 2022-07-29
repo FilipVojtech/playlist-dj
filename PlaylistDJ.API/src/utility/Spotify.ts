@@ -2,6 +2,7 @@ import got from 'got'
 import { DI } from '../app'
 import { Playlist, Profile, User } from '../entities'
 import type { PDJ, SearchFilter, Spotify } from '@playlist-dj/types'
+import { FilterType } from '@playlist-dj/types'
 import { artistsFromSpotifyArtists, snakeToCamelCase } from './index'
 import { Album, Artist, Token, Track } from '../Classes'
 
@@ -509,29 +510,35 @@ export function endpoint(token: string) {
 
         async filtersToFilterList(filters: SearchFilter[]): Promise<PDJ.FilterList> {
             let result = {
+                playlists: { items: [] },
                 artists: { items: [] },
                 albums: { items: [] },
                 tracks: { items: [] },
                 length: 0,
             } as PDJ.FilterList
+            let playlists: string[] = []
             let artists: string[] = []
             let albums: string[] = []
             let tracks: string[] = []
 
             for (const { type, id } of filters) {
                 switch (type) {
-                    case 'artist':
+                    case FilterType.Playlist:
+                        playlists.push(id)
+                        break
+                    case FilterType.Artist:
                         artists.push(id)
                         break
-                    case 'album':
+                    case FilterType.Album:
                         albums.push(id)
                         break
-                    case 'track':
+                    case FilterType.Track:
                         tracks.push(id)
                         break
                 }
                 result.length++
             }
+            if (playlists.length > 0) result.playlists!.items = await DI.playlistRepository.find({ id: playlists })
             if (artists.length > 0) result.artists!.items = await this.artists(artists)
             if (albums.length > 0) result.albums!.items = await this.albums(albums)
             if (tracks.length > 0) result.tracks!.items = await this.tracks(tracks)

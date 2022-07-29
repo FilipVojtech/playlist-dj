@@ -90,6 +90,16 @@
       "register": "Registrovat se",
       "title": "Přihlášení"
     },
+    "merge": {
+      "choosePlaylist": "Vyberte playlist",
+      "noPlaylists": "Žádné playlisty nenalezeny",
+      "selectedPlaylists": "Vybrané playlisty",
+      "playlists": "Playlisty",
+      "title": "Sloučit playlisty",
+      "merge": "Sloučit",
+      "playlistName": "Název playlistu",
+      "newPlaylistName": "Název nového playlistu"
+    },
     "register": {
       "consent": {
         "1": "Souhlasím se",
@@ -127,6 +137,7 @@
     },
     "playlist": {
       "addFilter": "Přidat filtr",
+      "addFilterToLinked": "Nelze přidat filtry do spojeného playlistu",
       "copyLink": "Zkopírovat odkaz",
       "edit": "Upravit",
       "editDetails": "Upravit detaily",
@@ -134,7 +145,8 @@
       "editTitle": "Upravování playlistu",
       "more": {
         "addUser": "Pozvat uživatele ke kolaboraci",
-        "delete": "Odstranit playlist"
+        "delete": "Odstranit playlist",
+        "unlink": "Rozpojit playlisty"
       },
       "pin": "Připnout",
       "privatePlaylist": "Tento playlist je soukromý",
@@ -148,7 +160,8 @@
       "error": "Název playlistu nesmí být prázdný",
       "more": {
         "importM3U": "Nahrát playlist z m3u souboru",
-        "importPlaylist": "Nahrát playlist ze Spotify"
+        "importPlaylist": "Nahrát playlist ze Spotify",
+        "mergePlaylists": "Spojit playlisty"
       },
       "newPlaylist": "Nový playlist",
       "title": "Playlisty"

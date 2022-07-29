@@ -8,6 +8,7 @@ import Modal from './Modal.svelte'
 import OkModal from './OkModal.svelte'
 import RegisterModal from './RegisterModal.svelte'
 import SpotifySearchModal from './SpotifySearchModal.svelte'
+import MergePlaylistsModal from './MergePlaylistsModal.svelte'
 import ShareModal from './ShareModal.svelte'
 
 export {
@@ -21,5 +22,6 @@ export {
     OkModal,
     RegisterModal,
     SpotifySearchModal,
+    MergePlaylistsModal,
     ShareModal,
 }

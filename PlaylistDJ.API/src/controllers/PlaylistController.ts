@@ -1,31 +1,17 @@
-import { NextFunction, Response, Router } from 'express'
+import type { FilterRequest } from '@playlist-dj/types'
+import { FilterType } from '@playlist-dj/types'
+import { Response, Router } from 'express'
 import { Request } from '../global'
 import { DI } from '../app'
+import { authentication, getPlaylist, renewToken, userIsOwner } from '../utility/Middleware'
+import { PlaylistLinkController } from './playlist'
 import { endpoint, generateRandomString, getClientToken } from '../utility'
 import { Playlist, Share } from '../entities'
-import { authentication, renewToken } from '../utility/Middleware'
 import type { FilterRequest } from '@playlist-dj/types'
 
 const router = Router()
 
-async function userIsOwner(req: Request, res: Response, next: NextFunction) {
-    if (req.playlist!.owner._id.toString() !== req.session.user!._id.toString()) res.sendStatus(403)
-    else next()
-}
-
-async function getPlaylist(req: Request, res: Response, next: NextFunction) {
-    if (!req.params.id) {
-        res.sendStatus(400)
-        return
-    }
-
-    const playlist = await DI.playlistRepository.findOne({ id: req.params.id }, { populate: true })
-
-    if (playlist) {
-        req.playlist = playlist
-        next()
-    } else res.sendStatus(404)
-}
+router.use(PlaylistLinkController)
 
 router.get('/:id', getPlaylist, (req: Request, res: Response) => {
     if (req.session.quickpl?.playlist) {
@@ -64,7 +50,13 @@ router.get('/:id', getPlaylist, (req: Request, res: Response) => {
 /**
  * Get playlist filters
  */
-router.get('/:id/filter', getPlaylist, async (req: Request, res: Response) => {
+
+router.get('/:id/filter', getPlaylist, renewToken, async (req: Request, res: Response) => {
+    if (!req.playlist) {
+        res.sendStatus(404)
+        return
+    }
+
     if (req.session.quickpl?.filters) {
         req.session.quickpl.filters = false
         res.json(await endpoint(await getClientToken()).filtersToFilterList(req.playlist!.filters))
@@ -97,17 +89,40 @@ router.use(authentication)
 // prettier-ignore
 router.route('/')
     .get(renewToken, async (req: Request, res: Response) => {
-        if (req.query.src && req.query.src === 'spotify') {
-            res.json(await endpoint(req.session.user!.token.value).ownedPlaylists(req.session.user!.profile.spotifyId))
-        } else if (req.query.src && req.query.src === 'pinned') {
-            res.json(
-                await DI.playlistRepository.find({
+        switch (req.query.src) {
+            case 'spotify':
+                res.json(
+                    await endpoint(req.session.user!.token.value).ownedPlaylists(req.session.user!.profile.spotifyId),
+                )
+                break
+            case 'pinned':
+                res.json(
+                    await DI.playlistRepository.find({
+                        owner: req.session.user!._id.toString(),
+                        isPinned: true,
+                        isMerged: false,
+                    }),
+                )
+                break
+            case 'link':
+                let playlists = await DI.playlistRepository.find({
                     owner: req.session.user!._id.toString(),
-                    isPinned: true,
+                    isMerged: false,
                 })
-            )
-        } else {
-            res.json(await DI.playlistRepository.find({ owner: req.session.user!._id.toString() }))
+                res.json(
+                    playlists.filter(
+                        value => value.filters.findIndex(value1 => value1.type === FilterType.Playlist) === -1,
+                    ),
+                )
+                break
+            default:
+                res.json(
+                    await DI.playlistRepository.find({
+                        owner: req.session.user!._id.toString(),
+                        isMerged: false,
+                    }),
+                )
+                break
         }
     })
     //<editor-fold desc="Import playlist with analysis and Filters | On hold for now">
@@ -179,6 +194,13 @@ router.route('/:id')
      * Delete playlist
      */
     .delete(async (req: Request, res: Response) => {
+        // Remove the playlists from linked playlists
+        const linked = await DI.playlistRepository.findOne({ filters: { $elemMatch: { id: req.playlist!.id } } as any })
+        linked?.filters.splice(
+            linked.filters.findIndex(value => value.id === req.playlist!.id),
+            1,
+        )
+        if (linked?.filters.length === 0) DI.playlistRepository.remove(linked)
         // Remove posts with this playlist
         const posts = await DI.postRepository.find({ playlist: req.playlist! })
         posts.forEach(value => DI.postRepository.remove(value))
@@ -238,8 +260,8 @@ router.route('/:id/filter')
 /**
  * Get share code for playlist
  */
-router
-    .route('/:id/share')
+ // prettier-ignore
+router.route('/:id/share')
     .all(getPlaylist, userIsOwner)
     .get(async (req: Request, res: Response) => {
         const share = await DI.shareRepository.findOne({ playlist: req.playlist })
