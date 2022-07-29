@@ -15,7 +15,6 @@
     const onSubmit = () =>
         aport('/api/user/communication', {
             method: 'post',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(communicationSettings),
         })
             .then(value => value.json())

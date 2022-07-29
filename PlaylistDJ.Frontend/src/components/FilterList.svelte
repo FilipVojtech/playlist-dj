@@ -68,7 +68,6 @@
                                   onClick: async () => {
                                       await aport(`/api/playlist/${forPlaylistId}/link`, {
                                           method: 'PATCH',
-                                          headers: { 'Content-Type': 'application/json' },
                                           body: JSON.stringify({ playlists: [id] }),
                                       })
                                       dispatch('unlink')

@@ -35,7 +35,6 @@
         selectedPlaylists.forEach(value => delete value.name)
         await aport(`/api/playlist/link`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: playlistName, playlists: selectedPlaylists }),
         })
         $modalEvent = 'playlistMerge'

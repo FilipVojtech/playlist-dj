@@ -60,7 +60,6 @@
                     async () => {
                         await aport(`/api/playlist/${params.id}/link`, {
                             method: 'PATCH',
-                            headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ playlists: playlistItems }),
                         })
                         closeModals()
@@ -90,7 +89,6 @@
     async function removeFilter(id: { id: string; type: FilterType }) {
         await aport(`/api/playlist/${params.id}/filter`, {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify([id]),
         })
         getFilters()
@@ -111,7 +109,6 @@
     $: if ($searchResult && $searchResult!.id) {
         aport(`/api/playlist/${params.id}/filter`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify([$searchResult]),
         }).then(() => {
             // noinspection TypeScriptValidateTypes

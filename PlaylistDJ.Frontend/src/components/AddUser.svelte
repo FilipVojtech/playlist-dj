@@ -27,7 +27,6 @@
     async function addUser() {
         await aport(`/api/playlist/${playlistId}/collaborate`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(canEdit ? { canEdit: [email] } : { canView: [email] }),
         })
         isEditing = false
