@@ -3,6 +3,7 @@ export * from './Playlist'
 export * from './Post'
 export * from './Profile'
 export * from './User'
+export * from './Share'
 
 // export enum UpdateFrequency {
 //     Disabled = 0,

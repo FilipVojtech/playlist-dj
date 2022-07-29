@@ -4,6 +4,7 @@
     "add": "Přidat",
     "back": "Zpět",
     "cancel": "Zrušit",
+    "close": "Zavřít",
     "continue": "Pokračovat",
     "create": "Vytvořit",
     "description": "Spravujte Spotify playlisty s lehkostí",
@@ -111,6 +112,16 @@
     },
     "search": {
       "placeholder": "Vyhledat na Spotify"
+    },
+    "share": {
+      "copyPrivate": "Kopírovat soukromý odkaz",
+      "copyPublic": "Zkopírovat odkaz",
+      "message": "POZN.: Pokud s někým sdílíte odkaz na playlist označený jako soukromý, tato osoba ho nebude schopna zobrazit.",
+      "privateLink": "Soukromý odkaz",
+      "privateMessage": "Soukromý odkaz umožňuje zobrazit playlist, i když je nastavený jako soukromý.",
+      "publicLink": "Odkaz na playlist",
+      "resetPrivate": "Obnovit soukromý odkaz",
+      "title": "Sdílet playlist"
     }
   },
   "page": {
@@ -121,11 +132,13 @@
     "notFound": {
       "goBack": "Jít o stránku zpět",
       "notFound": "Nenalezeno",
-      "returnHome": "Vrátit se na playlisty"
+      "returnHome": "Vrátit se na hlavní stránku",
+      "returnToPlaylists": "Vrátit se na playlisty"
     },
     "playlist": {
       "addFilter": "Přidat filtr",
       "addFilterToLinked": "Nelze přidat filtry do spojeného playlistu",
+      "copyLink": "Zkopírovat odkaz",
       "edit": "Upravit",
       "editDetails": "Upravit detaily",
       "editPhoto": "Změnit obrázek",
@@ -137,7 +150,7 @@
       },
       "pin": "Připnout",
       "privatePlaylist": "Tento playlist je soukromý",
-      "share": "Zkopírovat odkaz",
+      "share": "Sdílet",
       "taste": "Ochutnat playlist",
       "title": "Playlist",
       "tryLogIn": "Můžete se zkusit přihlásit",

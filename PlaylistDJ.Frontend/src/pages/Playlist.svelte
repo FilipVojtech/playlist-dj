@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { FilterType, PDJ } from '@playlist-dj/types'
     import { FilterList, Header } from '../components'
-    import { EditPlaylistDetailsModal, Modal, OkModal, SpotifySearchModal } from '../components/modals'
+    import { EditPlaylistDetailsModal, Modal, OkModal, ShareModal, SpotifySearchModal } from '../components/modals'
     import { afterUpdate, onDestroy, onMount } from 'svelte'
     import { modalEvent, searchResult, showNav, user } from '../utility/stores'
     import { _ } from 'svelte-i18n'
@@ -144,7 +144,7 @@
     <div class="loader">
         <LoaderIcon size="100" />
     </div>
-{:then { status, images, name, description, isPinned, owner }}
+{:then { status, images, name, description, isPinned, owner, isPublic }}
     {#if status && status === 404}
         <NotFound />
     {:else if status === 403}
@@ -242,14 +242,22 @@
                                 {$_('page.playlist.pin')}
                             {/if}
                         </div>
-                    {/if}
-                    {#if !isEditing}
                         <div
                             class="actions__action item--interactive"
-                            on:click={() => copyToClipboard(window.location.href)}
+                            on:click={() => openModal(ShareModal, { playlistId: params.id })}
                         >
                             {$_('page.playlist.share')}
                         </div>
+                    {/if}
+                    {#if !isEditing}
+                        {#if isPublic}
+                            <div
+                                class="actions__action item--interactive"
+                                on:click={() => copyToClipboard(window.location.href)}
+                            >
+                                {$_('page.playlist.copyLink')}
+                            </div>
+                        {/if}
                         <!--&lt;!&ndash;<editor-fold desc="Playlist taste | On hold">&ndash;&gt;-->
                         <!--<div class="actions__action item&#45;&#45;interactive">-->
                         <!--    {$_('page.playlist.taste')}-->

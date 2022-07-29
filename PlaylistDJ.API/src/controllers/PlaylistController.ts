@@ -3,31 +3,33 @@ import { FilterType } from '@playlist-dj/types'
 import { Response, Router } from 'express'
 import { Request } from '../global'
 import { DI } from '../app'
-import { endpoint, getClientToken } from '../utility'
-import { Playlist } from '../entities'
 import { authentication, getPlaylist, renewToken, userIsOwner } from '../utility/Middleware'
 import { PlaylistLinkController } from './playlist'
+import { endpoint, generateRandomString, getClientToken } from '../utility'
+import { Playlist, Share } from '../entities'
+import type { FilterRequest } from '@playlist-dj/types'
 
 const router = Router()
 
 router.use(PlaylistLinkController)
 
 router.get('/:id', getPlaylist, (req: Request, res: Response) => {
-    if (!req.playlist) {
-        res.sendStatus(404)
-        return
-    }
-    // Now playlist exists
-
-    if (req.playlist.isPublic) {
+    if (req.session.quickpl?.playlist) {
+        req.session.quickpl.playlist = false
         // @ts-ignore
         delete req.playlist.filters
         res.json(req.playlist)
         return
     }
-    // Now playlists is private
 
-    if (req.session.user?._id.toString() !== req.playlist.owner._id.toString()) {
+    if (req.playlist!.isPublic) {
+        // @ts-ignore
+        delete req.playlist.filters
+        res.json(req.playlist)
+        return
+    }
+
+    if (req.session.user?._id.toString() !== req.playlist!.owner._id.toString()) {
         res.sendStatus(403)
         return
     }
@@ -37,7 +39,7 @@ router.get('/:id', getPlaylist, (req: Request, res: Response) => {
         return
     }
 
-    if (req.session.user._id.toString() === req.playlist.owner._id.toString()) {
+    if (req.session.user._id.toString() === req.playlist!.owner._id.toString()) {
         // @ts-ignore
         delete req.playlist.filters
         res.json(req.playlist)
@@ -48,20 +50,25 @@ router.get('/:id', getPlaylist, (req: Request, res: Response) => {
 /**
  * Get playlist filters
  */
+
 router.get('/:id/filter', getPlaylist, renewToken, async (req: Request, res: Response) => {
     if (!req.playlist) {
         res.sendStatus(404)
         return
     }
-    // Now playlist exists
 
-    if (req.playlist.isPublic) {
+    if (req.session.quickpl?.filters) {
+        req.session.quickpl.filters = false
         res.json(await endpoint(await getClientToken()).filtersToFilterList(req.playlist!.filters))
         return
     }
-    // Now playlists is private
 
-    if (req.session.user?._id.toString() !== req.playlist.owner._id.toString()) {
+    if (req.playlist!.isPublic) {
+        res.json(await endpoint(await getClientToken()).filtersToFilterList(req.playlist!.filters))
+        return
+    }
+
+    if (req.session.user?._id.toString() !== req.playlist!.owner._id.toString()) {
         res.sendStatus(403)
         return
     }
@@ -71,7 +78,7 @@ router.get('/:id/filter', getPlaylist, renewToken, async (req: Request, res: Res
         return
     }
 
-    if (req.session.user._id.toString() === req.playlist.owner._id.toString()) {
+    if (req.session.user._id.toString() === req.playlist!.owner._id.toString()) {
         res.json(await endpoint(req.session.user!.token.value).filtersToFilterList(req.playlist!.filters))
         return
     }
@@ -248,6 +255,38 @@ router.route('/:id/filter')
         }
         await DI.playlistRepository.flush()
         res.sendStatus(200)
+    })
+
+/**
+ * Get share code for playlist
+ */
+ // prettier-ignore
+router.route('/:id/share')
+    .all(getPlaylist, userIsOwner)
+    .get(async (req: Request, res: Response) => {
+        const share = await DI.shareRepository.findOne({ playlist: req.playlist })
+        let code = share?.code
+
+        // 1. check if the sharing code for the current playlist and the current user is already in the DB
+        if (!code) {
+            // 2. generate random unique code to share playlist for current user
+            do code = generateRandomString(6)
+            while ((await DI.shareRepository.count({ code })) > 0)
+            // 3. save the code to the DB
+            await DI.shareRepository.persistAndFlush(new Share(req.session.user!, req.playlist!, code))
+        }
+        // 4. return the URL for the shared playlist
+        res.json(`${process.env.REDIRECT_URI}/p/${code}`)
+    })
+    .delete(async (req: Request, res: Response) => {
+        const share = await DI.shareRepository.findOne({ playlist: req.playlist })
+        let code = share!.code
+
+        do code = generateRandomString(6)
+        while ((await DI.shareRepository.count({ code })) > 0)
+        share!.code = code
+        await DI.shareRepository.flush()
+        res.json(`${process.env.REDIRECT_URI}/p/${code}`)
     })
 
 export default router
