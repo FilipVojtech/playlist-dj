@@ -17,7 +17,6 @@
 
     async function createPost() {
         await aport('/api/social', {
-            headers: { 'Content-Type': 'application/json' },
             method: 'POST',
             body: JSON.stringify({ message: value, playlist: playlistId }),
         })

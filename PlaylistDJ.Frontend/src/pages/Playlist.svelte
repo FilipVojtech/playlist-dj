@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { FilterType, PDJ } from '@playlist-dj/types'
-    import { FilterList, Header } from '../components'
-    import { EditPlaylistDetailsModal, Modal, SpotifySearchModal } from '../components/modals'
+    import { FilterList, Header, Option } from '../components'
+    import { EditPlaylistDetailsModal, Modal, OkModal, ShareModal, SpotifySearchModal } from '../components/modals'
     import { afterUpdate, onDestroy, onMount } from 'svelte'
     import { modalEvent, searchResult, showNav, user } from '../utility/stores'
     import { _ } from 'svelte-i18n'
@@ -50,10 +50,23 @@
     }
 
     async function actions() {
+        const playlistItems = (await filtersData)?.playlists.items.map(value => value.id) as PDJ.Playlist[]
         openModal(Modal, {
             title: $_('app.actions'),
             message: '',
             actions: [
+                new ModalAction(
+                    $_('page.playlist.more.unlink'),
+                    async () => {
+                        await aport(`/api/playlist/${params.id}/link`, {
+                            method: 'PATCH',
+                            body: JSON.stringify({ playlists: playlistItems }),
+                        })
+                        closeModals()
+                        await push('/playlists')
+                    },
+                    playlistItems.length > 0
+                ),
                 new ModalAction($_('page.playlist.more.delete'), () => {
                     closeModals()
                     openModal(Modal, {
@@ -76,7 +89,6 @@
     async function removeFilter(id: { id: string; type: FilterType }) {
         await aport(`/api/playlist/${params.id}/filter`, {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify([id]),
         })
         getFilters()
@@ -84,8 +96,6 @@
 
     onMount(() => {
         $showNav = false
-        getPlaylist()
-        getFilters()
     })
     afterUpdate(async () => {
         const playlist: any = await data
@@ -99,7 +109,6 @@
     $: if ($searchResult && $searchResult!.id) {
         aport(`/api/playlist/${params.id}/filter`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify([$searchResult]),
         }).then(() => {
             // noinspection TypeScriptValidateTypes
@@ -111,6 +120,12 @@
     $: if ($modalEvent === 'detailsChange') {
         $modalEvent = ''
         getPlaylist()
+    }
+
+    // Reload playlist whenever ID changes
+    $: if (params.id) {
+        getPlaylist()
+        getFilters()
     }
 </script>
 
@@ -126,7 +141,7 @@
     <div class="loader">
         <LoaderIcon size="100" />
     </div>
-{:then { status, images, name, description, isPinned, owner }}
+{:then { status, images, name, description, isPinned, owner, isPublic }}
     {#if status && status === 404}
         <NotFound />
     {:else if status === 403}
@@ -175,39 +190,34 @@
                     <div class="title__description">{description}</div>
                 </div>
             </div>
-            <div class="playlist__actions__wrapper">
-                <div class="playlist__actions scroll-shadows">
+            <div class="menu-bar__wrapper">
+                <div class="menu-bar">
                     {#if isEditing}
-                        <div
-                            on:click={() => openModal(SpotifySearchModal)}
-                            class="actions__action actions__action--main item--interactive"
-                        >
-                            <span class="action__icon action__icon--left"><PlusIcon /></span>
-                            {$_('page.playlist.addFilter')}
-                        </div>
-                        <div
+                        {#await filtersData then { playlists }}
+                            <Option
+                                main
+                                iconLeft={PlusIcon}
+                                title={$_('page.playlist.addFilter')}
+                                on:click={() => {
+                                    playlists.items.length === 0
+                                        ? openModal(SpotifySearchModal)
+                                        : openModal(OkModal, { message: $_('page.playlist.addFilterToLinked') })
+                                }}
+                            />
+                        {/await}
+                        <Option
+                            title={$_('page.playlist.editDetails')}
                             on:click={() => openModal(EditPlaylistDetailsModal, { id: params.id, name, description })}
-                            class="actions__action item--interactive"
-                        >
-                            {$_('page.playlist.editDetails')}
-                        </div>
+                        />
                         <!--todo: Allow user to change picture-->
-                        <!--<div-->
+                        <!--<PlaylistAction-->
                         <!--    on:click={() => openModal(EditPlaylistPictureModal)}-->
-                        <!--    class="actions__action item&#45;&#45;interactive"-->
-                        <!-- >-->
-                        <!--    {$_('page.playlist.editPhoto')}-->
-                        <!--</div>-->
+                        <!--    title={$_('page.playlist.editPhoto')}-->
+                        <!--/>-->
                     {/if}
                     {#if !isEditing && $user && $user.spotifyId === owner.profile.spotifyId}
-                        <div
-                            on:click={() => push(`/playlist/${params.id}/edit`)}
-                            class="actions__action item--interactive"
-                        >
-                            {$_('page.playlist.edit')}
-                        </div>
-                        <div
-                            class="actions__action item--interactive"
+                        <Option title={$_('page.playlist.edit')} on:click={() => push(`/playlist/${params.id}/edit`)} />
+                        <Option
                             on:click={async () => {
                                 await aport(`/api/playlist/${params.id}`, { method: 'SUBSCRIBE' })
                                 getPlaylist()
@@ -218,23 +228,19 @@
                             {:else}
                                 {$_('page.playlist.pin')}
                             {/if}
-                        </div>
+                        </Option>
+                        <Option on:click={() => openModal(ShareModal, { playlistId: params.id })}>
+                            {$_('page.playlist.share')}
+                        </Option>
                     {/if}
                     {#if !isEditing}
-                        <div
-                            class="actions__action item--interactive"
-                            on:click={() => copyToClipboard(window.location.href)}
-                        >
-                            {$_('page.playlist.share')}
-                        </div>
-                        <!--&lt;!&ndash;<editor-fold desc="Playlist taste | On hold">&ndash;&gt;-->
-                        <!--<div class="actions__action item&#45;&#45;interactive">-->
-                        <!--    {$_('page.playlist.taste')}-->
-                        <!--    <span class="action__icon action__icon&#45;&#45;right">-->
-                        <!--        <PlayIcon />-->
-                        <!--    </span>-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash;</editor-fold>&ndash;&gt;-->
+                        {#if isPublic}
+                            <Option on:click={() => copyToClipboard(window.location.href)}>
+                                {$_('page.playlist.copyLink')}
+                            </Option>
+                        {/if}
+                        <!--todo: Playlist taste-->
+                        <!--<Option iconRight={PlayIcon} title={$_('page.playlist.taste')} />-->
                     {/if}
                 </div>
             </div>
@@ -244,7 +250,13 @@
                 </div>
             {:then data}
                 <div class="playlist__filters">
-                    <FilterList half {data} actions={isEditing ? [{ icon: TrashIcon, onClick: removeFilter }] : []} />
+                    <FilterList
+                        forPlaylistId={params.id}
+                        half
+                        {data}
+                        actions={isEditing ? [{ icon: TrashIcon, onClick: removeFilter }] : []}
+                        on:unlink={getFilters}
+                    />
                 </div>
             {/await}
         </div>
@@ -300,7 +312,7 @@
         font-size: 20px;
     }
 
-    .playlist__actions__wrapper {
+    .menu-bar__wrapper {
         display: flex;
         flex-flow: row nowrap;
         white-space: nowrap;
@@ -318,7 +330,7 @@
         scrollbar-width: thin;
     }
 
-    .playlist__actions {
+    .menu-bar {
         display: flex;
         flex-flow: row nowrap;
         white-space: nowrap;
@@ -327,59 +339,11 @@
         padding: 5px;
     }
 
-    .playlist__actions > * {
-        margin-right: 5px;
-    }
-
-    .playlist__actions > *:last-child {
-        margin-right: 0;
-    }
-
-    .actions__action {
-        display: flex;
-        flex-flow: row nowrap;
-        white-space: nowrap;
-
-        padding: 3px 7px;
-        border-radius: 20px;
-        font-size: 18px;
-        background-color: var(--lighter-bg);
-    }
-
-    .actions__action--main {
-        background-color: var(--main);
-    }
-
-    .action__icon {
-        width: 1em;
-        aspect-ratio: 1 / 1;
-    }
-
-    /*noinspection CssUnusedSymbol*/
-    .action__icon--left {
-        margin-right: 5px;
-    }
-
-    /*noinspection CssUnusedSymbol*/
-    .action__icon--right {
-        margin-left: 5px;
-    }
-
     @media screen and (min-width: 640px) {
-        .playlist__actions__wrapper {
+        .menu-bar__wrapper {
             top: 5px;
             width: 100%;
             transform: none;
-        }
-
-        .playlist__actions {
-            /*border-left: 2px solid white;*/
-            /*border-right: 2px solid white;*/
-            /*border: 5px solid var(--main-bg);*/
-        }
-
-        .actions__action {
-            font-size: 22px;
         }
     }
 

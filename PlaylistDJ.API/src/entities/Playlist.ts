@@ -40,6 +40,9 @@ export class Playlist extends BaseEntity implements PDJ.Playlist {
     @Property()
     canEdit: User[] = []
 
+    @Property()
+    isMerged: boolean = false
+
     constructor(owner: User, name: string) {
         super()
         this.owner = owner

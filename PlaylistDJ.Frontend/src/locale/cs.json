@@ -4,6 +4,7 @@
     "add": "Přidat",
     "back": "Zpět",
     "cancel": "Zrušit",
+    "close": "Zavřít",
     "continue": "Pokračovat",
     "create": "Vytvořit",
     "description": "Spravujte Spotify playlisty s lehkostí",
@@ -89,6 +90,16 @@
       "register": "Registrovat se",
       "title": "Přihlášení"
     },
+    "merge": {
+      "choosePlaylist": "Vyberte playlist",
+      "noPlaylists": "Žádné playlisty nenalezeny",
+      "selectedPlaylists": "Vybrané playlisty",
+      "playlists": "Playlisty",
+      "title": "Sloučit playlisty",
+      "merge": "Sloučit",
+      "playlistName": "Název playlistu",
+      "newPlaylistName": "Název nového playlistu"
+    },
     "register": {
       "consent": {
         "1": "Souhlasím se",
@@ -101,6 +112,16 @@
     },
     "search": {
       "placeholder": "Vyhledat na Spotify"
+    },
+    "share": {
+      "copyPrivate": "Kopírovat soukromý odkaz",
+      "copyPublic": "Zkopírovat odkaz",
+      "message": "POZN.: Pokud s někým sdílíte odkaz na playlist označený jako soukromý, tato osoba ho nebude schopna zobrazit.",
+      "privateLink": "Soukromý odkaz",
+      "privateMessage": "Soukromý odkaz umožňuje zobrazit playlist, i když je nastavený jako soukromý.",
+      "publicLink": "Odkaz na playlist",
+      "resetPrivate": "Obnovit soukromý odkaz",
+      "title": "Sdílet playlist"
     }
   },
   "page": {
@@ -111,21 +132,25 @@
     "notFound": {
       "goBack": "Jít o stránku zpět",
       "notFound": "Nenalezeno",
-      "returnHome": "Vrátit se na playlisty"
+      "returnHome": "Vrátit se na hlavní stránku",
+      "returnToPlaylists": "Vrátit se na playlisty"
     },
     "playlist": {
       "addFilter": "Přidat filtr",
+      "addFilterToLinked": "Nelze přidat filtry do spojeného playlistu",
+      "copyLink": "Zkopírovat odkaz",
       "edit": "Upravit",
       "editDetails": "Upravit detaily",
       "editPhoto": "Změnit obrázek",
       "editTitle": "Upravování playlistu",
       "more": {
         "addUser": "Pozvat uživatele ke kolaboraci",
-        "delete": "Odstranit playlist"
+        "delete": "Odstranit playlist",
+        "unlink": "Rozpojit playlisty"
       },
       "pin": "Připnout",
       "privatePlaylist": "Tento playlist je soukromý",
-      "share": "Zkopírovat odkaz",
+      "share": "Sdílet",
       "taste": "Ochutnat playlist",
       "title": "Playlist",
       "tryLogIn": "Můžete se zkusit přihlásit",
@@ -135,7 +160,8 @@
       "error": "Název playlistu nesmí být prázdný",
       "more": {
         "importM3U": "Nahrát playlist z m3u souboru",
-        "importPlaylist": "Nahrát playlist ze Spotify"
+        "importPlaylist": "Nahrát playlist ze Spotify",
+        "mergePlaylists": "Spojit playlisty"
       },
       "newPlaylist": "Nový playlist",
       "title": "Playlisty"
@@ -153,7 +179,9 @@
             "title3": "Odstranění účtu"
           }
         },
-        "title": "Účet"
+        "savedInfo": "Toto jsou informace o vás uložené na našich serverech",
+        "title": "Účet",
+        "whatWeKnow": "Co o vás víme"
       },
       "communication": {
         "subscribeTo": {

@@ -14,7 +14,6 @@
         closeAllModals()
         await aport('/api/playlist', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: e.detail.id }),
         })
     }

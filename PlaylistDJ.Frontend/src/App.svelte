@@ -32,7 +32,7 @@
     /**
      * Check if media queries use wide layout
      */
-    const isWide = window.innerWidth >= 1080
+    let isWide = window.innerWidth >= 1080
 
     function authorize(): boolean {
         return !!$user
@@ -65,6 +65,7 @@
     })
 </script>
 
+<svelte:window on:resize={() => (isWide = window.innerWidth >= 1080)} />
 <div class="page">
     {#if !$isLoading}
         <main class="main-content">

@@ -13,7 +13,6 @@
     function handleSubmit() {
         aport(`/api/playlist/${id}`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, description }),
         }).then(() => ($modalEvent = 'detailsChange'))
         closeModal()

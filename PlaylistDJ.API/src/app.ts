@@ -7,7 +7,7 @@ import { MikroORM, RequestContext } from '@mikro-orm/core'
 import { EntityManager, EntityRepository } from '@mikro-orm/mongodb'
 import dotenv from 'dotenv'
 import { apiController, loginController } from './controllers'
-import { Playlist, Post, Profile, User } from './entities'
+import { Playlist, Post, Profile, Share, User } from './entities'
 import config from './mikro-orm.config'
 import { CookieTypes } from './utility'
 import { Request } from './global'
@@ -36,6 +36,7 @@ export const DI = {} as {
     playlistRepository: EntityRepository<Playlist>
     postRepository: EntityRepository<Post>
     profileRepository: EntityRepository<Profile>
+    shareRepository: EntityRepository<Share>
     userRepository: EntityRepository<User>
 }
 
@@ -53,8 +54,8 @@ export const DI = {} as {
             resave: true,
             secret: process.env.PDJ_SESSION_SECRET as string,
             cookie: {
-                secure: process.env.PRODUCITON === '1',
-                maxAge: 1000 * 60 * 60 * 24,
+                secure: false,
+                maxAge: 1000 * 60 * 60 * 24 * 7,
                 sameSite: 'lax',
             },
         })
@@ -66,9 +67,17 @@ export const DI = {} as {
     DI.playlistRepository = DI.orm.em.getRepository(Playlist) as EntityRepository<Playlist>
     DI.postRepository = DI.orm.em.getRepository(Post) as EntityRepository<Post>
     DI.profileRepository = DI.orm.em.getRepository(Profile) as EntityRepository<Profile>
+    DI.shareRepository = DI.orm.em.getRepository(Share) as EntityRepository<Share>
     DI.userRepository = DI.orm.em.getRepository(User) as EntityRepository<User>
 
     app.use('/api', apiController)
+    app.use('/p/:code([\\w\\d]{6})', async (req: Request, res: Response) => {
+        const share = await DI.shareRepository.findOne({ code: req.params.code })
+        if (share) {
+            req.session.quickpl = { playlist: true, filters: true }
+            res.redirect(`/#/playlist/${share.playlist.id}`)
+        } else res.redirect('/#/unknown')
+    })
     app.use('/login', loginController)
     app.use('/logout', (req: Request, res: Response) =>
         req.session.destroy(() => res.clearCookie(CookieTypes.Session).clearCookie(CookieTypes.User).redirect(`/`))
@@ -96,9 +105,7 @@ export const DI = {} as {
         else res.sendFile(defaultFile)
     })
     app.use(express.static(`${__dirname}/../../PlaylistDJ.Frontend/public`))
-    app.get('*', (req: Request, res: Response) =>
-        res.sendFile(path.resolve(__dirname, '..', '..', 'PlaylistDJ.Frontend', 'public', 'index.html'))
-    )
+    app.get('*', (req: Request, res: Response) => res.redirect('/#/unknown'))
 })()
 
 export default app
