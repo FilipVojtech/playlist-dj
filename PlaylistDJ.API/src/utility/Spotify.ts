@@ -241,7 +241,8 @@ export function endpoint(token: string) {
          * @param nextUrl
          */
         async artistAlbums(artistId: string, nextUrl: string | null = null): Promise<PDJ.Album[]> {
-            const url = `${apiUrl}/artists/${artistId}/albums`
+            const query = new URLSearchParams({ include_groups: 'album,single' })
+            const url = `${apiUrl}/artists/${artistId}/albums?${query}`
             return await got(nextUrl ?? url, { headers })
                 .then(res => snakeToCamelCase(JSON.parse(res.body)) as any)
                 .then(async value => {
@@ -316,7 +317,7 @@ export function endpoint(token: string) {
          * @param id - Track ID
          */
         async track(id: string): Promise<PDJ.Track | null> {
-            return await got(`${apiUrl}/artists/${id}/albums`, { headers })
+            return await got(`${apiUrl}/tracks/${id}`, { headers })
                 .then(data => {
                     const { id, name, artists, album: trackAlbum, uri }: Spotify.Track = JSON.parse(data.body)
                     let album: PDJ.Album = new Album(
@@ -446,12 +447,12 @@ export function endpoint(token: string) {
             const spotifyUrisLimit = 100
             let reqUris = uris.slice(0, spotifyUrisLimit - 1)
             uris.splice(0, spotifyUrisLimit - 1)
-            const queryParams = new URLSearchParams({ uris: reqUris.toString() })
-            await got(`${apiUrl}/playlists/${playlistId}/tracks?${queryParams}`, {
+            await got(`${apiUrl}/playlists/${playlistId}/tracks`, {
                 headers,
                 method: 'POST',
+                body: JSON.stringify({ uris: reqUris }),
             }).catch(e => {
-                console.log(e)
+                console.error(e)
             })
             if (uris.length > 0) await this.playlistAddItems(playlistId, uris)
         },
@@ -465,13 +466,11 @@ export function endpoint(token: string) {
             const spotifyUrisLimit = 100
             let reqUris = uris.slice(0, spotifyUrisLimit - 1)
             uris.splice(0, spotifyUrisLimit - 1)
-            // @ts-ignore
-            reqUris.forEach(value => (value = { uri: value }))
 
             await got(`${apiUrl}/playlists/${playlistId}/tracks`, {
                 headers,
                 method: 'DELETE',
-                body: JSON.stringify({ tracks: reqUris }),
+                body: JSON.stringify({ tracks: reqUris.map(value => ({ uri: value })) }),
             }).catch(e => {
                 console.log(e)
             })
