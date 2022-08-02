@@ -3,13 +3,15 @@ import { Request } from '../../global'
 import { DI } from '../../app'
 import { endpoint } from '../../utility'
 import { Playlist } from '../../entities'
-import { getPlaylist, renewToken, userIsOwner } from '../../utility/Middleware'
+import { authentication, getPlaylist, renewToken, userIsOwner } from '../../utility/Middleware'
 import { FilterType, SearchFilter } from '@playlist-dj/types'
 
 const router = Router()
 
-router
-    .route('/:id/link')
+router.use(authentication)
+
+// prettier-ignore
+router.route('/:id/link')
     .all(getPlaylist)
     /**
      * Unlink playlists
