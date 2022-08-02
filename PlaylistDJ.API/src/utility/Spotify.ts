@@ -523,6 +523,38 @@ export function endpoint(token: string) {
             return result
         },
 
+        /**
+         * Get song IDs from filters
+         * @param filters
+         */
+        async filtersToTrackUris(filters: SearchFilter[]): Promise<string[]> {
+            let trackUris: string[] = []
+            for (const filter of filters) {
+                switch (filter.type) {
+                    case FilterType.Playlist:
+                        const playlist = await DI.playlistRepository.findOne({ id: filter.id })
+                        trackUris.push(...(await this.filtersToTrackUris(playlist!.filters)))
+                        break
+                    case FilterType.Artist:
+                        const albums = await this.artistAlbums(filter.id)
+                        const albumsFilters = albums.map(value => ({ id: value.id, type: value.type }))
+                        trackUris.push(...(await this.filtersToTrackUris(albumsFilters)))
+                        break
+                    case FilterType.Album:
+                        const tracks = await this.albumTracks(filter.id)
+                        const tracksUris = tracks.map(value => value.uri)
+                        trackUris.push(...tracksUris)
+                        break
+                    case FilterType.Track:
+                        const track = await this.track(filter.id)
+                        console.log(track!.name)
+                        trackUris.push(track!.uri)
+                        break
+                }
+            }
+            return trackUris
+        },
+
         async filtersToFilterList(filters: SearchFilter[]): Promise<PDJ.FilterList> {
             let result = {
                 playlists: { items: [] },
