@@ -1,7 +1,7 @@
 # Technologies
 
-- Svelte
-- \+ Refer to root README.md
+-   Svelte
+-   \+ Refer to root README.md
 
 ## Naming conventions
 
