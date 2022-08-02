@@ -275,6 +275,11 @@ a {
     flex-direction: column;
 }
 
+.modal__actions--sticky {
+    position: sticky;
+    bottom: 0;
+}
+
 .actions__button {
     background-color: var(--darker-bg);
     border-radius: 10px;
