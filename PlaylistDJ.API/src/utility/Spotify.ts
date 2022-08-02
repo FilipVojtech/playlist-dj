@@ -386,6 +386,21 @@ export function endpoint(token: string) {
                 .catch(e => console.error(e))
         },
 
+        async playlistTrackLength(playlistId: string): Promise<number> {
+            const response: {
+                href: string
+                items: Spotify.Track[]
+                limit: number
+                next: string | null
+                offset: number
+                previous: string | null
+                total: number
+            } = await got(`${apiUrl}/playlists/${playlistId}/tracks`, { headers })
+                .then(res => JSON.parse(res.body) as any)
+                .catch(e => console.error(e))
+            return response.total
+        },
+
         /**
          * Create a new playlist
          * @returns New playlist Spotify ID
