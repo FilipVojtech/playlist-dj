@@ -105,7 +105,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        overflow-y: scroll;
+        overflow-y: auto;
         max-height: 70vh;
 
         padding-bottom: env(safe-area-inset-bottom);
