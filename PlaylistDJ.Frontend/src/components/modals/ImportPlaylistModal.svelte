@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type { PDJ } from '@playlist-dj/types'
     import { fade } from 'svelte/transition'
     import { closeAllModals, closeModal } from 'svelte-modals'
     import { onMount } from 'svelte'
@@ -8,7 +9,7 @@
     import { _ } from 'svelte-i18n'
 
     export let isOpen: boolean
-    let data: Promise<[]> = new Promise<[]>(() => [])
+    let data: Promise<PDJ.Playlist[]> = new Promise<[]>(() => [])
 
     async function submit(e) {
         closeAllModals()
@@ -19,7 +20,15 @@
     }
 
     onMount(async () => {
-        data = aport('/api/playlist?src=spotify').then(value => value.json())
+        data = aport('/api/playlist?src=spotify')
+            .then(res => {
+                if (res.ok) return res.json()
+                else return []
+            })
+            .catch(e => {
+                console.error(e)
+                return []
+            })
     })
 </script>
 
@@ -33,10 +42,10 @@
                         <LoaderIcon />
                     </div>
                 {:then playlists}
-                    <PlaylistList {playlists} on:click={submit} />
+                    <PlaylistList {playlists} on:click={submit} useCustom />
                 {/await}
             </div>
-            <div class="modal__actions">
+            <div class="modal__actions modal__actions--sticky">
                 <button class="actions__button" on:click={closeModal}>{$_('app.cancel')}</button>
             </div>
         </div>
