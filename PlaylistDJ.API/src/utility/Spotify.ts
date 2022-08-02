@@ -241,7 +241,8 @@ export function endpoint(token: string) {
          * @param nextUrl
          */
         async artistAlbums(artistId: string, nextUrl: string | null = null): Promise<PDJ.Album[]> {
-            const url = `${apiUrl}/artists/${artistId}/albums`
+            const query = new URLSearchParams({ include_groups: 'album,single' })
+            const url = `${apiUrl}/artists/${artistId}/albums?${query}`
             return await got(nextUrl ?? url, { headers })
                 .then(res => snakeToCamelCase(JSON.parse(res.body)) as any)
                 .then(async value => {
@@ -316,7 +317,7 @@ export function endpoint(token: string) {
          * @param id - Track ID
          */
         async track(id: string): Promise<PDJ.Track | null> {
-            return await got(`${apiUrl}/artists/${id}/albums`, { headers })
+            return await got(`${apiUrl}/tracks/${id}`, { headers })
                 .then(data => {
                     const { id, name, artists, album: trackAlbum, uri }: Spotify.Track = JSON.parse(data.body)
                     let album: PDJ.Album = new Album(
@@ -386,6 +387,21 @@ export function endpoint(token: string) {
                 .catch(e => console.error(e))
         },
 
+        async playlistTrackLength(playlistId: string): Promise<number> {
+            const response: {
+                href: string
+                items: Spotify.Track[]
+                limit: number
+                next: string | null
+                offset: number
+                previous: string | null
+                total: number
+            } = await got(`${apiUrl}/playlists/${playlistId}/tracks`, { headers })
+                .then(res => JSON.parse(res.body) as any)
+                .catch(e => console.error(e))
+            return response.total
+        },
+
         /**
          * Create a new playlist
          * @returns New playlist Spotify ID
@@ -431,12 +447,12 @@ export function endpoint(token: string) {
             const spotifyUrisLimit = 100
             let reqUris = uris.slice(0, spotifyUrisLimit - 1)
             uris.splice(0, spotifyUrisLimit - 1)
-            const queryParams = new URLSearchParams({ uris: reqUris.toString() })
-            await got(`${apiUrl}/playlists/${playlistId}/tracks?${queryParams}`, {
+            await got(`${apiUrl}/playlists/${playlistId}/tracks`, {
                 headers,
                 method: 'POST',
+                body: JSON.stringify({ uris: reqUris }),
             }).catch(e => {
-                console.log(e)
+                console.error(e)
             })
             if (uris.length > 0) await this.playlistAddItems(playlistId, uris)
         },
@@ -450,17 +466,30 @@ export function endpoint(token: string) {
             const spotifyUrisLimit = 100
             let reqUris = uris.slice(0, spotifyUrisLimit - 1)
             uris.splice(0, spotifyUrisLimit - 1)
-            // @ts-ignore
-            reqUris.forEach(value => (value = { uri: value }))
 
             await got(`${apiUrl}/playlists/${playlistId}/tracks`, {
                 headers,
                 method: 'DELETE',
-                body: JSON.stringify({ tracks: reqUris }),
+                body: JSON.stringify({ tracks: reqUris.map(value => ({ uri: value })) }),
             }).catch(e => {
                 console.log(e)
             })
             if (uris.length > 0) await this.playlistRemoveItems(playlistId, uris)
+        },
+
+        async playlistReplaceItems(playlistId: string, uris: string[]) {
+            const spotifyUrisLimit = 100
+            // const length: number = await this.playlistTrackLength(playlistId)
+            // if (length > 0) {
+            let reqUris = uris.slice(0, spotifyUrisLimit - 1)
+            uris.splice(0, spotifyUrisLimit - 1)
+            await got(`${apiUrl}/playlists/${playlistId}/tracks`, {
+                headers,
+                method: 'PUT',
+                body: JSON.stringify({ uris: reqUris }),
+            }).catch(e => console.error(e))
+            // }
+            if (uris.length > 1) await this.playlistAddItems(playlistId, uris)
         },
 
         /**
@@ -506,6 +535,38 @@ export function endpoint(token: string) {
                 })
             if (userIds.length > 0) result = [...result, ...(await this.playlistIsFollowed(playlistId, userIds))]
             return result
+        },
+
+        /**
+         * Get song IDs from filters
+         * @param filters
+         */
+        async filtersToTrackUris(filters: SearchFilter[]): Promise<string[]> {
+            let trackUris: string[] = []
+            for (const filter of filters) {
+                switch (filter.type) {
+                    case FilterType.Playlist:
+                        const playlist = await DI.playlistRepository.findOne({ id: filter.id })
+                        trackUris.push(...(await this.filtersToTrackUris(playlist!.filters)))
+                        break
+                    case FilterType.Artist:
+                        const albums = await this.artistAlbums(filter.id)
+                        const albumsFilters = albums.map(value => ({ id: value.id, type: value.type }))
+                        trackUris.push(...(await this.filtersToTrackUris(albumsFilters)))
+                        break
+                    case FilterType.Album:
+                        const tracks = await this.albumTracks(filter.id)
+                        const tracksUris = tracks.map(value => value.uri)
+                        trackUris.push(...tracksUris)
+                        break
+                    case FilterType.Track:
+                        const track = await this.track(filter.id)
+                        console.log(track!.name)
+                        trackUris.push(track!.uri)
+                        break
+                }
+            }
+            return trackUris
         },
 
         async filtersToFilterList(filters: SearchFilter[]): Promise<PDJ.FilterList> {

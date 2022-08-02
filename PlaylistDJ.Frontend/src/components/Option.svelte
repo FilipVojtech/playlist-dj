@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { SvelteComponent } from 'svelte'
+    import { fly } from 'svelte/transition'
 
     export let title: string = ''
     export let main: boolean = false
@@ -7,7 +8,7 @@
     export let iconLeft: SvelteComponent | undefined = undefined
 </script>
 
-<div class="option item--interactive" class:option--main={main} on:click>
+<div class="option item--interactive" class:option--main={main} on:click transition:fly|local={{ x: -20 }}>
     {#if iconLeft}<span class="option__icon option__icon--left"><svelte:component this={iconLeft} /></span>{/if}
     <slot>{title}</slot>
     {#if iconRight}<span class="option__icon option__icon--right"><svelte:component this={iconRight} /></span>{/if}
@@ -24,6 +25,7 @@
         font-size: 18px;
         background-color: var(--lighter-bg);
         margin-right: 5px;
+        grid-area: 1/1/2/2;
     }
 
     .option:last-child {
@@ -35,6 +37,7 @@
     }
 
     .option__icon {
+        align-self: center;
         height: 1em;
         aspect-ratio: 1 / 1;
     }

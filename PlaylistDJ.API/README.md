@@ -1,8 +1,8 @@
 # Technologies
 
-- Express.js
-- [MikroORM](https://mikro-orm.io/)
-- \+ Refer to root README.md
+-   Express.js
+-   [MikroORM](https://mikro-orm.io/)
+-   \+ Refer to root README.md
 
 # Running backend in dev mode
 
@@ -10,8 +10,8 @@ Run these commands to start the backend service.
 
 Prerequisites
 
-- MongoDB installed
-- Have Frontend code built at least once *(either by building it or running it in dev mode)*
+-   MongoDB installed
+-   Have Frontend code built at least once _(either by building it or running it in dev mode)_
 
 1. **Install dependencies**
 
@@ -32,7 +32,7 @@ Moreover, this means you have to click into the console window and type your pas
 For doas to not ask for password, you can insert this line into `/etc/doas.conf`
 
 ```text
-permit nopass username as root cmd mongod  # replace username with your username 
+permit nopass username as root cmd mongod  # replace username with your username
 ```
 
 App is hot reloaded

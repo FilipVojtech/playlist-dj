@@ -33,14 +33,10 @@
                     closeModal()
                     openModal(MergePlaylistsModal)
                 }),
-                new ModalAction(
-                    $_('page.playlistList.more.importPlaylist'),
-                    () => {
-                        closeModal()
-                        openModal(ImportPlaylistModal)
-                    },
-                    false
-                ),
+                new ModalAction($_('page.playlistList.more.importPlaylist'), () => {
+                    closeModal()
+                    openModal(ImportPlaylistModal)
+                }),
                 new ModalAction(
                     $_('page.playlistList.more.importM3U'),
                     () => {
