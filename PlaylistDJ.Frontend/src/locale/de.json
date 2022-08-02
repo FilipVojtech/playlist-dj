@@ -1,0 +1,232 @@
+{
+  "app": {
+    "actions": "Optionen",
+    "add": "Add",
+    "back": "Zurück",
+    "cancel": "Abbrechen",
+    "close": "Close",
+    "continue": "Fortfahren",
+    "create": "Bestätigen",
+    "description": "Verwalte deine Spotify-Playlisten wie eine Klacks",
+    "login": {
+      "long": "Mit Spotify einloggen",
+      "short": "Einloggen"
+    },
+    "logout": "Ausloggen",
+    "name": "Playlist DJ",
+    "no": "Nein",
+    "ok": "Ok",
+    "save": "Speichern",
+    "upload": "Upload",
+    "welcome": "Wilkommen in Playlist DJ",
+    "yes": "Ja"
+  },
+  "component": {
+    "filterList": {
+      "album": "Album",
+      "albums": "Alben",
+      "artist": "Artist",
+      "artists": "Kunstler/in",
+      "loadMore": "Mehr laden",
+      "playlist": "Playlist",
+      "playlists": "Playlisten",
+      "track": "Track",
+      "tracks": "Titel"
+    },
+    "navigation": {
+      "home": "Home",
+      "pinnedPlaylists": "Angepinnte Playlisten",
+      "playlists": "Playlisten",
+      "settings": "Eistellungen",
+      "social": "Social"
+    },
+    "post": {
+      "by": "von",
+      "collapsePlaylist": "Playlist einklappen",
+      "delete": "Delete post",
+      "showPlaylist": "Playlist anzeigen"
+    }
+  },
+  "locales": {
+    "cs": "Čeština",
+    "de": "Deutch",
+    "en": "English"
+  },
+  "modal": {
+    "consent": {
+      "agree": {
+        "1": "Agree to",
+        "2": "and"
+      },
+      "message": "To continue using the Playlist DJ service you will have to",
+      "privacyPolicy": "Datenschutzbestimmugen",
+      "title": "Consent renewal",
+      "tos": "Nutzungsbedingungen"
+    },
+    "createPost": {
+      "cantLoad": "Couldn't fetch playlists",
+      "nothingFound": "No playlists found",
+      "playlist": "Playlist",
+      "post": "Posten",
+      "title": "Post erstellen",
+      "whatsUp": "Was geht ab?"
+    },
+    "deleteConfirm": {
+      "message": "Die Aktion kann nicht rüchgängig gemach werden",
+      "title": "Sind sie sicher?"
+    },
+    "editPlaylistDetails": {
+      "playlistDescription": "Playlist Beschreibung",
+      "playlistName": "Playlist Name",
+      "title": "Details bearbeiten"
+    },
+    "editPlaylistPicture": {
+      "title": "Edit picture"
+    },
+    "importM3U": {
+      "playlistFile": "",
+      "playlistName": "Playlist Name",
+      "title": ""
+    },
+    "importPlaylist": {
+      "title": "Choose a playlist..."
+    },
+    "login": {
+      "logIn": "Einloggen",
+      "register": "Registrieren",
+      "title": "Einloggen"
+    },
+    "merge": {
+      "choosePlaylist": "Choose a playlist",
+      "merge": "Merge",
+      "newPlaylistName": "New playlist name",
+      "noPlaylists": "No playlists found",
+      "playlistName": "Playlist name",
+      "playlists": "Playlisten",
+      "selectedPlaylists": "Selected playlists",
+      "title": "Merge playlists"
+    },
+    "register": {
+      "consent": {
+        "1": "Ich akceptieren die",
+        "2": "und"
+      },
+      "message": "im nächsten Schrift, musst du dich mit deinem Spotify-Account einloggen.",
+      "privacyPolicy": "Datenschutzbestimmugen",
+      "title": "Registrieren",
+      "tos": "Nutzungsbedingungen"
+    },
+    "search": {
+      "placeholder": "Spotify durchsuchen"
+    },
+    "share": {
+      "copyPrivate": "Copy private link",
+      "copyPublic": "Copy link",
+      "message": "NOTE: If you share a link to playlist that is set to private, the receiving person won't be able to view it.",
+      "privateLink": "Private link",
+      "privateMessage": "Private link allows viewing the playlist even if it is set to private.",
+      "publicLink": "Link to playlist",
+      "resetPrivate": "Reset private link",
+      "title": "Share playlist"
+    }
+  },
+  "page": {
+    "home": {
+      "greeting": "Wilkommen {user}!",
+      "title": "Home"
+    },
+    "notFound": {
+      "goBack": "Go back",
+      "notFound": "Not Found",
+      "returnHome": "Return to the main page",
+      "returnToPlaylists": "Return to playlists page"
+    },
+    "playlist": {
+      "addFilter": "Inhalt hinzufügen",
+      "addFilterToLinked": "Content other than playlists cannot be added to linked playlist",
+      "copyLink": "Copy link",
+      "edit": "Bearbeiten",
+      "editDetails": "Details bearbeiten",
+      "editPhoto": "Change picture",
+      "editTitle": "Editing playlist",
+      "more": {
+        "addUser": "Invite users to collaborate",
+        "delete": "Playlist lǒschen",
+        "unlink": "Unlink playlists"
+      },
+      "pin": "Fixieren",
+      "privatePlaylist": "Diese Playlist ist privat",
+      "share": "Teilen",
+      "taste": "Taste the playlist",
+      "title": "Playlist",
+      "top": "Top",
+      "tryLogIn": "Versuche dich einzuloggen",
+      "unpin": "Fixieren ausheben"
+    },
+    "playlistList": {
+      "error": "Name cannot be empty",
+      "more": {
+        "importM3U": "Import m3u file",
+        "importPlaylist": "Import Spotify playlist",
+        "mergePlaylists": "Merge playlists"
+      },
+      "newPlaylist": "New playlist",
+      "title": "Playlisten"
+    },
+    "settings": {
+      "account": {
+        "deleteAccount": {
+          "delete": "Account löschen",
+          "modal": {
+            "action": "Delete my account",
+            "message1": "Do you want to delete your account?",
+            "message2": "This action cannot be undone",
+            "message3": "Your account and all data associated with it has been deleted. You will be redirected in a moment.",
+            "title2": "Are you sure?",
+            "title3": "Account deletion"
+          }
+        },
+        "savedInfo": "Diese Information wird auf unseren Server gespeichert",
+        "title": "Account",
+        "whatWeKnow": "Was wir über dich wissen"
+      },
+      "communication": {
+        "subscribeTo": {
+          "important": "Wichtige emails",
+          "product": "Produkt updates"
+        },
+        "title": "Benachrichtigungen",
+        "updateFrequency": {
+          "biWeekly": "Biweekly",
+          "custom": "Custom",
+          "daily": "Daily",
+          "disabled": "Disabled",
+          "monthly": "Monthly",
+          "weekly": "Weekly"
+        }
+      },
+      "legal": {
+        "privacyPolicy": "Datenschutzbestimmugen",
+        "title": "Rechtliches",
+        "tos": "Terms of service"
+      },
+      "profile": {
+        "title": "Profile"
+      },
+      "title": "Settings"
+    },
+    "social": {
+      "noPost": "Noch keine Posts",
+      "title": "Social"
+    }
+  },
+  "widget": {
+    "createPlaylist": {
+      "action": "Neue Playlist erstellen",
+      "playlistName": "Playlist Name"
+    },
+    "login": {
+      "message": "Trete der Erfahrung bei!"
+    }
+  }
+}

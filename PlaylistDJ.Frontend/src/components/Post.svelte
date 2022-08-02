@@ -58,8 +58,8 @@
                 </External>
             </div>
             <div class="post__date">
-                {$date(new Date(createdAt), { format: 'medium' })}
                 {$time(new Date(createdAt))}
+                {$date(new Date(createdAt), { format: 'medium' })}
             </div>
             <div class="post__desc">{message}</div>
         </div>

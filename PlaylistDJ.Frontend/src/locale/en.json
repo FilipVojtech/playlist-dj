@@ -49,7 +49,8 @@
     },
     "locales": {
         "cs": "Čeština",
-        "en": "English"
+        "en": "English",
+        "de": "Deutch"
     },
     "modal": {
         "consent": {
@@ -136,8 +137,8 @@
             "returnToPlaylists": "Return to playlists page"
         },
         "playlist": {
-            "addFilter": "Add filter",
-            "addFilterToLinked": "Filters cannot be added to linked playlist",
+            "addFilter": "Add content",
+            "addFilterToLinked": "Content other than playlists cannot be added to linked playlist",
             "copyLink": "Copy link",
             "edit": "Edit",
             "editDetails": "Edit details",
