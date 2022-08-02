@@ -91,7 +91,7 @@ router.route('/')
         switch (req.query.src) {
             case 'spotify':
                 res.json(
-                    await endpoint(req.session.user!.token.value).ownedPlaylists(req.session.user!.profile.spotifyId),
+                    await endpoint(req.session.user!.token.value).ownedPlaylists(req.session.user!.profile.spotifyId)
                 )
                 break
             case 'pinned':
@@ -100,7 +100,7 @@ router.route('/')
                         owner: req.session.user!._id.toString(),
                         isPinned: true,
                         isMerged: false,
-                    }),
+                    })
                 )
                 break
             case 'link':
@@ -110,8 +110,8 @@ router.route('/')
                 })
                 res.json(
                     playlists.filter(
-                        value => value.filters.findIndex(value1 => value1.type === FilterType.Playlist) === -1,
-                    ),
+                        value => value.filters.findIndex(value1 => value1.type === FilterType.Playlist) === -1
+                    )
                 )
                 break
             default:
@@ -119,7 +119,7 @@ router.route('/')
                     await DI.playlistRepository.find({
                         owner: req.session.user!._id.toString(),
                         isMerged: false,
-                    }),
+                    })
                 )
                 break
         }
@@ -198,7 +198,7 @@ router.route('/:id')
         const linked = await DI.playlistRepository.findOne({ filters: { $elemMatch: { id: req.playlist!.id } } as any })
         linked?.filters.splice(
             linked.filters.findIndex(value => value.id === req.playlist!.id),
-            1,
+            1
         )
         if (linked?.filters.length === 0) DI.playlistRepository.remove(linked)
         // Remove posts with this playlist
@@ -232,13 +232,17 @@ router.route('/:id/filter')
         req.playlist!.filters.push(...req.body)
         // Remove duplicate values
         req.playlist!.filters = [...new Map(req.playlist!.filters.map(value => [value.id, value])).values()]
+        if (!req.playlist!.spotifyId)
+            req.playlist!.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(req.playlist!)
         await DI.em.flush()
         res.sendStatus(200)
+        const trackUris = await endpoint(req.session.user!.token.value).filtersToTrackUris(req.playlist!.filters)
+        await endpoint(req.session.user!.token.value).playlistReplaceItems(req.playlist!.spotifyId, trackUris)
     })
     /**
      * Delete filters
      */
-    .delete(userIsOwner, async (req: Request, res: Response) => {
+    .delete(userIsOwner, renewToken, async (req: Request, res: Response) => {
         if (!req.body) {
             res.sendStatus(400)
             return
@@ -253,8 +257,13 @@ router.route('/:id/filter')
             const removeItemIndex = req.playlist!.filters.findIndex(value => value.id === filter.id)
             req.playlist!.filters.splice(removeItemIndex, 1)
         }
+        if (!req.playlist!.spotifyId)
+            req.playlist!.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(req.playlist!)
         await DI.playlistRepository.flush()
         res.sendStatus(200)
+        // need to transform filters to track filters
+        const trackUris = await endpoint(req.session.user!.token.value).filtersToTrackUris(req.playlist!.filters)
+        await endpoint(req.session.user!.token.value).playlistReplaceItems(req.playlist!.spotifyId, trackUris)
     })
 
 /**
