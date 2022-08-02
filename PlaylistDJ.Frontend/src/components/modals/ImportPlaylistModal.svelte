@@ -4,9 +4,9 @@
     import { closeAllModals, closeModal } from 'svelte-modals'
     import { onMount } from 'svelte'
     import aport from '../../utility/Aport'
-    import { LoaderIcon } from 'svelte-feather-icons'
     import PlaylistList from '../PlaylistList.svelte'
     import { _ } from 'svelte-i18n'
+    import Loader from '../Loader.svelte'
 
     export let isOpen: boolean
     let data: Promise<PDJ.Playlist[]> = new Promise<[]>(() => [])
@@ -38,9 +38,7 @@
             <div class="modal__title">{$_('modal.importPlaylist.title')}</div>
             <div class="modal__message">
                 {#await data}
-                    <div class="loader">
-                        <LoaderIcon />
-                    </div>
+                    <Loader />
                 {:then playlists}
                     <PlaylistList {playlists} on:click={submit} useCustom />
                 {/await}
