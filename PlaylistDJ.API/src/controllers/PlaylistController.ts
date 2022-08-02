@@ -124,39 +124,40 @@ router.route('/')
                 break
         }
     })
-    //<editor-fold desc="Import playlist with analysis and Filters | On hold for now">
     /**
      * Create a new playlist
      */
-    // .post(renewToken, async (req: Request, res: Response) => {
-    // const playlist = DI.playlistRepository.create(new Playlist(req.session.user!, req.body.name ?? 'New playlist'))
-    // const spotifyPlaylist = await endpoint(req.session.user!.token.value).playlistInfo(req.body.id)
-    //
-    // if (req.body.id) {
-    //     playlist.spotifyId = req.body.id
-    //     playlist.fromPlaylistId = req.body.id
-    // }
-    // if (spotifyPlaylist) {
-    //     playlist.name = spotifyPlaylist.name
-    //     playlist.description = spotifyPlaylist.description
-    // }
-    //
-    // await DI.playlistRepository.persistAndFlush(playlist)
-    //
-    // const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit`, importing: '' }).toString()
-    // res.redirect(`/?${query}`)
-    //
-    // const filters = await filtersFromPlaylistTracks(req.session.user!, req.body.id)
-    // })
-    //</editor-fold>
     .post(renewToken, async (req: Request, res: Response) => {
-        const playlist = DI.playlistRepository.create(new Playlist(req.session.user!, req.body.name ?? 'New playlist'))
+        if (req.body.name) {
+            const playlist = DI.playlistRepository.create(
+                new Playlist(req.session.user!, req.body.name ?? 'New playlist')
+            )
 
-        playlist.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(playlist)
-        await DI.playlistRepository.persistAndFlush(playlist)
+            playlist.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(playlist)
+            await DI.playlistRepository.persistAndFlush(playlist)
 
-        const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit`, importing: '' })
-        res.redirect(`/?${query}`)
+            const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit` })
+            res.redirect(`/?${query}`)
+        } else if (req.body.id) {
+            const spotifyPlaylist = await endpoint(req.session.user!.token.value).playlist(req.body.id)
+            if (spotifyPlaylist) {
+                const tracks = await endpoint(req.session.user!.token.value).playlistTracks(req.body.id)
+                let playlist = await DI.playlistRepository.findOne({ spotifyId: spotifyPlaylist.id })
+                if (playlist) {
+                    const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit` })
+                    res.redirect(`/?${query}`)
+                    return
+                }
+                playlist = DI.playlistRepository.create(new Playlist(req.session.user!, spotifyPlaylist.name))
+                playlist.spotifyId = spotifyPlaylist.id
+                playlist.images = spotifyPlaylist.images
+                playlist.filters = tracks.map(value => ({ id: value.track.id, type: FilterType.Track }))
+                await DI.playlistRepository.persistAndFlush(playlist)
+
+                const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit` })
+                res.redirect(`/?${query}`)
+            } else res.sendStatus(404)
+        } else res.sendStatus(400)
     })
 
 // prettier-ignore
