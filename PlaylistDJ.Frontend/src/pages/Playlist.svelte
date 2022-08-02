@@ -7,6 +7,7 @@
     import { _ } from 'svelte-i18n'
     import {
         ChevronLeftIcon,
+        ChevronsUpIcon,
         ListIcon,
         LoaderIcon,
         MoreHorizontalIcon,
@@ -19,6 +20,7 @@
     import { push, replace } from 'svelte-spa-router'
     import NotFound from './NotFound.svelte'
     import { copyToClipboard, ModalAction } from '../utility'
+    import { fly, fade } from 'svelte/transition'
 
     export let params = { id: '' }
     export let isEditing: boolean = false
@@ -30,6 +32,7 @@
     let filtersData: Promise<PDJ.FilterList | null> = new Promise<{}>(() => {
         return {}
     })
+    let scrollPos: number = 0
 
     function getPlaylist() {
         data = aport(`/api/playlist/${params.id}`)
@@ -137,8 +140,10 @@
     {/if}
 </svelte:head>
 
+<svelte:window on:scroll={() => (scrollPos = window.scrollY)} />
+
 {#await data}
-    <div class="loader">
+    <div class="loader" in:fade={{ delay: 500 }}>
         <LoaderIcon size="100" />
     </div>
 {:then { status, images, name, description, isPinned, owner, isPublic }}
@@ -242,10 +247,17 @@
                         <!--todo: Playlist taste-->
                         <!--<Option iconRight={PlayIcon} title={$_('page.playlist.taste')} />-->
                     {/if}
+                    {#if scrollPos > 200}
+                        <Option
+                            on:click={() => scrollTo({ top: 0, behavior: 'smooth' })}
+                            iconLeft={ChevronsUpIcon}
+                            title={$_('page.playlist.top')}
+                        />
+                    {/if}
                 </div>
             </div>
             {#await filtersData}
-                <div class="loader">
+                <div class="loader" in:fade={{ delay: 500 }}>
                     <LoaderIcon size="45" />
                 </div>
             {:then data}
