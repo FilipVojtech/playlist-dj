@@ -478,6 +478,21 @@ export function endpoint(token: string) {
             if (uris.length > 0) await this.playlistRemoveItems(playlistId, uris)
         },
 
+        async playlistReplaceItems(playlistId: string, uris: string[]) {
+            const spotifyUrisLimit = 100
+            // const length: number = await this.playlistTrackLength(playlistId)
+            // if (length > 0) {
+            let reqUris = uris.slice(0, spotifyUrisLimit - 1)
+            uris.splice(0, spotifyUrisLimit - 1)
+            await got(`${apiUrl}/playlists/${playlistId}/tracks`, {
+                headers,
+                method: 'PUT',
+                body: JSON.stringify({ uris: reqUris }),
+            }).catch(e => console.error(e))
+            // }
+            if (uris.length > 1) await this.playlistAddItems(playlistId, uris)
+        },
+
         /**
          * Follow playlist
          * @param playlistId
