@@ -12,6 +12,7 @@ import FilterImg from './FilterImg.svelte'
 import Filter from './Filter.svelte'
 import External from './External.svelte'
 import Option from './Option.svelte'
+import Loader from './Loader.svelte'
 
 export {
     Navigation,
@@ -28,4 +29,5 @@ export {
     Filter,
     External,
     Option,
+    Loader,
 }
