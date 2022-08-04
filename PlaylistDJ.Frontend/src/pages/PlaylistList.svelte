@@ -37,14 +37,10 @@
                     closeModal()
                     openModal(ImportPlaylistModal)
                 }),
-                new ModalAction(
-                    $_('page.playlistList.more.importM3U'),
-                    () => {
-                        closeModal()
-                        openModal(ImportM3UFileModal)
-                    },
-                    false
-                ),
+                new ModalAction($_('page.playlistList.more.importM3U'), () => {
+                    closeModal()
+                    openModal(ImportM3UFileModal)
+                }),
                 new ModalAction($_('app.cancel'), closeModal),
             ],
         })

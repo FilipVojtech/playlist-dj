@@ -7,8 +7,19 @@ import { authentication, getPlaylist, renewToken, userIsOwner } from '../utility
 import { PlaylistLinkController } from './playlist'
 import { endpoint, generateRandomString, getClientToken } from '../utility'
 import { Playlist, Share } from '../entities'
+import { Readable } from 'stream'
+import readline from 'readline'
+import multer from 'multer'
+import path from 'path'
 
 const router = Router()
+const upload = multer({
+    storage: multer.memoryStorage(),
+    fileFilter(req: Request, file: Express.Multer.File, callback: multer.FileFilterCallback) {
+        const extension = path.extname(file.originalname)
+        callback(null, extension === '.m3u' || extension === '.m3u8')
+    },
+})
 
 router.use(PlaylistLinkController)
 
@@ -297,5 +308,38 @@ router.route('/:id/share')
         await DI.shareRepository.flush()
         res.json(`${process.env.REDIRECT_URI}/p/${code}`)
     })
+
+router.post('/upload', renewToken, upload.single('file'), async (req: Request, res: Response) => {
+    const fStream = new Readable({
+        read() {
+            this.push(Buffer.from(req.file!.buffer))
+            this.push(null)
+        },
+    })
+    const fLines = readline.createInterface(fStream)
+    const searchTerms: string[] = []
+    let lineCount = 0
+
+    fLines.on('line', line => {
+        if (line.startsWith('#EXTINF')) searchTerms.push(line.split(',')[1].trim())
+        lineCount++
+        if (lineCount === 1 && line !== '#EXTM3U') res.redirect('/#/playlists')
+    })
+    fLines.on('close', async () => {
+        const playlist = DI.playlistRepository.create(new Playlist(req.session.user!, req.body.name))
+        const songUris = []
+        playlist.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(playlist)
+        for (const term of searchTerms) {
+            const searchResult = await endpoint(req.session.user!.token.value).search('track', term, '1')
+            if (searchResult.tracks?.items.length === 1) {
+                playlist.filters.push({ id: searchResult.tracks.items[0].id, type: FilterType.Track })
+                songUris.push(searchResult.tracks.items[0].uri)
+            }
+        }
+        await endpoint(req.session.user!.token.value).playlistAddItems(playlist.spotifyId, songUris)
+        await DI.playlistRepository.persistAndFlush(playlist)
+        res.redirect(`/#/playlist/${playlist.id}`)
+    })
+})
 
 export default router
