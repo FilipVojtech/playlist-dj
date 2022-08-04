@@ -1,5 +1,5 @@
-export default function aport(url: RequestInfo, options?: RequestInit): Promise<Response> {
-    options = { ...options, headers: { ...options?.headers, 'Content-Type': 'application/json' } }
+export default function aport(url: RequestInfo, options?: RequestInit, jsonRequest: boolean = true): Promise<Response> {
+    if (jsonRequest) options = { ...options, headers: { ...options?.headers, 'Content-Type': 'application/json' } }
     return fetch(url, options).then(value => {
         if (value.status === 401) window.location.replace('/logout')
         else if (value.redirected) {
