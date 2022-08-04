@@ -34,8 +34,82 @@
       "tracks": "Tracks"
     },
     "locales": {
-      "cs": "Čeština",
-      "en": "English"
+        "cs": "Čeština",
+        "en": "English",
+        "de": "Deutch"
+    },
+    "modal": {
+        "consent": {
+            "agree": {
+                "1": "Agree to",
+                "2": "and"
+            },
+            "message": "To continue using the Playlist DJ service you will have to",
+            "privacyPolicy": "Privacy policy",
+            "title": "Consent renewal",
+            "tos": "Terms of Service"
+        },
+        "createPost": {
+            "cantLoad": "Couldn't fetch playlists",
+            "nothingFound": "No playlists found",
+            "playlist": "Playlist",
+            "post": "Post",
+            "title": "Create a post",
+            "whatsUp": "What's poppin'?"
+        },
+        "deleteConfirm": {
+            "message": "This action cannot be undone",
+            "title": "Are you sure?"
+        },
+        "editPlaylistDetails": {
+            "playlistDescription": "Playlist description",
+            "playlistName": "Playlist name",
+            "title": "Edit details"
+        },
+        "editPlaylistPicture": {
+            "title": "Edit picture"
+        },
+        "importPlaylist": {
+            "title": "Choose a playlist..."
+        },
+        "login": {
+            "logIn": "Log in",
+            "register": "Register",
+            "title": "Login"
+        },
+        "merge": {
+            "choosePlaylist": "Choose a playlist",
+            "noPlaylists": "No playlists found",
+            "selectedPlaylists": "Selected playlists",
+            "playlists": "Playlists",
+            "title": "Merge playlists",
+            "merge": "Merge",
+            "playlistName": "Playlist name",
+            "newPlaylistName": "New playlist name"
+        },
+        "register": {
+            "consent": {
+                "1": "Agree with",
+                "2": "and"
+            },
+            "message": "You will need to login using your Spotify account in the next step.",
+            "privacyPolicy": "Privacy policy",
+            "title": "Register",
+            "tos": "Terms of Service"
+        },
+        "search": {
+            "placeholder": "Search on Spotify"
+        },
+        "share": {
+            "copyPrivate": "Copy private link",
+            "copyPublic": "Copy link",
+            "message": "NOTE: If you share a link to playlist that is set to private, the receiving person won't be able to view it.",
+            "privateLink": "Private link",
+            "privateMessage": "Private link allows viewing the playlist even if it is set to private.",
+            "publicLink": "Link to playlist",
+            "resetPrivate": "Reset private link",
+            "title": "Share playlist"
+        }
     },
     "navigation": {
       "home": "Home",
@@ -191,26 +265,26 @@
       },
       "communication": {
         "playlist": {
-          "addFilter": "Add filter",
-          "addFilterToLinked": "Filters cannot be added to linked playlist",
-          "copyLink": "Copy link",
-          "edit": "Edit",
-          "editDetails": "Edit details",
-          "editPhoto": "Change picture",
-          "editTitle": "Editing playlist",
-          "more": {
-            "addUser": "Invite users to collaborate",
-            "delete": "Delete playlist",
-            "unlink": "Unlink playlists"
-          },
-          "pin": "Pin",
-          "privatePlaylist": "This playlist is private",
-          "share": "Share",
-          "taste": "Taste the playlist",
-          "title": "Playlist",
-          "top": "Top",
-          "tryLogIn": "You can try logging in",
-          "unpin": "Unpin"
+            "addFilter": "Add content",
+            "addFilterToLinked": "Content other than playlists cannot be added to linked playlist",
+            "copyLink": "Copy link",
+            "edit": "Edit",
+            "editDetails": "Edit details",
+            "editPhoto": "Change picture",
+            "editTitle": "Editing playlist",
+            "more": {
+                "addUser": "Invite users to collaborate",
+                "delete": "Delete playlist",
+                "unlink": "Unlink playlists"
+            },
+            "pin": "Pin",
+            "privatePlaylist": "This playlist is private",
+            "share": "Share",
+            "taste": "Taste the playlist",
+            "title": "Playlist",
+            "top": "Top",
+            "tryLogIn": "You can try logging in",
+            "unpin": "Unpin"
         },
         "playlistList": {
           "error": "Name cannot be empty",
