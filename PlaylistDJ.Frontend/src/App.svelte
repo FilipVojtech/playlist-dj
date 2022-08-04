@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { LoginButton, Navigation } from './components'
+    import { Loader, LoginButton, Navigation } from './components'
     import { ConsentModal } from './components/modals'
     import { About, Home, NotFound, Playlist, PlaylistList, Social } from './pages'
     import Settings, { Account, Communication, Legal, Profile } from './pages/Settings'
@@ -9,7 +9,6 @@
     import { _, isLoading } from 'svelte-i18n'
     import { closeAllModals, Modals, openModal } from 'svelte-modals'
     import { fade, fly } from 'svelte/transition'
-    import { LoaderIcon } from 'svelte-feather-icons'
     import wrap from 'svelte-spa-router/wrap'
     import { onMount } from 'svelte'
     import aport from './utility/Aport'
@@ -90,9 +89,7 @@
             <div class="backdrop" on:click={$canCloseModal ? closeAllModals : null} slot="backdrop" transition:fade />
         </Modals>
     {:else}
-        <div class="loader">
-            <LoaderIcon size="100" />
-        </div>
+        <Loader size="100" />
     {/if}
 </div>
 

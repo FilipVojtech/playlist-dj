@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { PDJ } from '@playlist-dj/types'
-    import { Header, Post } from '../components'
+    import { Header, Loader, Post } from '../components'
     import { CreatePostModal } from '../components/modals'
     import { _ } from 'svelte-i18n'
-    import { LoaderIcon, PlusSquareIcon } from 'svelte-feather-icons'
+    import { PlusSquareIcon } from 'svelte-feather-icons'
     import { openModal } from 'svelte-modals'
     import { onMount } from 'svelte'
     import aport from '../utility/Aport'
@@ -35,9 +35,7 @@
 />
 
 {#await data}
-    <div class="loader">
-        <LoaderIcon size="35" />
-    </div>
+    <Loader />
 {:then posts}
     {#if posts.length > 0}
         <div class="list">

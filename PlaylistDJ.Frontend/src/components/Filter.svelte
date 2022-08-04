@@ -37,7 +37,7 @@
             class="filter__actions"
             transition:slide|local={{ duration: 300 }}
             on:introend={e => {
-                if (showActions) e.target.scrollIntoView(false)
+                if (showActions) e.target.scrollIntoView({ block: 'center' })
             }}
         >
             {#each actions as { icon, onClick }}

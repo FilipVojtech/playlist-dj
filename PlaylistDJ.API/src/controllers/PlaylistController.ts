@@ -7,8 +7,19 @@ import { authentication, getPlaylist, renewToken, userIsOwner } from '../utility
 import { PlaylistLinkController } from './playlist'
 import { endpoint, generateRandomString, getClientToken } from '../utility'
 import { Playlist, Share } from '../entities'
+import { Readable } from 'stream'
+import readline from 'readline'
+import multer from 'multer'
+import path from 'path'
 
 const router = Router()
+const upload = multer({
+    storage: multer.memoryStorage(),
+    fileFilter(req: Request, file: Express.Multer.File, callback: multer.FileFilterCallback) {
+        const extension = path.extname(file.originalname)
+        callback(null, extension === '.m3u' || extension === '.m3u8')
+    },
+})
 
 router.use(PlaylistLinkController)
 
@@ -91,7 +102,7 @@ router.route('/')
         switch (req.query.src) {
             case 'spotify':
                 res.json(
-                    await endpoint(req.session.user!.token.value).ownedPlaylists(req.session.user!.profile.spotifyId),
+                    await endpoint(req.session.user!.token.value).ownedPlaylists(req.session.user!.profile.spotifyId)
                 )
                 break
             case 'pinned':
@@ -100,7 +111,7 @@ router.route('/')
                         owner: req.session.user!._id.toString(),
                         isPinned: true,
                         isMerged: false,
-                    }),
+                    })
                 )
                 break
             case 'link':
@@ -110,8 +121,8 @@ router.route('/')
                 })
                 res.json(
                     playlists.filter(
-                        value => value.filters.findIndex(value1 => value1.type === FilterType.Playlist) === -1,
-                    ),
+                        value => value.filters.findIndex(value1 => value1.type === FilterType.Playlist) === -1
+                    )
                 )
                 break
             default:
@@ -119,44 +130,45 @@ router.route('/')
                     await DI.playlistRepository.find({
                         owner: req.session.user!._id.toString(),
                         isMerged: false,
-                    }),
+                    })
                 )
                 break
         }
     })
-    //<editor-fold desc="Import playlist with analysis and Filters | On hold for now">
     /**
      * Create a new playlist
      */
-    // .post(renewToken, async (req: Request, res: Response) => {
-    // const playlist = DI.playlistRepository.create(new Playlist(req.session.user!, req.body.name ?? 'New playlist'))
-    // const spotifyPlaylist = await endpoint(req.session.user!.token.value).playlistInfo(req.body.id)
-    //
-    // if (req.body.id) {
-    //     playlist.spotifyId = req.body.id
-    //     playlist.fromPlaylistId = req.body.id
-    // }
-    // if (spotifyPlaylist) {
-    //     playlist.name = spotifyPlaylist.name
-    //     playlist.description = spotifyPlaylist.description
-    // }
-    //
-    // await DI.playlistRepository.persistAndFlush(playlist)
-    //
-    // const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit`, importing: '' }).toString()
-    // res.redirect(`/?${query}`)
-    //
-    // const filters = await filtersFromPlaylistTracks(req.session.user!, req.body.id)
-    // })
-    //</editor-fold>
     .post(renewToken, async (req: Request, res: Response) => {
-        const playlist = DI.playlistRepository.create(new Playlist(req.session.user!, req.body.name ?? 'New playlist'))
+        if (req.body.name) {
+            const playlist = DI.playlistRepository.create(
+                new Playlist(req.session.user!, req.body.name ?? 'New playlist')
+            )
 
-        playlist.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(playlist)
-        await DI.playlistRepository.persistAndFlush(playlist)
+            playlist.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(playlist)
+            await DI.playlistRepository.persistAndFlush(playlist)
 
-        const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit`, importing: '' })
-        res.redirect(`/?${query}`)
+            const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit` })
+            res.redirect(`/?${query}`)
+        } else if (req.body.id) {
+            const spotifyPlaylist = await endpoint(req.session.user!.token.value).playlist(req.body.id)
+            if (spotifyPlaylist) {
+                const tracks = await endpoint(req.session.user!.token.value).playlistTracks(req.body.id)
+                let playlist = await DI.playlistRepository.findOne({ spotifyId: spotifyPlaylist.id })
+                if (playlist) {
+                    const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit` })
+                    res.redirect(`/?${query}`)
+                    return
+                }
+                playlist = DI.playlistRepository.create(new Playlist(req.session.user!, spotifyPlaylist.name))
+                playlist.spotifyId = spotifyPlaylist.id
+                playlist.images = spotifyPlaylist.images
+                playlist.filters = tracks.map(value => ({ id: value.track.id, type: FilterType.Track }))
+                await DI.playlistRepository.persistAndFlush(playlist)
+
+                const query = new URLSearchParams({ url: `/#/playlist/${playlist.id}/edit` })
+                res.redirect(`/?${query}`)
+            } else res.sendStatus(404)
+        } else res.sendStatus(400)
     })
 
 // prettier-ignore
@@ -197,7 +209,7 @@ router.route('/:id')
         const linked = await DI.playlistRepository.findOne({ filters: { $elemMatch: { id: req.playlist!.id } } as any })
         linked?.filters.splice(
             linked.filters.findIndex(value => value.id === req.playlist!.id),
-            1,
+            1
         )
         if (linked?.filters.length === 0) DI.playlistRepository.remove(linked)
         // Remove posts with this playlist
@@ -231,13 +243,17 @@ router.route('/:id/filter')
         req.playlist!.filters.push(...req.body)
         // Remove duplicate values
         req.playlist!.filters = [...new Map(req.playlist!.filters.map(value => [value.id, value])).values()]
+        if (!req.playlist!.spotifyId)
+            req.playlist!.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(req.playlist!)
         await DI.em.flush()
         res.sendStatus(200)
+        const trackUris = await endpoint(req.session.user!.token.value).filtersToTrackUris(req.playlist!.filters)
+        await endpoint(req.session.user!.token.value).playlistReplaceItems(req.playlist!.spotifyId, trackUris)
     })
     /**
      * Delete filters
      */
-    .delete(userIsOwner, async (req: Request, res: Response) => {
+    .delete(userIsOwner, renewToken, async (req: Request, res: Response) => {
         if (!req.body) {
             res.sendStatus(400)
             return
@@ -252,8 +268,13 @@ router.route('/:id/filter')
             const removeItemIndex = req.playlist!.filters.findIndex(value => value.id === filter.id)
             req.playlist!.filters.splice(removeItemIndex, 1)
         }
+        if (!req.playlist!.spotifyId)
+            req.playlist!.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(req.playlist!)
         await DI.playlistRepository.flush()
         res.sendStatus(200)
+        // need to transform filters to track filters
+        const trackUris = await endpoint(req.session.user!.token.value).filtersToTrackUris(req.playlist!.filters)
+        await endpoint(req.session.user!.token.value).playlistReplaceItems(req.playlist!.spotifyId, trackUris)
     })
 
 /**
@@ -287,5 +308,38 @@ router.route('/:id/share')
         await DI.shareRepository.flush()
         res.json(`${process.env.REDIRECT_URI}/p/${code}`)
     })
+
+router.post('/upload', renewToken, upload.single('file'), async (req: Request, res: Response) => {
+    const fStream = new Readable({
+        read() {
+            this.push(Buffer.from(req.file!.buffer))
+            this.push(null)
+        },
+    })
+    const fLines = readline.createInterface(fStream)
+    const searchTerms: string[] = []
+    let lineCount = 0
+
+    fLines.on('line', line => {
+        if (line.startsWith('#EXTINF')) searchTerms.push(line.split(',')[1].trim())
+        lineCount++
+        if (lineCount === 1 && line !== '#EXTM3U') res.redirect('/#/playlists')
+    })
+    fLines.on('close', async () => {
+        const playlist = DI.playlistRepository.create(new Playlist(req.session.user!, req.body.name))
+        const songUris = []
+        playlist.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(playlist)
+        for (const term of searchTerms) {
+            const searchResult = await endpoint(req.session.user!.token.value).search('track', term, '1')
+            if (searchResult.tracks?.items.length === 1) {
+                playlist.filters.push({ id: searchResult.tracks.items[0].id, type: FilterType.Track })
+                songUris.push(searchResult.tracks.items[0].uri)
+            }
+        }
+        await endpoint(req.session.user!.token.value).playlistAddItems(playlist.spotifyId, songUris)
+        await DI.playlistRepository.persistAndFlush(playlist)
+        res.redirect(`/#/playlist/${playlist.id}`)
+    })
+})
 
 export default router

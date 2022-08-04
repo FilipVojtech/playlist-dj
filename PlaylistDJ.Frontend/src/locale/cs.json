@@ -49,6 +49,7 @@
   },
   "locales": {
     "cs": "Čeština",
+    "de": "Deutch (beta)",
     "en": "English"
   },
   "modal": {
@@ -70,6 +71,15 @@
       "title": "Vytvořit příspěvek",
       "whatsUp": "Jak to jde?"
     },
+    "deleteAccount": {
+      "action": "Smazat můj účet",
+      "message1": "Chcete odstranit svůj účet?",
+      "message2": "Tuto akci nelze vzít zpět",
+      "message3": "Váš účet a všechna data s ním spojená byla odstraněna. Za okamžik budete přesměrováni.",
+      "title": "Odstranit účet",
+      "title2": "Jste si jistí?",
+      "title3": "Odstranění účtu"
+    },
     "deleteConfirm": {
       "message": "Tuto akci nelze vzít zpět",
       "title": "Jste si jisti?"
@@ -82,6 +92,11 @@
     "editPlaylistPicture": {
       "title": "Změnit obrázek"
     },
+    "importM3U": {
+      "playlistFile": "Soubor playlistu",
+      "playlistName": "Název playlistu",
+      "title": "Naimportovat soubor playlistu"
+    },
     "importPlaylist": {
       "title": "Vyberte playlist..."
     },
@@ -92,13 +107,13 @@
     },
     "merge": {
       "choosePlaylist": "Vyberte playlist",
-      "noPlaylists": "Žádné playlisty nenalezeny",
-      "selectedPlaylists": "Vybrané playlisty",
-      "playlists": "Playlisty",
-      "title": "Sloučit playlisty",
       "merge": "Sloučit",
+      "newPlaylistName": "Název nového playlistu",
+      "noPlaylists": "Žádné playlisty nenalezeny",
       "playlistName": "Název playlistu",
-      "newPlaylistName": "Název nového playlistu"
+      "playlists": "Playlisty",
+      "selectedPlaylists": "Vybrané playlisty",
+      "title": "Sloučit playlisty"
     },
     "register": {
       "consent": {
@@ -136,7 +151,7 @@
       "returnToPlaylists": "Vrátit se na playlisty"
     },
     "playlist": {
-      "addFilter": "Přidat filtr",
+      "addFilter": "Přidat obsah",
       "addFilterToLinked": "Nelze přidat filtry do spojeného playlistu",
       "copyLink": "Zkopírovat odkaz",
       "edit": "Upravit",
@@ -153,6 +168,7 @@
       "share": "Sdílet",
       "taste": "Ochutnat playlist",
       "title": "Playlist",
+      "top": "Nahoru",
       "tryLogIn": "Můžete se zkusit přihlásit",
       "unpin": "Odepnout"
     },
@@ -168,17 +184,6 @@
     },
     "settings": {
       "account": {
-        "deleteAccount": {
-          "delete": "Odstranit účet",
-          "modal": {
-            "action": "Smazat můj účet",
-            "message1": "Chcete odstranit svůj účet?",
-            "message2": "Tuto akci nelze vzít zpět",
-            "message3": "Váš účet a všechna data s ním spojená byla odstraněna. Za okamžik budete přesměrováni.",
-            "title2": "Jste si jistí?",
-            "title3": "Odstranění účtu"
-          }
-        },
         "savedInfo": "Toto jsou informace o vás uložené na našich serverech",
         "title": "Účet",
         "whatWeKnow": "Co o vás víme"

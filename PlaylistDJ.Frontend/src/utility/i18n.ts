@@ -3,6 +3,7 @@ import { getCookies } from './index'
 
 register('en', () => import('./../locale/en.json'))
 register('cs', () => import('./../locale/cs.json'))
+register('de', () => import('./../locale/de.json'))
 
 let forceLang: string | undefined // = 'cs'
 

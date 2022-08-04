@@ -5,7 +5,7 @@
     import { copyToClipboard } from '../../utility'
     import { onMount } from 'svelte'
     import aport from '../../utility/Aport'
-    import { LoaderIcon } from 'svelte-feather-icons'
+    import Loader from '../Loader.svelte'
 
     export let isOpen: boolean
     export let playlistId: string
@@ -53,7 +53,7 @@
                 <p>{$_('modal.share.message')}</p>
                 <label class="form__label" for="privateLink">{$_('modal.share.privateLink')}</label>
                 {#await privateLink}
-                    <div class="loader"><LoaderIcon size="25" /></div>
+                    <Loader size="25" />
                 {:then link}
                     <input id="privateLink" type="text" class="form__input" disabled value={link} />
                     <button class="item--interactive form__input" on:click|preventDefault={copyToClipboard(link)}>
