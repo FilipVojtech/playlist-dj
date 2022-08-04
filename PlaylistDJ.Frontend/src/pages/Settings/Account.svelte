@@ -18,8 +18,8 @@
         function sendDelete() {
             closeModals(2)
             openModal(OkModal, {
-                title: $_('page.settings.account.deleteAccount.modal.title3'),
-                message: $_('page.settings.account.deleteAccount.modal.message3'),
+                title: $_('modal.deleteAccount.title3'),
+                message: $_('modal.deleteAccount.message3'),
             })
             setTimeout(async () => {
                 await aport('/api/user/account', { method: 'DELETE' })
@@ -27,15 +27,15 @@
             }, 5000)
         }
         openModal(Modal, {
-            title: $_('page.settings.account.deleteAccount.delete'),
-            message: $_('page.settings.account.deleteAccount.modal.message1'),
+            title: $_('modal.deleteAccount.title'),
+            message: $_('modal.deleteAccount.message1'),
             actions: [
                 new ModalAction($_('app.yes'), () =>
                     openModal(Modal, {
-                        title: $_('page.settings.account.deleteAccount.modal.title2'),
-                        message: $_('page.settings.account.deleteAccount.modal.message2'),
+                        title: $_('modal.deleteAccount.title2'),
+                        message: $_('modal.deleteAccount.message2'),
                         actions: [
-                            new ModalAction($_('page.settings.account.deleteAccount.modal.action'), sendDelete),
+                            new ModalAction($_('modal.deleteAccount.action'), sendDelete),
                             new ModalAction($_('app.cancel'), closeModals),
                         ],
                     })
@@ -68,7 +68,7 @@
 </div>
 <div class="item item--interactive item--warning" on:click={deleteAccount}>
     <span class="item__icon"><TrashIcon size="25" /></span>
-    {$_('page.settings.account.deleteAccount.delete')}
+    {$_('modal.deleteAccount.title')}
 </div>
 
 <style>

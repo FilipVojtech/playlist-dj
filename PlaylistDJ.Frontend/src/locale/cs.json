@@ -33,84 +33,6 @@
       "track": "Skladba",
       "tracks": "Skladby"
     },
-    "locales": {
-        "cs": "Čeština",
-        "en": "English",
-        "de": "Deutch"
-    },
-    "modal": {
-        "consent": {
-            "agree": {
-                "1": "Souhlasit se",
-                "2": "a"
-            },
-            "message": "Pokud chcete nadále používat službu Playlist DJ, budete muset",
-            "privacyPolicy": "Zásadami ochrany osobních údajů",
-            "title": "Obnovení souhlasu",
-            "tos": "Podmínkami poskytování služeb"
-        },
-        "createPost": {
-            "cantLoad": "Nelze načíst playlisty",
-            "nothingFound": "Nebyly nalezeny žádné playlisty",
-            "playlist": "Playlist",
-            "post": "Zveřejnit",
-            "title": "Vytvořit příspěvek",
-            "whatsUp": "Jak to jde?"
-        },
-        "deleteConfirm": {
-            "message": "Tuto akci nelze vzít zpět",
-            "title": "Jste si jisti?"
-        },
-        "editPlaylistDetails": {
-            "playlistDescription": "Popis playlistu",
-            "playlistName": "Název playlistu",
-            "title": "Upravit detaily"
-        },
-        "editPlaylistPicture": {
-            "title": "Změnit obrázek"
-        },
-        "importPlaylist": {
-            "title": "Vyberte playlist..."
-        },
-        "login": {
-            "logIn": "Přihlásit se",
-            "register": "Registrovat se",
-            "title": "Přihlášení"
-        },
-        "merge": {
-            "choosePlaylist": "Vyberte playlist",
-            "noPlaylists": "Žádné playlisty nenalezeny",
-            "selectedPlaylists": "Vybrané playlisty",
-            "playlists": "Playlisty",
-            "title": "Sloučit playlisty",
-            "merge": "Sloučit",
-            "playlistName": "Název playlistu",
-            "newPlaylistName": "Název nového playlistu"
-        },
-        "register": {
-            "consent": {
-                "1": "Souhlasím se",
-                "2": "a"
-            },
-            "message": "V dalším kroku se přihlaste do svého Spotify účtu.",
-            "privacyPolicy": "Zásadami ochrany osobních údajů",
-            "title": "Registrace",
-            "tos": "Podmínkami poskytování služeb"
-        },
-        "search": {
-            "placeholder": "Vyhledat na Spotify"
-        },
-        "share": {
-            "copyPrivate": "Kopírovat soukromý odkaz",
-            "copyPublic": "Zkopírovat odkaz",
-            "message": "POZN.: Pokud s někým sdílíte odkaz na playlist označený jako soukromý, tato osoba ho nebude schopna zobrazit.",
-            "privateLink": "Soukromý odkaz",
-            "privateMessage": "Soukromý odkaz umožňuje zobrazit playlist, i když je nastavený jako soukromý.",
-            "publicLink": "Odkaz na playlist",
-            "resetPrivate": "Obnovit soukromý odkaz",
-            "title": "Sdílet playlist"
-        }
-    },
     "navigation": {
       "home": "Domů",
       "pinnedPlaylists": "Připnuté playlisty",
@@ -124,6 +46,11 @@
       "delete": "Odstranit příspěvek",
       "showPlaylist": "Ukázat playlist"
     }
+  },
+  "locales": {
+    "cs": "Čeština",
+    "de": "Deutch (beta)",
+    "en": "English"
   },
   "modal": {
     "consent": {
@@ -143,6 +70,15 @@
       "post": "Zveřejnit",
       "title": "Vytvořit příspěvek",
       "whatsUp": "Jak to jde?"
+    },
+    "deleteAccount": {
+      "action": "Smazat můj účet",
+      "message1": "Chcete odstranit svůj účet?",
+      "message2": "Tuto akci nelze vzít zpět",
+      "message3": "Váš účet a všechna data s ním spojená byla odstraněna. Za okamžik budete přesměrováni.",
+      "title": "Odstranit účet",
+      "title2": "Jste si jistí?",
+      "title3": "Odstranění účtu"
     },
     "deleteConfirm": {
       "message": "Tuto akci nelze vzít zpět",
@@ -248,100 +184,11 @@
     },
     "settings": {
       "account": {
-        "deleteAccount": {
-          "delete": "Odstranit účet",
-          "modal": {
-            "action": "Smazat můj účet",
-            "message1": "Chcete odstranit svůj účet?",
-            "message2": "Tuto akci nelze vzít zpět",
-            "message3": "Váš účet a všechna data s ním spojená byla odstraněna. Za okamžik budete přesměrováni.",
-            "title2": "Jste si jistí?",
-            "title3": "Odstranění účtu"
-          }
-        },
         "savedInfo": "Toto jsou informace o vás uložené na našich serverech",
         "title": "Účet",
         "whatWeKnow": "Co o vás víme"
       },
       "communication": {
-        "playlist": {
-            "addFilter": "Přidat obsah",
-            "addFilterToLinked": "Nelze přidat filtry do spojeného playlistu",
-            "copyLink": "Zkopírovat odkaz",
-            "edit": "Upravit",
-            "editDetails": "Upravit detaily",
-            "editPhoto": "Změnit obrázek",
-            "editTitle": "Upravování playlistu",
-            "more": {
-                "addUser": "Pozvat uživatele ke kolaboraci",
-                "delete": "Odstranit playlist",
-                "unlink": "Rozpojit playlisty"
-            },
-            "pin": "Připnout",
-            "privatePlaylist": "Tento playlist je soukromý",
-            "share": "Sdílet",
-            "taste": "Ochutnat playlist",
-            "title": "Playlist",
-            "top": "Nahoru",
-            "tryLogIn": "Můžete se zkusit přihlásit",
-            "unpin": "Odepnout"
-        },
-        "playlistList": {
-          "error": "Název playlistu nesmí být prázdný",
-          "more": {
-            "importM3U": "Nahrát playlist z m3u souboru",
-            "importPlaylist": "Nahrát playlist ze Spotify",
-            "mergePlaylists": "Spojit playlisty"
-          },
-          "newPlaylist": "Nový playlist",
-          "title": "Playlisty"
-        },
-        "settings": {
-          "account": {
-            "deleteAccount": {
-              "delete": "Odstranit účet",
-              "modal": {
-                "action": "Smazat můj účet",
-                "message1": "Chcete odstranit svůj účet?",
-                "message2": "Tuto akci nelze vzít zpět",
-                "message3": "Váš účet a všechna data s ním spojená byla odstraněna. Za okamžik budete přesměrováni.",
-                "title2": "Jste si jistí?",
-                "title3": "Odstranění účtu"
-              }
-            },
-            "savedInfo": "Toto jsou informace o vás uložené na našich serverech",
-            "title": "Účet",
-            "whatWeKnow": "Co o vás víme"
-          },
-          "communication": {
-            "subscribeTo": {
-              "important": "Důležitá oznámení",
-              "product": "Aktualizace a novinky"
-            },
-            "title": "Oznámení",
-            "updateFrequency": {
-              "biWeekly": "Obtýden",
-              "custom": "Vlastní",
-              "daily": "Denně",
-              "disabled": "Neposílat",
-              "monthly": "Měsíčně",
-              "weekly": "Týdne"
-            }
-          },
-          "legal": {
-            "privacyPolicy": "Zásady ochrany osobních údajů",
-            "title": "Právní dokumenty",
-            "tos": "Podmínky poskytování služeb"
-          },
-          "profile": {
-            "title": "Profil"
-          },
-          "title": "Nastavení"
-        },
-        "social": {
-          "noPost": "Žádné příspěvky (zatím)",
-          "title": "Síť"
-        },
         "subscribeTo": {
           "important": "Důležitá oznámení",
           "product": "Aktualizace a novinky"

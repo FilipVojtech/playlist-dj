@@ -23,7 +23,7 @@
   },
   "component": {
     "filterList": {
-      "album": "Album",
+      "album": "album",
       "albums": "Alben",
       "artist": "Artist",
       "artists": "Kunstler/in",
@@ -41,7 +41,7 @@
       "social": "Social"
     },
     "post": {
-      "by": "von",
+      "by": "Von",
       "collapsePlaylist": "Playlist einklappen",
       "delete": "Delete post",
       "showPlaylist": "Playlist anzeigen"
@@ -49,7 +49,7 @@
   },
   "locales": {
     "cs": "Čeština",
-    "de": "Deutch",
+    "de": "Deutch (beta)",
     "en": "English"
   },
   "modal": {
@@ -70,6 +70,15 @@
       "post": "Posten",
       "title": "Post erstellen",
       "whatsUp": "Was geht ab?"
+    },
+    "deleteAccount": {
+      "action": "Meinen Account löschen",
+      "message1": "Möchtest du deinen Account wirklich löschen?",
+      "message2": "Diese Aktion kann nich rüchgängig gemach werden",
+      "message3": "Dein Account und all die dazugehörigen Daten werden gelöscht. Du wirst jeden Moment weitergeleitet",
+      "title": "Account löschen",
+      "title2": "Bist du sicher?",
+      "title3": "Account Löschung"
     },
     "deleteConfirm": {
       "message": "Die Aktion kann nicht rüchgängig gemach werden",
@@ -99,7 +108,7 @@
     "merge": {
       "choosePlaylist": "Choose a playlist",
       "merge": "Merge",
-      "newPlaylistName": "New playlist name",
+      "newPlaylistName": "Neu Playlist Name",
       "noPlaylists": "No playlists found",
       "playlistName": "Playlist name",
       "playlists": "Playlisten",
@@ -170,22 +179,11 @@
         "importPlaylist": "Import Spotify playlist",
         "mergePlaylists": "Merge playlists"
       },
-      "newPlaylist": "New playlist",
+      "newPlaylist": "Neu Playlist",
       "title": "Playlisten"
     },
     "settings": {
       "account": {
-        "deleteAccount": {
-          "delete": "Account löschen",
-          "modal": {
-            "action": "Delete my account",
-            "message1": "Do you want to delete your account?",
-            "message2": "This action cannot be undone",
-            "message3": "Your account and all data associated with it has been deleted. You will be redirected in a moment.",
-            "title2": "Are you sure?",
-            "title3": "Account deletion"
-          }
-        },
         "savedInfo": "Diese Information wird auf unseren Server gespeichert",
         "title": "Account",
         "whatWeKnow": "Was wir über dich wissen"
