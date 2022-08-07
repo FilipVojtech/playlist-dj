@@ -8,6 +8,7 @@
     import {
         ChevronLeftIcon,
         ChevronsUpIcon,
+        ExternalLinkIcon,
         ListIcon,
         LoaderIcon,
         MoreHorizontalIcon,
@@ -146,7 +147,7 @@
     <div class="loader" in:fade={{ delay: 500 }}>
         <LoaderIcon size="100" />
     </div>
-{:then { status, images, name, description, isPinned, owner, isPublic }}
+{:then { status, images, name, description, isPinned, owner, isPublic, spotifyId }}
     {#if status && status === 404}
         <NotFound />
     {:else if status === 403}
@@ -252,6 +253,13 @@
                             on:click={() => scrollTo({ top: 0, behavior: 'smooth' })}
                             iconLeft={ChevronsUpIcon}
                             title={$_('page.playlist.top')}
+                        />
+                    {/if}
+                    {#if spotifyId}
+                        <Option
+                            title={$_('page.playlist.openOnSpotify')}
+                            on:click={() => window.open(`https://open.spotify.com/playlist/${spotifyId}`, '_blank')}
+                            iconRight={ExternalLinkIcon}
                         />
                     {/if}
                 </div>
