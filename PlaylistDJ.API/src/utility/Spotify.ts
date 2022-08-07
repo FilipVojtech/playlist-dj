@@ -561,7 +561,6 @@ export function endpoint(token: string) {
                         break
                     case FilterType.Track:
                         const track = await this.track(filter.id)
-                        console.log(track!.name)
                         trackUris.push(track!.uri)
                         break
                 }
