@@ -204,7 +204,7 @@ router.route('/:id')
     /**
      * Delete playlist
      */
-    .delete(async (req: Request, res: Response) => {
+    .delete(renewToken, async (req: Request, res: Response) => {
         // Remove the playlists from linked playlists
         const linked = await DI.playlistRepository.findOne({ filters: { $elemMatch: { id: req.playlist!.id } } as any })
         linked?.filters.splice(
@@ -212,10 +212,17 @@ router.route('/:id')
             1
         )
         if (linked?.filters.length === 0) DI.playlistRepository.remove(linked)
+        if (req.playlist!.isMerged)
+            await endpoint(req.session.user!.token.value).playlistReplaceItems(
+                linked!.spotifyId,
+                await endpoint(req.session.user!.token.value).filtersToTrackUris(linked!.filters)
+            )
         // Remove posts with this playlist
         const posts = await DI.postRepository.find({ playlist: req.playlist! })
         posts.forEach(value => DI.postRepository.remove(value))
         await DI.postRepository.flush()
+        // Unfollow playlist on Spotify
+        await endpoint(req.session.user!.token.value).playlistUnfollow(req.playlist!.spotifyId)
         // Remove playlist
         await DI.playlistRepository.removeAndFlush(req.playlist!)
         const query = new URLSearchParams({ url: '/#/playlists' })
@@ -243,12 +250,24 @@ router.route('/:id/filter')
         req.playlist!.filters.push(...req.body)
         // Remove duplicate values
         req.playlist!.filters = [...new Map(req.playlist!.filters.map(value => [value.id, value])).values()]
-        if (!req.playlist!.spotifyId)
+        if (!req.playlist!.spotifyId && !req.playlist!.isMerged)
             req.playlist!.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(req.playlist!)
         await DI.em.flush()
         res.sendStatus(200)
-        const trackUris = await endpoint(req.session.user!.token.value).filtersToTrackUris(req.playlist!.filters)
-        await endpoint(req.session.user!.token.value).playlistReplaceItems(req.playlist!.spotifyId, trackUris)
+        if (!req.playlist!.isMerged) {
+            const trackUris = await endpoint(req.session.user!.token.value).filtersToTrackUris(req.playlist!.filters)
+            await endpoint(req.session.user!.token.value).playlistReplaceItems(req.playlist!.spotifyId, trackUris)
+        } else {
+            // Get parent playlist
+            const playlist = await DI.playlistRepository.findOne({
+                filters: { $elemMatch: { id: req.playlist!.id } } as any,
+            })
+            // Update linked playlist's items
+            await endpoint(req.session.user!.token.value).playlistReplaceItems(
+                playlist!.spotifyId,
+                await endpoint(req.session.user!.token.value).filtersToTrackUris(playlist!.filters)
+            )
+        }
     })
     /**
      * Delete filters
@@ -268,13 +287,24 @@ router.route('/:id/filter')
             const removeItemIndex = req.playlist!.filters.findIndex(value => value.id === filter.id)
             req.playlist!.filters.splice(removeItemIndex, 1)
         }
-        if (!req.playlist!.spotifyId)
+        if (!req.playlist!.spotifyId && !req.playlist!.isMerged)
             req.playlist!.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(req.playlist!)
         await DI.playlistRepository.flush()
         res.sendStatus(200)
-        // need to transform filters to track filters
-        const trackUris = await endpoint(req.session.user!.token.value).filtersToTrackUris(req.playlist!.filters)
-        await endpoint(req.session.user!.token.value).playlistReplaceItems(req.playlist!.spotifyId, trackUris)
+        if (!req.playlist!.isMerged) {
+            const trackUris = await endpoint(req.session.user!.token.value).filtersToTrackUris(req.playlist!.filters)
+            await endpoint(req.session.user!.token.value).playlistReplaceItems(req.playlist!.spotifyId, trackUris)
+        } else {
+            // Get parent playlist
+            const playlist = await DI.playlistRepository.findOne({
+                filters: { $elemMatch: { id: req.playlist!.id } } as any,
+            })
+            // Update linked playlist's items
+            await endpoint(req.session.user!.token.value).playlistReplaceItems(
+                playlist!.spotifyId,
+                await endpoint(req.session.user!.token.value).filtersToTrackUris(playlist!.filters)
+            )
+        }
     })
 
 /**
