@@ -23,12 +23,16 @@ router.route('/:id/link')
             return
         }
 
-        // Set isMerged to false for unmerged playlists and set follow for spotify playlists
+        // Set isMerged to false for unmerged playlists and recreate them on Spotify
         for (const id of playlists) {
             let playlist = await DI.playlistRepository.findOne({ id })
             if (playlist) {
                 playlist.isMerged = false
-                await endpoint(req.session.user!.token.value).playlistFollow(playlist.spotifyId)
+                playlist.spotifyId = await endpoint(req.session.user!.token.value).playlistCreate(playlist)
+                await endpoint(req.session.user!.token.value).playlistAddItems(
+                    playlist.spotifyId,
+                    await endpoint(req.session.user!.token.value).filtersToTrackUris(playlist.filters)
+                )
             }
             // Remove element from array by its index
             let index = req.playlist!.filters.findIndex(d => d.id === id)
@@ -80,6 +84,16 @@ router.route('/:id/link')
             // update spotifyId on merged playlist too
             req.playlist!.spotifyId = unmergedPlaylist.spotifyId
             await DI.playlistRepository.flush()
+
+            await endpoint(req.session.user!.token.value).playlistAddItems(
+                unmergedPlaylist.spotifyId,
+                await endpoint(req.session.user!.token.value).filtersToTrackUris(unmergedPlaylist.filters)
+            )
+        } else {
+            await endpoint(req.session.user!.token.value).playlistReplaceItems(
+                req.playlist!.spotifyId,
+                await endpoint(req.session.user!.token.value).filtersToTrackUris(req.playlist!.filters)
+            )
         }
 
         const params = new URLSearchParams({ url: '/#/playlists' })
@@ -137,6 +151,11 @@ router.post('/link', renewToken, async (req: Request, res: Response) => {
             await endpoint(req.session.user!.token.value).playlistUnfollow(id)
         }
     }
+
+    await endpoint(req.session.user!.token.value).playlistAddItems(
+        playlist.spotifyId,
+        await endpoint(req.session.user!.token.value).filtersToTrackUris(playlist.filters)
+    )
 
     res.sendStatus(200)
 })
