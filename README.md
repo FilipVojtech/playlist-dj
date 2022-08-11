@@ -41,7 +41,7 @@ mongod
 ```
 
 Alternatively you can provide a [connection string](https://docs.mongodb.com/manual/reference/connection-string/)
-in `PlaylistDJ.API/mikro-orm.config.ts`
+in `PlaylistDJ.API/mikro-orm.config.ts` if you have an Atlas Cluster.
 
 OR
 
@@ -49,7 +49,9 @@ Modify said file to connect do a different [supported database](https://mikro-or
 
 Either way if the ORM cannot connect to the DB, the backend will crash
 
-**5. Start backend**
+**5. Modify `.env` file in `PlaylistDJ.API/`**
+
+**6. Start backend**
 
 ```shell
 cd PlaylistDJ.API && yarn run start
