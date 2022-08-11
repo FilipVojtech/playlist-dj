@@ -21,9 +21,8 @@ const upload = multer({
     },
 })
 
-router.use(PlaylistLinkController)
-
 router.get('/:id', getPlaylist, (req: Request, res: Response) => {
+    console.log(req.session)
     if (req.session.quickpl?.playlist) {
         req.session.quickpl.playlist = false
         // @ts-ignore
@@ -60,8 +59,8 @@ router.get('/:id', getPlaylist, (req: Request, res: Response) => {
 /**
  * Get playlist filters
  */
-
-router.get('/:id/filter', getPlaylist, renewToken, async (req: Request, res: Response) => {
+router.get('/:id/filter', getPlaylist, async (req: Request, res: Response) => {
+    console.log(req.session)
     if (!req.playlist) {
         res.sendStatus(404)
         return
@@ -89,12 +88,14 @@ router.get('/:id/filter', getPlaylist, renewToken, async (req: Request, res: Res
     }
 
     if (req.session.user._id.toString() === req.playlist!.owner._id.toString()) {
-        res.json(await endpoint(req.session.user!.token.value).filtersToFilterList(req.playlist!.filters))
+        res.json(await endpoint(await getClientToken()).filtersToFilterList(req.playlist!.filters))
         return
     }
 })
 
 router.use(authentication)
+
+router.use(PlaylistLinkController)
 
 // prettier-ignore
 router.route('/')

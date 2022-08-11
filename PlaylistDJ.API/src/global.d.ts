@@ -12,4 +12,8 @@ interface Session extends ExpressSession.Session {
     [key: string]: any
     spotifyState?: string
     user?: User
+    quickpl?: {
+        playlist: boolean
+        filters: boolean
+    }
 }
