@@ -14,7 +14,7 @@
         <!--App - Start app on screen-->
         <!--Display name, show account info, delete account:-->
         <ListItem href="/settings/account" icon={UserIcon} text={$_('page.settings.account.title')} />
-        <ListItem href="/settings/notifications" icon={BellIcon} text={$_('page.settings.communication.title')} />
+        <!--<ListItem href="/settings/notifications" icon={BellIcon} text={$_('page.settings.communication.title')} />-->
         <ListItem href="/settings/legal" icon={PaperclipIcon} text={$_('page.settings.legal.title')} />
         <LanguagePicker />
     </div>
