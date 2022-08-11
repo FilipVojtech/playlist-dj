@@ -1,10 +1,10 @@
 {
   "app": {
     "actions": "Optionen",
-    "add": "Add",
+    "add": "Hinzufügen",
     "back": "Zurück",
     "cancel": "Abbrechen",
-    "close": "Close",
+    "close": "Schließen",
     "continue": "Fortfahren",
     "create": "Bestätigen",
     "description": "Verwalte deine Spotify-Playlisten wie eine Klacks",
@@ -17,21 +17,21 @@
     "no": "Nein",
     "ok": "Ok",
     "save": "Speichern",
-    "upload": "Upload",
+    "upload": "Hochladen",
     "welcome": "Wilkommen in Playlist DJ",
     "yes": "Ja"
   },
   "component": {
     "filterList": {
-      "album": "album",
+      "album": "Album",
       "albums": "Alben",
-      "artist": "Artist",
-      "artists": "Kunstler/in",
+      "artist": "Künstler/in",
+      "artists": "Künstler/inen",
       "loadMore": "Mehr laden",
       "playlist": "Playlist",
       "playlists": "Playlisten",
-      "track": "Track",
-      "tracks": "Titel"
+      "track": "Titel",
+      "tracks": "Titeln"
     },
     "navigation": {
       "home": "Home",
@@ -43,29 +43,29 @@
     "post": {
       "by": "Von",
       "collapsePlaylist": "Playlist einklappen",
-      "delete": "Delete post",
+      "delete": "Post löschen",
       "showPlaylist": "Playlist anzeigen"
     }
   },
   "locales": {
     "cs": "Čeština",
-    "de": "Deutch (beta)",
+    "de": "Deutch",
     "en": "English"
   },
   "modal": {
     "consent": {
       "agree": {
         "1": "Agree to",
-        "2": "and"
+        "2": "und"
       },
-      "message": "To continue using the Playlist DJ service you will have to",
+      "message": "Um den Dienst Playlist DJ weiter nutzen zu können, müssen Sie",
       "privacyPolicy": "Datenschutzbestimmugen",
-      "title": "Consent renewal",
+      "title": "Erneuerung der Zustimmung",
       "tos": "Nutzungsbedingungen"
     },
     "createPost": {
-      "cantLoad": "Couldn't fetch playlists",
-      "nothingFound": "No playlists found",
+      "cantLoad": "Konnte keine Playlisten abrufen",
+      "nothingFound": "Keine Playlisten gefunden",
       "playlist": "Playlist",
       "post": "Posten",
       "title": "Post erstellen",
@@ -93,12 +93,12 @@
       "title": "Edit picture"
     },
     "importM3U": {
-      "playlistFile": "",
+      "playlistFile": "Datei der Playlist",
       "playlistName": "Playlist Name",
-      "title": ""
+      "title": "Importieren einer Playlist"
     },
     "importPlaylist": {
-      "title": "Choose a playlist..."
+      "title": "Wählen Sie eine Playliste..."
     },
     "login": {
       "logIn": "Einloggen",
@@ -106,18 +106,18 @@
       "title": "Einloggen"
     },
     "merge": {
-      "choosePlaylist": "Choose a playlist",
-      "merge": "Merge",
+      "choosePlaylist": "Wählen Sie eine Playlist",
+      "merge": "Zusammenführen",
       "newPlaylistName": "Neu Playlist Name",
-      "noPlaylists": "No playlists found",
-      "playlistName": "Playlist name",
+      "noPlaylists": "Keine Wiedergabelisten gefunden",
+      "playlistName": "Playlist Name",
       "playlists": "Playlisten",
-      "selectedPlaylists": "Selected playlists",
-      "title": "Merge playlists"
+      "selectedPlaylists": "Ausgewählte Playlisten",
+      "title": "Playlisten zusammenführen"
     },
     "register": {
       "consent": {
-        "1": "Ich akceptieren die",
+        "1": "Ich akceptiere die",
         "2": "und"
       },
       "message": "im nächsten Schrift, musst du dich mit deinem Spotify-Account einloggen.",
@@ -145,23 +145,23 @@
       "title": "Home"
     },
     "notFound": {
-      "goBack": "Go back",
-      "notFound": "Not Found",
-      "returnHome": "Return to the main page",
-      "returnToPlaylists": "Return to playlists page"
+      "goBack": "Zurückgehen",
+      "notFound": "Nicht gefunden",
+      "returnHome": "Zurück zur Hauptseite",
+      "returnToPlaylists": "Zurück zu den Playlisten"
     },
     "playlist": {
       "addFilter": "Inhalt hinzufügen",
-      "addFilterToLinked": "Content other than playlists cannot be added to linked playlist",
-      "copyLink": "Copy link",
+      "addFilterToLinked": "Andere Inhalte als Playlisten können nicht zur verknüpften Playlist hinzugefügt werden",
+      "copyLink": "Link kopieren",
       "edit": "Bearbeiten",
       "editDetails": "Details bearbeiten",
-      "editPhoto": "Change picture",
-      "editTitle": "Editing playlist",
+      "editPhoto": "Bild bearbeiten",
+      "editTitle": "Playlist bearbeiten",
       "more": {
         "addUser": "Invite users to collaborate",
         "delete": "Playlist lǒschen",
-        "unlink": "Unlink playlists"
+        "unlink": "Playlisten entkoppeln"
       },
       "openOnSpotify": "Auf Spotify öffnen",
       "pin": "Fixieren",
@@ -174,10 +174,10 @@
       "unpin": "Fixieren ausheben"
     },
     "playlistList": {
-      "error": "Name cannot be empty",
+      "error": "Name darf nicht leer sein",
       "more": {
-        "importM3U": "Import m3u file",
-        "importPlaylist": "Import Spotify playlist",
+        "importM3U": "m3u-Datei importieren",
+        "importPlaylist": "Spotify-Playlist importieren",
         "mergePlaylists": "Merge playlists"
       },
       "newPlaylist": "Neu Playlist",
@@ -207,12 +207,12 @@
       "legal": {
         "privacyPolicy": "Datenschutzbestimmugen",
         "title": "Rechtliches",
-        "tos": "Terms of service"
+        "tos": "Nutzungsbedingungen"
       },
       "profile": {
         "title": "Profile"
       },
-      "title": "Settings"
+      "title": "Eistellungen"
     },
     "social": {
       "noPost": "Noch keine Posts",
