@@ -297,6 +297,7 @@
         display: flex;
         flex-flow: column nowrap;
         align-items: center;
+        font-variant-caps: small-caps;
     }
 
     .title__cover {
