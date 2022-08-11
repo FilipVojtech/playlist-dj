@@ -166,7 +166,7 @@
             <Header
                 iconBefore={ChevronLeftIcon}
                 onClickBefore={() => push(previousPage)}
-                text={$_('app.back')}
+                text={isEditing ? $_('page.playlist.editTitle') : $_('app.back')}
                 iconAfter={MoreHorizontalIcon}
                 onClickAfter={actions}
             />
