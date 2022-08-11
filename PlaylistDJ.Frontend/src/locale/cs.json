@@ -7,7 +7,6 @@
     "close": "Zavřít",
     "continue": "Pokračovat",
     "create": "Vytvořit",
-    "description": "Spravujte Spotify playlisty s lehkostí",
     "login": {
       "long": "Přihlásit se se Spotify",
       "short": "Přihlásit se"
@@ -18,7 +17,6 @@
     "ok": "Ok",
     "save": "Uložit",
     "upload": "Nahrát",
-    "welcome": "Playlist DJ vás vítá",
     "yes": "Ano"
   },
   "component": {
@@ -140,6 +138,28 @@
     }
   },
   "page": {
+    "about": {
+      "description": "Spravujte Spotify playlisty s lehkostí",
+      "feature": {
+        "data": {
+          "description": "Jsme otevření v tom, co ukládáme. A navíc neukládáme to, co nepotřebujeme!",
+          "title": "Vaše data, ve vašich rukou"
+        },
+        "link": {
+          "description": "...nedestruktivně",
+          "title": "Spojujte playlisty"
+        },
+        "localPlaylists": {
+          "description": "Nenechávejte je zranitelné na vašem počítači, uložte si je na Spotify",
+          "title": "Lokální playlisty"
+        },
+        "social": {
+          "description": "Ostatní si mohou myslet to samé. Sdílejte je se světem!",
+          "title": "Líbí se vám vaše playlisty?"
+        }
+      },
+      "welcome": "Playlist DJ vás vítá"
+    },
     "home": {
       "greeting": "Vítej {user}!",
       "title": "Domů"

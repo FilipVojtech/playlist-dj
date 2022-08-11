@@ -22,7 +22,6 @@ const upload = multer({
 })
 
 router.get('/:id', getPlaylist, (req: Request, res: Response) => {
-    console.log(req.session)
     if (req.session.quickpl?.playlist) {
         req.session.quickpl.playlist = false
         // @ts-ignore
@@ -60,7 +59,6 @@ router.get('/:id', getPlaylist, (req: Request, res: Response) => {
  * Get playlist filters
  */
 router.get('/:id/filter', getPlaylist, async (req: Request, res: Response) => {
-    console.log(req.session)
     if (!req.playlist) {
         res.sendStatus(404)
         return

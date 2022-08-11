@@ -7,7 +7,6 @@
     "close": "Close",
     "continue": "Continue",
     "create": "Create",
-    "description": "Manage your Spotify playlists with ease",
     "login": {
       "long": "Log in with Spotify",
       "short": "Log in"
@@ -18,7 +17,6 @@
     "ok": "Ok",
     "save": "Save",
     "upload": "Upload",
-    "welcome": "Welcome to Playlist DJ",
     "yes": "Yes"
   },
   "component": {
@@ -140,6 +138,28 @@
     }
   },
   "page": {
+    "about": {
+      "description": "Manage your Spotify playlists with ease",
+      "feature": {
+        "data": {
+          "description": "We're upfront at what we save. Plus, we don't save what we don't need!",
+          "title": "Your data in your hands"
+        },
+        "link": {
+          "description": "...non-destructively",
+          "title": "Link playlists"
+        },
+        "localPlaylists": {
+          "description": "Don't leave them vulnerable on your PC, save them to Spotify",
+          "title": "Local playlists"
+        },
+        "social": {
+          "description": "Others might too. Share them with the world!",
+          "title": "Like your playlists?"
+        }
+      },
+      "welcome": "Welcome to Playlist DJ"
+    },
     "home": {
       "greeting": "Welcome {user}!",
       "title": "Home"
