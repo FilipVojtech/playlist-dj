@@ -13,13 +13,20 @@
     export let slim: boolean = false
     export let half: boolean = false
     export let onClick = () => (showActions = !showActions)
+    let classList
+    export { classList as class }
 
     export let interactive: boolean
 
     let showActions = false
 </script>
 
-<div class="item filter" class:item--half={half} class:item--interactive={interactive} class:item--slim={slim}>
+<div
+    class="item filter {classList}"
+    class:item--half={half}
+    class:item--interactive={interactive}
+    class:item--slim={slim}
+>
     <div class="filter__main-details" on:click={onClick}>
         <FilterImg alt="{name} {altSubject}" {images} {name} {placeholderIcon} />
         <div>
