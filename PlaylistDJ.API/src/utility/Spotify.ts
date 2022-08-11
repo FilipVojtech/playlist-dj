@@ -187,11 +187,11 @@ export function endpoint(token: string) {
          * Get current users owned playlists
          * @param userSpotifyId - User's Spotify ID
          */
-        async ownedPlaylists(userSpotifyId: string): Promise<[{}]> {
+        async ownedPlaylists(userSpotifyId: string): Promise<Spotify.Playlist[]> {
             const query = new URLSearchParams({ limit: '50' })
             return await got(`${apiUrl}/me/playlists?${query}`, { headers })
                 .then(data => JSON.parse(data.body))
-                .then(data => data.items.filter((value: any) => value.owner.id === userSpotifyId))
+                .then(data => data.items.filter((value: Spotify.Playlist) => value.owner.id === userSpotifyId))
                 .catch(e => console.error(e))
         },
 
