@@ -1,6 +1,31 @@
-<script>
+<script lang="ts">
     import { LoginWidget } from '../components/widgets'
     import { _ } from 'svelte-i18n'
+    import { SvelteComponent } from 'svelte'
+    import { FileTextIcon, LinkIcon, ThumbsUpIcon, UserCheckIcon } from 'svelte-feather-icons'
+
+    const features: { icon: SvelteComponent; title: string; description: string }[] = [
+        {
+            icon: UserCheckIcon,
+            title: $_('page.about.feature.data.title'),
+            description: $_('page.about.feature.data.description'),
+        },
+        {
+            icon: LinkIcon,
+            title: $_('page.about.feature.link.title'),
+            description: $_('page.about.feature.link.description'),
+        },
+        {
+            icon: FileTextIcon,
+            title: $_('page.about.feature.localPlaylists.title'),
+            description: $_('page.about.feature.localPlaylists.description'),
+        },
+        {
+            icon: ThumbsUpIcon,
+            title: $_('page.about.feature.social.title'),
+            description: $_('page.about.feature.social.description'),
+        },
+    ]
 </script>
 
 <svelte:head>
@@ -8,11 +33,24 @@
 </svelte:head>
 
 <section class="section">
-    <h1>{$_('app.welcome')}</h1>
-    <p>{$_('app.description')}</p>
+    <h1>{$_('page.about.welcome')}</h1>
+    <p>{$_('page.about.description')}</p>
 </section>
 <section class="section">
     <LoginWidget />
+</section>
+<section>
+    <div class="features">
+        {#each features as { icon, title, description } (title)}
+            <div class="feature">
+                <div class="feature__icon">
+                    <svelte:component this={icon} size="200" />
+                </div>
+                <h1 class="feature__title">{title}</h1>
+                <p class="feature__description">{description}</p>
+            </div>
+        {/each}
+    </div>
 </section>
 
 <style>
@@ -26,5 +64,36 @@
 
     .section:last-child {
         margin-bottom: 10px;
+    }
+
+    .features {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+    }
+
+    .feature {
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 75px;
+        padding: 0 25px;
+    }
+
+    .feature__icon {
+        margin-bottom: 20px;
+    }
+
+    .feature__title {
+        font-size: 36px;
+        text-align: center;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .feature__description {
+        text-align: center;
+        font-size: 20px;
     }
 </style>

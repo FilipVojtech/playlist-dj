@@ -7,7 +7,6 @@
     "close": "Schließen",
     "continue": "Fortfahren",
     "create": "Bestätigen",
-    "description": "Verwalte deine Spotify-Playlisten wie eine Klacks",
     "login": {
       "long": "Mit Spotify einloggen",
       "short": "Einloggen"
@@ -18,7 +17,6 @@
     "ok": "Ok",
     "save": "Speichern",
     "upload": "Hochladen",
-    "welcome": "Wilkommen in Playlist DJ",
     "yes": "Ja"
   },
   "component": {
@@ -140,6 +138,28 @@
     }
   },
   "page": {
+    "about": {
+      "description": "Verwalte deine Spotify-Playlisten wie eine Klacks",
+      "feature": {
+        "data": {
+          "description": "Wir sagen dir, was wir speichern. Plus wir speichern nichts, was wir nicht brauchen!",
+          "title": "Deine Daten - in deiner Hand"
+        },
+        "link": {
+          "description": "...in einen übersichtlichen Weg",
+          "title": "Verbinde deine Playlisten"
+        },
+        "localPlaylists": {
+          "description": "Lass sich nicht verwundbar auf deinem Gerät zurück -  speicher sie auf Spotify",
+          "title": "Lokale Playlisten"
+        },
+        "social": {
+          "description": "Andere bestimmt auch. Teile sie ihnen doch!",
+          "title": "Du magst deine Playlisten? "
+        }
+      },
+      "welcome": "Wilkommen in Playlist DJ"
+    },
     "home": {
       "greeting": "Wilkommen {user}!",
       "title": "Home"
