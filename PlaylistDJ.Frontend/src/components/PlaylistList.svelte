@@ -27,5 +27,6 @@
         interactive
         onClick={() => (useCustom ? dispatch('click', { id, type: FilterType.Playlist }) : push(`/playlist/${id}`))}
         on:click
+        class="font--small-caps"
     />
 {/each}

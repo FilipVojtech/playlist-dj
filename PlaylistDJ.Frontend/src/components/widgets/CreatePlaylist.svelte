@@ -36,7 +36,7 @@
 {#if !isCreating}
     <div class="item item--interactive" class:item--half={half} class:item--slim={slim} on:click={itemOnClickHandle}>
         <FilterPlaceholder icon={PlusIcon} />
-        <div class="filter__info">{$_('widget.createPlaylist.action')}</div>
+        <div class="filter__info font--small-caps">{$_('widget.createPlaylist.action')}</div>
     </div>
 {:else}
     <div class="item item--column" class:item--half={half}>
@@ -49,7 +49,7 @@
                 type="text"
                 id="playlistName"
                 name="playlistName"
-                class="form__input"
+                class="form__input font--small-caps"
                 autofocus
                 required
                 bind:value={playlistName}
