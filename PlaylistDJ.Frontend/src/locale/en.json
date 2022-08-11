@@ -49,7 +49,7 @@
   },
   "locales": {
     "cs": "Čeština",
-    "de": "Deutch (beta)",
+    "de": "Deutch",
     "en": "English"
   },
   "modal": {
@@ -163,6 +163,7 @@
         "delete": "Delete playlist",
         "unlink": "Unlink playlists"
       },
+      "openOnSpotify": "Open on Spotify",
       "pin": "Pin",
       "privatePlaylist": "This playlist is private",
       "share": "Share",

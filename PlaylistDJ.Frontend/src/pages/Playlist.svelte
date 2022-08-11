@@ -8,6 +8,7 @@
     import {
         ChevronLeftIcon,
         ChevronsUpIcon,
+        ExternalLinkIcon,
         ListIcon,
         LoaderIcon,
         MoreHorizontalIcon,
@@ -146,7 +147,7 @@
     <div class="loader" in:fade={{ delay: 500 }}>
         <LoaderIcon size="100" />
     </div>
-{:then { status, images, name, description, isPinned, owner, isPublic }}
+{:then { status, images, name, description, isPinned, owner, isPublic, spotifyId }}
     {#if status && status === 404}
         <NotFound />
     {:else if status === 403}
@@ -165,7 +166,7 @@
             <Header
                 iconBefore={ChevronLeftIcon}
                 onClickBefore={() => push(previousPage)}
-                text={$_('app.back')}
+                text={isEditing ? $_('page.playlist.editTitle') : $_('app.back')}
                 iconAfter={MoreHorizontalIcon}
                 onClickAfter={actions}
             />
@@ -254,6 +255,13 @@
                             title={$_('page.playlist.top')}
                         />
                     {/if}
+                    {#if spotifyId}
+                        <Option
+                            title={$_('page.playlist.openOnSpotify')}
+                            on:click={() => window.open(`https://open.spotify.com/playlist/${spotifyId}`, '_blank')}
+                            iconRight={ExternalLinkIcon}
+                        />
+                    {/if}
                 </div>
             </div>
             {#await filtersData}
@@ -289,6 +297,7 @@
         display: flex;
         flex-flow: column nowrap;
         align-items: center;
+        font-variant-caps: small-caps;
     }
 
     .title__cover {

@@ -83,6 +83,7 @@
                     placeholderIcon={ListIcon}
                     {slim}
                     interactive
+                    class="font--small-caps"
                 />
             </div>
         {/each}
