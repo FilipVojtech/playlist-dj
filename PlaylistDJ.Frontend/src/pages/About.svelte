@@ -101,4 +101,10 @@
             width: 300px;
         }
     }
+
+    @media screen and (min-width: 640px) {
+        .feature {
+            width: 300px;
+        }
+    }
 </style>
