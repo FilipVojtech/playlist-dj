@@ -44,7 +44,7 @@
         {#each features as { icon, title, description } (title)}
             <div class="feature">
                 <div class="feature__icon">
-                    <svelte:component this={icon} size="150" />
+                    <svelte:component this={icon} size="125" />
                 </div>
                 <h1 class="feature__title">{title}</h1>
                 <p class="feature__description">{description}</p>
@@ -73,7 +73,7 @@
     }
 
     .feature {
-        width: 100vw;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -86,7 +86,7 @@
     }
 
     .feature__title {
-        font-size: 36px;
+        font-size: 26px;
         text-align: center;
         margin-bottom: 10px;
         font-weight: bold;
@@ -94,7 +94,12 @@
 
     .feature__description {
         text-align: center;
-        font-size: 20px;
+    }
+
+    @media screen and (min-width: 640px) {
+        .feature {
+            width: 300px;
+        }
     }
 
     @media screen and (min-width: 640px) {
