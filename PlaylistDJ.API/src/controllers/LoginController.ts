@@ -38,6 +38,10 @@ router.get('/callback', async (req: Request, res: Response) => {
 
             user.token = await requestToken(code)
             user.profile = (await endpoint(user.token.value).me()) as Profile
+            if (user.profile === null) {
+                res.status(401).redirect('/?message=notOnWhitelist#/about')
+                return
+            }
 
             let userFromDb = await DI.userRepository.findOne({ profile: { spotifyId: user.profile.spotifyId } })
 
