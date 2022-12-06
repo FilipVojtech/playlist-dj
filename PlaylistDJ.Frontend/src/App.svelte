@@ -12,6 +12,7 @@
     import wrap from 'svelte-spa-router/wrap'
     import { onMount } from 'svelte'
     import aport from './utility/Aport'
+    import System from '../System.svelte'
 
     const routes = {
         '/': wrap({ component: Home, conditions: [authorize], userData: $user }),
@@ -65,8 +66,10 @@
 </script>
 
 <svelte:window on:resize={() => (isWide = window.innerWidth >= 1080)} />
+
 <div class="page">
     {#if !$isLoading}
+        <System />
         <main class="main-content">
             {#if !$user}
                 <header class="header">

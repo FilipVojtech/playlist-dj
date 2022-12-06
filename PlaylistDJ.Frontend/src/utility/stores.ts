@@ -18,3 +18,8 @@ export const canCloseModal: Writable<boolean> = writable(true)
  * Invoke modal events
  */
 export const modalEvent: Writable<string> = writable('')
+
+/**
+ * User messages
+ */
+export const message: Writable<string> = writable('')
