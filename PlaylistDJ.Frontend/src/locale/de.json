@@ -50,6 +50,9 @@
     "de": "Deutsch",
     "en": "English"
   },
+  "messages": {
+    "notOnWhitelist": "Dein Spotify-Account ist nicht Whitelisted. Bitte kontaktiere den Webseiten-Administrator."
+  },
   "modal": {
     "consent": {
       "agree": {

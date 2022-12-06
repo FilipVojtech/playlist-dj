@@ -50,6 +50,9 @@
     "de": "Deutsch",
     "en": "English"
   },
+  "messages": {
+    "notOnWhitelist": "Váš Spotify účet se nenachází na whitelistu. Prosím kontaktujte správce stránky."
+  },
   "modal": {
     "consent": {
       "agree": {
