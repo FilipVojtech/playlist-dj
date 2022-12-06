@@ -157,7 +157,7 @@ export function endpoint(token: string) {
         async search(
             type: 'artist' | 'album' | 'track' | string,
             query: string,
-            limit = '10'
+            limit = '10',
         ): Promise<Spotify.SearchResults> {
             const queryParams = new URLSearchParams({
                 q: query,
@@ -176,10 +176,13 @@ export function endpoint(token: string) {
          */
         async me(): Promise<Profile | null> {
             return (
-                (await got(`${apiUrl}/me`, { headers })
+                await got(`${apiUrl}/me`, { headers })
                     .then(value => JSON.parse(value.body))
                     .then(body => Profile.fromBody(body))
-                    .catch(e => console.error(e))) ?? null
+                    .catch(e => {
+                        console.error(e)
+                        return null
+                    })
             )
         },
 
@@ -324,7 +327,7 @@ export function endpoint(token: string) {
                         id,
                         name,
                         artistsFromSpotifyArtists(trackAlbum.artists),
-                        trackAlbum.images
+                        trackAlbum.images,
                     )
 
                     return new Track(id, name, album, artistsFromSpotifyArtists(artists), uri)
