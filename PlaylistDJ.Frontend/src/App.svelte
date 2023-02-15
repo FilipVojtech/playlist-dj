@@ -12,7 +12,7 @@
     import wrap from 'svelte-spa-router/wrap'
     import { onMount } from 'svelte'
     import aport from './utility/Aport'
-    import System from '../System.svelte'
+    import System from './System.svelte'
 
     const routes = {
         '/': wrap({ component: Home, conditions: [authorize], userData: $user }),
@@ -129,7 +129,7 @@
 
     .main-content {
         overflow-x: clip;
-        padding: 0 10px env(safe-area-inset-bottom);
+        padding: env(safe-area-inset-top) 10px 0;
     }
 
     .nav-wrapper {

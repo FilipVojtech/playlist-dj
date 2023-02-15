@@ -107,6 +107,7 @@ a {
     padding: 10px;
     margin: 5px 0;
     font-size: 18px;
+    text-align: left;
     overflow: clip;
     background-color: var(--lighter-bg);
     border-radius: 20px;
@@ -255,7 +256,7 @@ a {
     display: flex;
     flex-direction: column;
     pointer-events: auto;
-    max-height: 90vh;
+    max-height: 70vh;
     overflow: auto;
     overscroll-behavior: auto contain;
 }
