@@ -5,5 +5,5 @@ export default {
     entitiesTs: ['./src/entities'],
     type: 'mongo',
     dbName: 'playlistdj',
-    clientUrl: 'mongodb://playlistdj:X2ztNWurducb2ChXkHYqxp3n@37.235.104.11:27017/',
+    clientUrl: 'mongodb+srv://pdj_localhost:YNijVyuWSNUkUHzZ@cluster0.bmc18.mongodb.net/?retryWrites=true&w=majority',
 } as Options
