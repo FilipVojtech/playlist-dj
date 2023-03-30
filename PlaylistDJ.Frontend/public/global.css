@@ -290,7 +290,8 @@ a {
     border-radius: 10px;
     padding: 5px 10px;
     width: 100%;
-    min-height: 6vh;
+    height: 10vh;
+    max-height: 50px;
     margin-top: 5px;
     border: none;
     font-size: 16px;
