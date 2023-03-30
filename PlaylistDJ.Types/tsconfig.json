@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "module": "CommonJS",
-    "target": "ES6",
+    "target": "ES3",
     "esModuleInterop": true,
     "declaration": true,
     "allowUmdGlobalAccess": true,
-    "outDir": "./"
+    "outDir": "./",
+    "ignoreDeprecations": "5.0",
   },
   "exclude": [
     "node_modules"
