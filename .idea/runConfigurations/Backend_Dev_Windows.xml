@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Frontend Dev" type="js.build_tools.npm">
-    <package-json value="$PROJECT_DIR$/PlaylistDJ.Frontend/package.json" />
+  <configuration default="false" name="Backend Dev Windows" type="js.build_tools.npm">
+    <package-json value="$PROJECT_DIR$/PlaylistDJ.API/package.json" />
     <command value="run" />
     <scripts>
-      <script value="dev" />
+      <script value="dev:windows" />
     </scripts>
     <node-interpreter value="project" />
     <envs />
